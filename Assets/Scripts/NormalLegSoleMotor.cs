@@ -3,21 +3,42 @@ using UnityEngine;
 using System.Collections;
 
 /// <summary>
-/// A normal foot motor, handled by the NormalFeetCenter.
-/// The public members of this class should not be set directly, but via the NormalFeetCenter,
-/// in order to make all feet synchronized.
+/// A normal leg's sole motor, handled by the NormalLegMotor.
+/// The public members of this class should not be set directly, but via the
+/// NormalLegMotor (which is in turn set by the NormalLegsCenter), in order
+/// to make all legs (and soles) synchronized.
 /// </summary>
-public class NormalFootMotor : FootMotor
+public class NormalLegSoleMotor : MonoBehaviour
 {
+	/// <summary>
+	/// The body to which the sole is connected.
+	/// </summary>
+	public Rigidbody ConnectedBody;
+
+	/// <summary>
+	/// The anchor of the sole.
+	/// </summary>
+	public Vector3 SoleAnchor;
+	
+	private Vector3 backSpringAnchor;
 	/// <summary>
 	/// The anchor of the back spring, relative to the body.
 	/// </summary>
-	public Vector3 BackSpringAnchor;
+	public Vector3 BackSpringAnchor
+	{
+		get { return backSpringAnchor + SoleInitialTranform; }
+		set { backSpringAnchor = value; }
+	}
 
+	private Vector3 frontSpringAnchor;
 	/// <summary>
 	/// The anchor of the front spring, relative to the body.
 	/// </summary>
-	public Vector3 FrontSpringAnchor;
+	public Vector3 FrontSpringAnchor
+	{
+		get { return frontSpringAnchor + SoleInitialTranform; }
+		set { frontSpringAnchor = value; }
+	}
 
 	/// <summary>
 	/// The stiffness of the springs.
@@ -25,7 +46,7 @@ public class NormalFootMotor : FootMotor
 	public Single Stiffness;
 
 	/// <summary>
-	/// The initial length between the foot and the body it's connected to.
+	/// The initial length between the sole and the body it's connected to.
 	/// </summary>
 	public Single InitialLength;
 
@@ -58,19 +79,22 @@ public class NormalFootMotor : FootMotor
 	private VariedLengthSpringJoint FrontSpringJoint;
 
 	/// <summary>
-	/// Indicates whether the leg is retracted.
+	/// The initial transform of the sole.
+	/// This is used to adjust the springs' remote anchors.
 	/// </summary>
-	public Boolean Retracted;
+	private Vector3 SoleInitialTranform;
 
-	protected override void Initialize()
+	private void Start()
 	{
+		SoleInitialTranform = transform.localPosition;
+
 		BackSpringJoint = gameObject.AddComponent<VariedLengthSpringJoint>();
-		BackSpringJoint.Initialize(ConnectedBody, FootAnchor, BackSpringAnchor, Stiffness);
+		BackSpringJoint.Initialize(ConnectedBody, SoleAnchor, BackSpringAnchor, Stiffness);
 
 		FrontSpringJoint = gameObject.AddComponent<VariedLengthSpringJoint>();
-		FrontSpringJoint.Initialize(ConnectedBody, FootAnchor, FrontSpringAnchor, Stiffness);
+		FrontSpringJoint.Initialize(ConnectedBody, SoleAnchor, FrontSpringAnchor, Stiffness);
 
-		var BackHingeJoint = ConnectedBody.gameObject.AddComponent<HingeJoint>();
+		/*var BackHingeJoint = ConnectedBody.gameObject.AddComponent<HingeJoint>();
 		BackHingeJoint.connectedBody = rigidbody;
 		BackHingeJoint.anchor = BackSpringAnchor;
 		BackHingeJoint.axis = new Vector3(0, 0, 1);
@@ -84,34 +108,21 @@ public class NormalFootMotor : FootMotor
 		FrontHingeJoint.axis = new Vector3(0, 0, 1);
 		FrontHingeJoint.useSpring = true;
 		FrontHingeJoint.useLimits = true;
-		FrontHingeJoint.limits = new JointLimits{min = -45, max = 45};
+		FrontHingeJoint.limits = new JointLimits{min = -45, max = 45};*/
 
 		InitialLength = BackSpringJoint.EquilibriumLength;
-		Retracted = false;
 	}
 
-	protected override void UpdateValues()
+	private void Update()
 	{
-		base.UpdateValues();
-
 		BackSpringJoint.ConnectedBody = ConnectedBody;
 		BackSpringJoint.Stiffness = Stiffness;
-		BackSpringJoint.Anchor = FootAnchor;
+		BackSpringJoint.Anchor = SoleAnchor;
 		BackSpringJoint.RemoteAnchor = BackSpringAnchor;
 
 		FrontSpringJoint.ConnectedBody = ConnectedBody;
 		FrontSpringJoint.Stiffness = Stiffness;
-		FrontSpringJoint.Anchor = FootAnchor;
+		FrontSpringJoint.Anchor = SoleAnchor;
 		FrontSpringJoint.RemoteAnchor = FrontSpringAnchor;
-	}
-
-	protected override void PerformAction()
-	{
-		Retracted = !Retracted;
-	}
-
-	protected override void Move(Single Direction)
-	{
-		// Nothing to do here, as NormalFeetCenter takes care of movement.
 	}
 }

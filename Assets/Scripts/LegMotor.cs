@@ -2,19 +2,19 @@ using System;
 using UnityEngine;
 using System.Collections;
 
-public abstract class FootMotor : MonoBehaviour
+public abstract class LegMotor : MonoBehaviour
 {
 	/// <summary>
-	/// The body to which the foot is connected.
+	/// The body to which the leg is connected.
 	/// If nothing is assigned, the script assumes that the connected body is
 	/// the parent.
 	/// </summary>
 	public Rigidbody ConnectedBody;
 
 	/// <summary>
-	/// The anchor of the foot.
+	/// The anchor of the leg.
 	/// </summary>
-	public Vector3 FootAnchor;
+	public Vector3 LegAnchor;
 
 	/// <summary>
 	/// The input button which represents the leg action.
