@@ -1,10 +1,11 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-firstpass-vs", "Assembly-CSharp-firstpass-vs.csproj", "{2DA9F7E0-E846-6C11-3ADC-1ED654B44FEC}"
+# Visual Studio 2008
+
+Project("{D51F75AC-AEC5-0891-F1C4-266571497092}") = "Centipede", "Assembly-CSharp-firstpass-vs.csproj", "{2DA9F7E0-E846-6C11-3ADC-1ED654B44FEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-vs", "Assembly-CSharp-vs.csproj", "{EFBAB835-F631-BDF8-9CE5-4941641A2E0B}"
+Project("{D51F75AC-AEC5-0891-F1C4-266571497092}") = "Centipede", "Assembly-CSharp-vs.csproj", "{EFBAB835-F631-BDF8-9CE5-4941641A2E0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor-vs", "Assembly-CSharp-Editor-vs.csproj", "{C4D40485-1040-2B4A-574E-50787711D44B}"
+Project("{D51F75AC-AEC5-0891-F1C4-266571497092}") = "Centipede", "Assembly-CSharp-Editor-vs.csproj", "{C4D40485-1040-2B4A-574E-50787711D44B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,7 +29,7 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
+																																																																				GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
@@ -46,4 +47,5 @@ Global
 		$3.inheritsScope = text/plain
 		$3.scope = text/plain
 	EndGlobalSection
+
 EndGlobal

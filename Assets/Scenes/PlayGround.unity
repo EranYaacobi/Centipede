@@ -6483,6 +6483,8 @@ MonoBehaviour:
   m_Name: 
   BackJointAnchor: {x: -1, y: 0, z: 0}
   FrontJointAnchor: {x: 1, y: 0, z: 0}
+  Flexibility: .5
+  ForceConsant: 1
   MaxMotorForce: 80
   MaxMotorSpeed: .600000024
   CycleSpeed: .300000012
@@ -6502,6 +6504,11 @@ MonoBehaviour:
   CentipedeLink: {fileID: 100000, guid: 944a9c5524270b143aa4312699473c84, type: 2}
   LinksBetweenLegs: 1
   Legs:
+  - {fileID: 100000, guid: 158ff1f8e49675743a38c04bdc4ca174, type: 2}
+  - {fileID: 100000, guid: 158ff1f8e49675743a38c04bdc4ca174, type: 2}
+  - {fileID: 100000, guid: 158ff1f8e49675743a38c04bdc4ca174, type: 2}
+  - {fileID: 100000, guid: 158ff1f8e49675743a38c04bdc4ca174, type: 2}
+  - {fileID: 100000, guid: 158ff1f8e49675743a38c04bdc4ca174, type: 2}
   - {fileID: 100000, guid: 158ff1f8e49675743a38c04bdc4ca174, type: 2}
   - {fileID: 100000, guid: 158ff1f8e49675743a38c04bdc4ca174, type: 2}
   - {fileID: 100000, guid: 158ff1f8e49675743a38c04bdc4ca174, type: 2}

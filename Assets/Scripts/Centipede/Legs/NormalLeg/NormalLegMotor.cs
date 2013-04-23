@@ -20,6 +20,17 @@ public class NormalLegMotor : LegMotor
 	public Vector3 FrontJointAnchor;
 
 	/// <summary>
+	/// The flexibility of the joint. This is the maximum difference between the current length of the joint,
+	/// to the desired angle, after which maximum force is applied.
+	/// </summary>
+	public Single Flexibility;
+
+	/// <summary>
+	/// The force constant, which is used as a scalar when applying force.
+	/// </summary>
+	public Single ForceConsant;
+
+	/// <summary>
 	/// The maxmimum force of the motor.
 	/// </summary>
 	public Single MaxMotorForce;
@@ -60,8 +71,10 @@ public class NormalLegMotor : LegMotor
 	/// </summary>
 	public Boolean Retracted;
 
-	protected override void Initialize()
+	public override void Initialize()
 	{
+		base.Initialize();
+
 		SolesMotors = transform.GetComponentsInChildren<NormalLegSoleMotor>();
 		foreach (var SoleMotor in SolesMotors)
 			SoleMotor.ConnectedBody = ConnectedBody;
@@ -70,6 +83,9 @@ public class NormalLegMotor : LegMotor
 
 		SolesMotors[0].DesiredSoleAngle = 90;
 		SolesMotors[1].DesiredSoleAngle = 270;
+
+		foreach (var SoleMotor in SolesMotors)
+			SoleMotor.Initialize();
 	}
 
 	private void UpdateSoles(Single Direction)
@@ -84,6 +100,8 @@ public class NormalLegMotor : LegMotor
 		{
 			SoleMotor.BackJointAnchor = BackJointAnchor;
 			SoleMotor.FrontJointAnchor = FrontJointAnchor;
+			SoleMotor.Flexibility = Flexibility;
+			SoleMotor.ForceConsant = ForceConsant;
 			SoleMotor.MaxMotorForce = MaxMotorForce;
 			SoleMotor.MaxMotorSpeed = MaxMotorSpeed;
 			SoleMotor.LowerLimit = LowerLimit;

@@ -41,6 +41,17 @@ public class NormalLegSoleMotor : MonoBehaviour
 	}
 
 	/// <summary>
+	/// The flexibility of the joint. This is the maximum difference between the current length of the joint,
+	/// to the desired angle, after which maximum force is applied.
+	/// </summary>
+	public Single Flexibility;
+
+	/// <summary>
+	/// The force constant, which is used as a scalar when applying force.
+	/// </summary>
+	public Single ForceConsant;
+
+	/// <summary>
 	/// The maxmimum force of the motor.
 	/// </summary>
 	public Single MaxMotorForce;
@@ -76,7 +87,6 @@ public class NormalLegSoleMotor : MonoBehaviour
 	/// </summary>
 	public BasicPrismaticJoint.MotorState MotorState;
 
-
 	/// <summary>
 	/// The desired angle of the sole.
 	/// </summary>
@@ -98,25 +108,33 @@ public class NormalLegSoleMotor : MonoBehaviour
 	/// </summary>
 	private Vector3 SoleInitialTranform;
 
-	
+	/// <summary>
+	/// Inidicates whether the script is initialized.
+	/// </summary>
+	private Boolean Initialized;
 
-	private void Start()
+	public void Initialize()
 	{
 		SoleInitialTranform = transform.localPosition;
 
 		BackJoint = gameObject.AddComponent<BasicPrismaticJoint>();
-		BackJoint.Initialize(ConnectedBody, SoleAnchor, BackJointAnchor, MaxMotorForce, MaxMotorSpeed, LowerLimit, UpperLimit);
+		BackJoint.Initialize(ConnectedBody, SoleAnchor, BackJointAnchor, Flexibility, ForceConsant, MaxMotorForce, MaxMotorSpeed, LowerLimit, UpperLimit);
 
 		FrontJoint = gameObject.AddComponent<BasicPrismaticJoint>();
-		FrontJoint.Initialize(ConnectedBody, SoleAnchor, FrontJointAnchor, MaxMotorForce, MaxMotorSpeed, LowerLimit, UpperLimit);
+		FrontJoint.Initialize(ConnectedBody, SoleAnchor, FrontJointAnchor, Flexibility, ForceConsant, MaxMotorForce, MaxMotorSpeed, LowerLimit, UpperLimit);
 
 		UpdateJoints();
+
+		Initialized = true;
 	}
 
 	private void Update()
 	{
-		UpdateJoints();
-		DesiredSoleAngle = (DesiredSoleAngle + ((Int32)MotorState) * CycleSpeed * 360 * Time.deltaTime + 360) % 360;
+		if (Initialized)
+		{
+			UpdateJoints();
+			DesiredSoleAngle = (DesiredSoleAngle + ((Int32) MotorState)*CycleSpeed*360*Time.deltaTime + 360)%360;
+		}
 	}
 
 	private void UpdateJoints()
@@ -125,6 +143,8 @@ public class NormalLegSoleMotor : MonoBehaviour
 		BackJoint.RemoteAnchor = BackJointAnchor;
 		BackJoint.LowerLimit = LowerLimit;
 		BackJoint.UpperLimit = UpperLimit;
+		BackJoint.Flexibility = Flexibility;
+		BackJoint.ForceConsant = ForceConsant;
 		BackJoint.MaxMotorForce = MaxMotorForce;
 		BackJoint.MotorSpeed = MaxMotorSpeed * Mathf.Sin(DesiredSoleAngle * Mathf.Deg2Rad);
 		BackJoint.State = MotorState;

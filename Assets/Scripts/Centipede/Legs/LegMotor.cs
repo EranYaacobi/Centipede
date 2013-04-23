@@ -26,38 +26,47 @@ public abstract class LegMotor : MonoBehaviour
 	/// </summary>
 	private Single LastHorizontalMovement = 0;
 
+	/// <summary>
+	/// Inidicates whether the script was initialized;
+	/// </summary>
+	private Boolean Initialized;
+
 	private void Start()
 	{
 		LastHorizontalMovement = 0;
 		if (ConnectedBody == null)
 			ConnectedBody = transform.parent.gameObject.rigidbody;
-		Initialize();
 	}
 
 	/// <summary>
 	/// Custom initialization for inherited class.
-	/// Called at start.
 	/// </summary>
-	protected abstract void Initialize();
+	public virtual void Initialize()
+	{
+		Initialized = true;
+	}
 
 	private void Update()
 	{
-		UpdateValues();
-		
-		if (Input.GetButtonUp(InputButton))
-			PerformAction();
+		if (Initialized)
+		{
+			UpdateValues();
 
-		var Horizontal = Input.GetAxis(Keys.Horizontal);
-		if (Horizontal != 0)
-		{
-			Move(Horizontal);
+			if (Input.GetButtonUp(InputButton))
+				PerformAction();
+
+			var Horizontal = Input.GetAxis(Keys.Horizontal);
+			if (Horizontal != 0)
+			{
+				Move(Horizontal);
+			}
+			else
+			{
+				if (LastHorizontalMovement != 0)
+					StopMoving();
+			}
+			LastHorizontalMovement = Horizontal;
 		}
-		else
-		{
-			if (LastHorizontalMovement != 0)
-				StopMoving();
-		}
-		LastHorizontalMovement = Horizontal;
 	}
 
 	/// <summary>

@@ -15,6 +15,17 @@ public class NormalLegsCenter : MonoBehaviour
 	public Vector3 FrontJointAnchor;
 
 	/// <summary>
+	/// The flexibility of the joint. This is the maximum difference between the current length of the joint,
+	/// to the desired angle, after which maximum force is applied.
+	/// </summary>
+	public Single Flexibility;
+
+	/// <summary>
+	/// The force constant, which is used as a scalar when applying force.
+	/// </summary>
+	public Single ForceConsant;
+
+	/// <summary>
 	/// The maxmimum force of the motor.
 	/// </summary>
 	public Single MaxMotorForce;
@@ -57,6 +68,9 @@ public class NormalLegsCenter : MonoBehaviour
 		}
 
 		UpdateLegs();
+
+		foreach (var Leg in Legs)
+			Leg.Initialize();
 	}
 
 	private void UpdateLegs()
@@ -67,6 +81,8 @@ public class NormalLegsCenter : MonoBehaviour
 		{
 			Leg.BackJointAnchor = BackJointAnchor;
 			Leg.FrontJointAnchor = FrontJointAnchor;
+			Leg.Flexibility = Flexibility;
+			Leg.ForceConsant = ForceConsant;
 			Leg.MaxMotorForce = MaxMotorForce;
 			Leg.MaxMotorSpeed = MaxMotorSpeed;
 			Leg.LowerLimit = LowerLimit;
