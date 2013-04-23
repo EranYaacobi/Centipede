@@ -49,7 +49,7 @@ public class NormalLegSoleMotor : MonoBehaviour
 	/// <summary>
 	/// The force constant, which is used as a scalar when applying force.
 	/// </summary>
-	public Single ForceConsant;
+	public Single ForceConstant;
 
 	/// <summary>
 	/// The maxmimum force of the motor.
@@ -79,7 +79,7 @@ public class NormalLegSoleMotor : MonoBehaviour
 	/// <summary>
 	/// The damping of the motor.
 	/// </summary>
-	[Range(0, 1)]
+	[Range(0, 10)]
 	public Single Damping;
 
 	/// <summary>
@@ -118,10 +118,10 @@ public class NormalLegSoleMotor : MonoBehaviour
 		SoleInitialTranform = transform.localPosition;
 
 		BackJoint = gameObject.AddComponent<BasicPrismaticJoint>();
-		BackJoint.Initialize(ConnectedBody, SoleAnchor, BackJointAnchor, Flexibility, ForceConsant, MaxMotorForce, MaxMotorSpeed, LowerLimit, UpperLimit);
+		BackJoint.Initialize(ConnectedBody, SoleAnchor, BackJointAnchor, Flexibility, ForceConstant, MaxMotorForce, MaxMotorSpeed, LowerLimit, UpperLimit);
 
 		FrontJoint = gameObject.AddComponent<BasicPrismaticJoint>();
-		FrontJoint.Initialize(ConnectedBody, SoleAnchor, FrontJointAnchor, Flexibility, ForceConsant, MaxMotorForce, MaxMotorSpeed, LowerLimit, UpperLimit);
+		FrontJoint.Initialize(ConnectedBody, SoleAnchor, FrontJointAnchor, Flexibility, ForceConstant, MaxMotorForce, MaxMotorSpeed, LowerLimit, UpperLimit);
 
 		UpdateJoints();
 
@@ -144,7 +144,7 @@ public class NormalLegSoleMotor : MonoBehaviour
 		BackJoint.LowerLimit = LowerLimit;
 		BackJoint.UpperLimit = UpperLimit;
 		BackJoint.Flexibility = Flexibility;
-		BackJoint.ForceConsant = ForceConsant;
+		BackJoint.ForceConstant = ForceConstant;
 		BackJoint.MaxMotorForce = MaxMotorForce;
 		BackJoint.MotorSpeed = MaxMotorSpeed * Mathf.Sin(DesiredSoleAngle * Mathf.Deg2Rad);
 		BackJoint.State = MotorState;

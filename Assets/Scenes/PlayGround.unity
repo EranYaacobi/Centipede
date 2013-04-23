@@ -6483,14 +6483,14 @@ MonoBehaviour:
   m_Name: 
   BackJointAnchor: {x: -1, y: 0, z: 0}
   FrontJointAnchor: {x: 1, y: 0, z: 0}
-  Flexibility: .5
-  ForceConsant: 1
-  MaxMotorForce: 80
-  MaxMotorSpeed: .600000024
-  CycleSpeed: .300000012
+  Flexibility: .600000024
+  ForceConstant: 1
+  MaxMotorForce: 240
+  MaxMotorSpeed: 2.4000001
+  CycleSpeed: 1.20000005
   LowerLimit: -.300000012
   UpperLimit: .300000012
-  Damping: 0
+  Damping: 1
 --- !u!114 &916015271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6519,7 +6519,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 916015268}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2, y: -4, z: 0}
+  m_LocalPosition: {x: -2, y: -5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

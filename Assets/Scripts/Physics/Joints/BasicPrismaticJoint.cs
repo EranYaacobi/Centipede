@@ -32,7 +32,7 @@ public class BasicPrismaticJoint : MonoBehaviour
 	/// <summary>
 	/// The force constant, which is used as a scalar when applying force.
 	/// </summary>
-	public Single ForceConsant;
+	public Single ForceConstant;
 
 	/// <summary>
 	/// The maxmimum force of the motor.
@@ -89,15 +89,10 @@ public class BasicPrismaticJoint : MonoBehaviour
 	/// <summary>
 	/// The damping of the motor.
 	/// </summary>
-	[Range(0, 1)]
+	[Range(0, 10)]
 	public Single Damping;
 
-	/// <summary>
-	/// The velocity in the previous cycle.
-	/// </summary>
-	private Vector3 LastVelocity;
-
-	public void Initialize(Rigidbody ConnectedBody, Vector3 Anchor, Vector3 RemoteAnchor, Single Flexibility, Single ForceConsant, Single MaxMotorForce, Single MotorSpeed, Single LowerLimit, Single UpperLimit, Single InitialLength = 0)
+	public void Initialize(Rigidbody ConnectedBody, Vector3 Anchor, Vector3 RemoteAnchor, Single Flexibility, Single ForceConstant, Single MaxMotorForce, Single MotorSpeed, Single LowerLimit, Single UpperLimit, Single InitialLength = 0)
 	{
 		InitialTranform = transform.parent.localPosition + transform.localPosition;
 
@@ -105,7 +100,7 @@ public class BasicPrismaticJoint : MonoBehaviour
 		this.Anchor = Anchor;
 		this.RemoteAnchor = RemoteAnchor;
 		this.Flexibility = Flexibility;
-		this.ForceConsant = ForceConsant;
+		this.ForceConstant = ForceConstant;
 		this.MaxMotorForce = MaxMotorForce;
 		this.MotorSpeed = MotorSpeed;
 		this.LowerLimit = LowerLimit;
@@ -149,24 +144,12 @@ public class BasicPrismaticJoint : MonoBehaviour
 		var JointDirection = (OtherPosition - Position).normalized;
 
 		// Getting the force that should be applied to make the joint reach its desired length.
-		var DeltaLengthForce = -ForceConsant * MaxMotorForce * (Mathf.Sqrt(Mathf.Abs(DeltaLength)) * Mathf.Sign(DeltaLength) / Mathf.Sqrt(Flexibility)) * JointDirection;
+		var DeltaLengthForce = -ForceConstant * rigidbody.mass * MaxMotorForce * (Mathf.Sqrt(Mathf.Abs(DeltaLength)) * Mathf.Sign(DeltaLength) / Mathf.Sqrt(Flexibility)) * JointDirection;
 
 		// Getting the projection of the current velocity, in order to apply a force that will counter it.
-		var VelocityForce = -(1-Damping) * Vector3.Dot(rigidbody.velocity, JointDirection) * JointDirection;
+		var VelocityForce = -Damping * Vector3.Dot(rigidbody.mass * rigidbody.velocity - ConnectedBody.rigidbody.velocity * ConnectedBody.rigidbody.mass, JointDirection) * JointDirection;
 
-		// Getting the projection of forces that were applied on the object previous cycle, in order to counter
-		// them if they are not leading to the desired length.
-		var ExternalForcesCounterForce = Vector3.zero;
-		var ExternalForcesProjection = Vector3.Dot(rigidbody.velocity - LastVelocity, JointDirection);
-		if (ExternalForcesProjection < 0)
-			ExternalForcesCounterForce = -(ExternalForcesProjection / Time.deltaTime) * JointDirection;
-		LastVelocity = rigidbody.velocity;
-
-		//rigidbody.velocity *= (1 - Damping);
-
-		var AppliedForce = DeltaLengthForce + VelocityForce + ExternalForcesCounterForce;
-		if (AppliedForce.magnitude > (MaxMotorForce))
-			AppliedForce = AppliedForce.normalized;
+		var AppliedForce = Vector3.ClampMagnitude(DeltaLengthForce + VelocityForce, MaxMotorForce);
 
 		rigidbody.AddForce(AppliedForce, ForceMode.Force);
 		ConnectedBody.rigidbody.AddForce(-AppliedForce, ForceMode.Force);

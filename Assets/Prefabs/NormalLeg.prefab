@@ -30,6 +30,7 @@ GameObject:
   - 95: {fileID: 9500000}
   - 54: {fileID: 5400002}
   - 114: {fileID: 11400012}
+  - 114: {fileID: 11400016}
   - 65: {fileID: 6500000}
   - 114: {fileID: 11400008}
   - 114: {fileID: 11400000}
@@ -53,6 +54,7 @@ GameObject:
   - 95: {fileID: 9500002}
   - 54: {fileID: 5400000}
   - 114: {fileID: 11400010}
+  - 114: {fileID: 11400018}
   - 65: {fileID: 6500002}
   - 114: {fileID: 11400006}
   - 114: {fileID: 11400002}
@@ -238,6 +240,8 @@ MonoBehaviour:
   m_Name: 
   ConnectedBody: {fileID: 0}
   SoleAnchor: {x: 0, y: 0, z: 0}
+  Flexibility: 0
+  ForceConstant: 0
   MaxMotorForce: 0
   MaxMotorSpeed: 0
   CycleSpeed: 0
@@ -258,6 +262,8 @@ MonoBehaviour:
   m_Name: 
   ConnectedBody: {fileID: 0}
   SoleAnchor: {x: 0, y: 0, z: 0}
+  Flexibility: 0
+  ForceConstant: 0
   MaxMotorForce: 0
   MaxMotorSpeed: 0
   CycleSpeed: 0
@@ -281,11 +287,14 @@ MonoBehaviour:
   InputButton: 
   BackJointAnchor: {x: 0, y: 0, z: 0}
   FrontJointAnchor: {x: 0, y: 0, z: 0}
+  Flexibility: 0
+  ForceConstant: 0
   MaxMotorForce: 0
   MaxMotorSpeed: 0
   CycleSpeed: 0
   LowerLimit: 0
   UpperLimit: 0
+  InitialOffset: 0
   Damping: 0
   Retracted: 0
 --- !u!114 &11400006
@@ -343,6 +352,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d051a8f2df36edc4097b19b105464d37, type: 3}
   m_Name: 
   RestrictedByTranform: {fileID: 0}
+--- !u!114 &11400016
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0aa0f82949371a646bed0a8cb5ba601e, type: 3}
+  m_Name: 
+  RestrictedByTranform: {fileID: 0}
+  MinimumDistance: {x: -Infinity, y: -.5, z: -Infinity}
+  MaximumDistance: {x: Infinity, y: .5, z: Infinity}
+--- !u!114 &11400018
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0aa0f82949371a646bed0a8cb5ba601e, type: 3}
+  m_Name: 
+  RestrictedByTranform: {fileID: 0}
+  MinimumDistance: {x: -Infinity, y: -.5, z: -Infinity}
+  MaximumDistance: {x: Infinity, y: .5, z: Infinity}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

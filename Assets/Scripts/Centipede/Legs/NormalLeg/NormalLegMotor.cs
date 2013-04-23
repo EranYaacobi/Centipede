@@ -28,7 +28,7 @@ public class NormalLegMotor : LegMotor
 	/// <summary>
 	/// The force constant, which is used as a scalar when applying force.
 	/// </summary>
-	public Single ForceConsant;
+	public Single ForceConstant;
 
 	/// <summary>
 	/// The maxmimum force of the motor.
@@ -56,9 +56,14 @@ public class NormalLegMotor : LegMotor
 	public Single UpperLimit;
 
 	/// <summary>
+	/// The initial offset of the leg.
+	/// </summary>
+	public Single InitialOffset;
+
+	/// <summary>
 	/// The damping of the motor.
 	/// </summary>
-	[Range(0, 1)]
+	[Range(0, 10)]
 	public Single Damping;
 
 	/// <summary>
@@ -81,8 +86,8 @@ public class NormalLegMotor : LegMotor
 		Common.Assert(SolesMotors.Length == 2);
 		UpdateSoles(0);
 
-		SolesMotors[0].DesiredSoleAngle = 90;
-		SolesMotors[1].DesiredSoleAngle = 270;
+		SolesMotors[0].DesiredSoleAngle = InitialOffset + 90;
+		SolesMotors[1].DesiredSoleAngle = InitialOffset + 270;
 
 		foreach (var SoleMotor in SolesMotors)
 			SoleMotor.Initialize();
@@ -101,7 +106,7 @@ public class NormalLegMotor : LegMotor
 			SoleMotor.BackJointAnchor = BackJointAnchor;
 			SoleMotor.FrontJointAnchor = FrontJointAnchor;
 			SoleMotor.Flexibility = Flexibility;
-			SoleMotor.ForceConsant = ForceConsant;
+			SoleMotor.ForceConstant = ForceConstant;
 			SoleMotor.MaxMotorForce = MaxMotorForce;
 			SoleMotor.MaxMotorSpeed = MaxMotorSpeed;
 			SoleMotor.LowerLimit = LowerLimit;

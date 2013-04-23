@@ -23,7 +23,7 @@ public class NormalLegsCenter : MonoBehaviour
 	/// <summary>
 	/// The force constant, which is used as a scalar when applying force.
 	/// </summary>
-	public Single ForceConsant;
+	public Single ForceConstant;
 
 	/// <summary>
 	/// The maxmimum force of the motor.
@@ -53,7 +53,7 @@ public class NormalLegsCenter : MonoBehaviour
 	/// <summary>
 	/// The damping of the motor.
 	/// </summary>
-	[Range(0, 1)]
+	[Range(0, 10)]
 	public Single Damping;
 
 	// Use this for initialization
@@ -69,8 +69,12 @@ public class NormalLegsCenter : MonoBehaviour
 
 		UpdateLegs();
 
-		foreach (var Leg in Legs)
+		for (int i = 0; i < Legs.Length; i++)
+		{
+			var Leg = Legs[i];
+			Leg.InitialOffset = i * (360 / Legs.Length);
 			Leg.Initialize();
+		}
 	}
 
 	private void UpdateLegs()
@@ -82,7 +86,7 @@ public class NormalLegsCenter : MonoBehaviour
 			Leg.BackJointAnchor = BackJointAnchor;
 			Leg.FrontJointAnchor = FrontJointAnchor;
 			Leg.Flexibility = Flexibility;
-			Leg.ForceConsant = ForceConsant;
+			Leg.ForceConstant = ForceConstant;
 			Leg.MaxMotorForce = MaxMotorForce;
 			Leg.MaxMotorSpeed = MaxMotorSpeed;
 			Leg.LowerLimit = LowerLimit;

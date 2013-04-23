@@ -15,7 +15,7 @@ public class RestraintRotation : MonoBehaviour
 	}
 
 	// Update is called once per frame
-	void Update()
+	void FixedUpdate()
 	{
 		transform.rotation = RestrictedByTranform.rotation;
 	}
