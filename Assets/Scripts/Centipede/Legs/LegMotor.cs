@@ -21,8 +21,14 @@ public abstract class LegMotor : MonoBehaviour
 	/// </summary>
 	public String InputButton;
 
+	/// <summary>
+	/// Stores the last value of the horizontal axis.
+	/// </summary>
+	private Single LastHorizontalMovement = 0;
+
 	private void Start()
 	{
+		LastHorizontalMovement = 0;
 		if (ConnectedBody == null)
 			ConnectedBody = transform.parent.gameObject.rigidbody;
 		Initialize();
@@ -43,7 +49,15 @@ public abstract class LegMotor : MonoBehaviour
 
 		var Horizontal = Input.GetAxis(Keys.Horizontal);
 		if (Horizontal != 0)
+		{
 			Move(Horizontal);
+		}
+		else
+		{
+			if (LastHorizontalMovement != 0)
+				StopMoving();
+		}
+		LastHorizontalMovement = Horizontal;
 	}
 
 	/// <summary>
@@ -63,4 +77,11 @@ public abstract class LegMotor : MonoBehaviour
 	/// </summary>
 	/// <param name="Direction"></param>
 	protected abstract void Move(Single Direction);
+
+	/// <summary>
+	/// Performs custom action upon stopping.
+	/// </summary>
+	protected virtual void StopMoving()
+	{
+	}
 }

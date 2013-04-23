@@ -13,6 +13,7 @@ GameObject:
   - 95: {fileID: 9500000}
   - 54: {fileID: 5400000}
   - 65: {fileID: 6500000}
+  - 114: {fileID: 11400000}
   - 59: {fileID: 5900000}
   m_Layer: 0
   m_Name: CentipedeLink
@@ -28,7 +29,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.10596228, y: -3.41284513, z: -15.9390383}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -47,7 +48,7 @@ Renderer:
   - {fileID: 2100000, guid: 3279f4f468027394a978a79361b5ff31, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 0
+  m_UseLightProbes: 1
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
 --- !u!33 &3300000
@@ -83,8 +84,8 @@ HingeJoint:
   m_Axis: {x: 0, y: 0, z: 1}
   m_UseSpring: 0
   m_Spring:
-    spring: 20
-    damper: .100000001
+    spring: 0
+    damper: 0
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -123,6 +124,17 @@ Animator:
   m_CullingMode: 1
   m_ApplyRootMotion: 1
   m_AnimatePhysics: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce63baa3a1099264988f54a007d61560, type: 3}
+  m_Name: 
+  CollisionGroup: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

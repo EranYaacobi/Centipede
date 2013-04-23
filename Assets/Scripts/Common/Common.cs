@@ -10,10 +10,6 @@ public class Common : MonoBehaviour
 	/// <param name="Condition"></param>
 	public static void Assert(Boolean Condition)
 	{
-		if (!Condition)
-		{
-			if (System.Diagnostics.Debugger.IsAttached)
-				Debug.DebugBreak();
-		}
+		System.Diagnostics.Debug.Assert(Condition);
 	}
 }

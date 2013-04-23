@@ -44,22 +44,19 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\AudioOffset.cs" />
-     <Compile Include="Assets\Scripts\CaptureNormals.cs" />
-     <Compile Include="Assets\Scripts\Common.cs" />
-     <Compile Include="Assets\Scripts\CreateCentipede.cs" />
-     <Compile Include="Assets\Scripts\DebugJoint.cs" />
-     <Compile Include="Assets\Scripts\Keys.cs" />
-     <Compile Include="Assets\Scripts\LegMotor.cs" />
-     <Compile Include="Assets\Scripts\NormalLegMotor.cs" />
-     <Compile Include="Assets\Scripts\NormalLegSoleMotor.cs" />
-     <Compile Include="Assets\Scripts\NormalLegsCenter.cs" />
-     <Compile Include="Assets\Scripts\Punch.cs" />
-     <Compile Include="Assets\Scripts\RandomFloorBotMovement.cs" />
-     <Compile Include="Assets\Scripts\Rotator.cs" />
-     <Compile Include="Assets\Scripts\ScrollingUVs.cs" />
-     <Compile Include="Assets\Scripts\SetLegsInputButton.cs" />
-     <Compile Include="Assets\Scripts\VariedLengthSpringJoint.cs" />
+     <Compile Include="Assets\Scripts\Centipede\CreateCentipede.cs" />
+     <Compile Include="Assets\Scripts\Centipede\Legs\LegMotor.cs" />
+     <Compile Include="Assets\Scripts\Centipede\Legs\NormalLeg\NormalLegMotor.cs" />
+     <Compile Include="Assets\Scripts\Centipede\Legs\NormalLeg\NormalLegSoleMotor.cs" />
+     <Compile Include="Assets\Scripts\Centipede\Legs\NormalLeg\NormalLegsCenter.cs" />
+     <Compile Include="Assets\Scripts\Centipede\Legs\SetLegsInputButton.cs" />
+     <Compile Include="Assets\Scripts\Common\Common.cs" />
+     <Compile Include="Assets\Scripts\Common\Keys.cs" />
+     <Compile Include="Assets\Scripts\Physics\Collision\CollisionGroupsManager.cs" />
+     <Compile Include="Assets\Scripts\Physics\Collision\RegisterCollider.cs" />
+     <Compile Include="Assets\Scripts\Physics\Joints\BasicPrismaticJoint.cs" />
+     <Compile Include="Assets\Scripts\Physics\Joints\VariedLengthSpringJoint.cs" />
+     <Compile Include="Assets\Scripts\Physics\RestraintRotation.cs" />
      <None Include="Assets\Standard Assets\Projectors\Guidelines.txt" />
      <None Include="Assets\Image Effects\_Sources\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\Image Effects\_Sources\Shaders\NoiseEffectShaderRGB.shader" />

@@ -30,7 +30,9 @@ public class CreateCentipede : MonoBehaviour
 			var LegPrefab = Legs[i];
 			var LegLink = CreateCentipedeLink(ref CentipedeLinkPosition, LastCentipedeLink);
 
-			var Leg = Instantiate(LegPrefab, LegLink.transform.position + LegPrefab.transform.position, LegLink.transform.rotation) as GameObject;
+			var Leg = Instantiate(LegPrefab, 
+								  LegLink.transform.position + LegPrefab.transform.position, 
+								  LegLink.transform.rotation) as GameObject;
 			Common.Assert(Leg != null);
 			Leg.name = String.Format("{0}_{1}", LegPrefab.name, i + 1);
 			Leg.transform.parent = LegLink.transform;
@@ -51,11 +53,13 @@ public class CreateCentipede : MonoBehaviour
 
 	private GameObject CreateCentipedeLink(ref Vector3 Position, GameObject LastCentipedeLink)
 	{
-		var CurrentCentipedeLink = Instantiate(CentipedeLink, transform.position + Position, transform.rotation) as GameObject;
+		var CurrentCentipedeLink = Instantiate(CentipedeLink, 
+											   transform.position + Position,
+											   transform.rotation) as GameObject;
+		Common.Assert(CurrentCentipedeLink != null);
 		CurrentCentipedeLink.name = String.Format("CentipedeLink_{0}", LinksCount + 1);
 		LinksCount += 1;
 		CurrentCentipedeLink.transform.parent = transform;
-		Common.Assert(CurrentCentipedeLink != null);
 		if (LastCentipedeLink != null)
 			LastCentipedeLink.hingeJoint.connectedBody = CurrentCentipedeLink.rigidbody;
 
