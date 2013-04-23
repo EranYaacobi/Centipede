@@ -86,8 +86,8 @@ public class NormalLegMotor : LegMotor
 		Common.Assert(SolesMotors.Length == 2);
 		UpdateSoles(0);
 
-		SolesMotors[0].DesiredSoleAngle = InitialOffset + 90;
-		SolesMotors[1].DesiredSoleAngle = InitialOffset + 270;
+		SolesMotors[0].DesiredSoleAngle = InitialOffset;
+		SolesMotors[1].DesiredSoleAngle = InitialOffset + 90;
 
 		foreach (var SoleMotor in SolesMotors)
 			SoleMotor.Initialize();
