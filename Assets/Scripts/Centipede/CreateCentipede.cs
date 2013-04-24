@@ -25,20 +25,21 @@ public class CreateCentipede : MonoBehaviour
 	{
 		var CentipedeLinkPosition = new Vector3(0, 0, 0);
 		GameObject LastCentipedeLink = null;
-		for (int i = 0; i < Legs.Length; i++)
+
+		Common.Assert(Legs.Length % 2 == 0);
+		for (int i = 0; i < Legs.Length / 2; i++)
 		{
-			var LegPrefab = Legs[i];
+			var FrontLegPrefab = Legs[i * 2];
+			var BackLegPrefab = Legs[i * 2 + 1];
 			var LegLink = CreateCentipedeLink(ref CentipedeLinkPosition, LastCentipedeLink);
 
-			var Leg = Instantiate(LegPrefab, 
-								  LegLink.transform.position + LegPrefab.transform.position, 
-								  LegLink.transform.rotation) as GameObject;
-			Common.Assert(Leg != null);
-			Leg.name = String.Format("{0}_{1}", LegPrefab.name, i + 1);
-			Leg.transform.parent = LegLink.transform;
+			CreateLeg(BackLegPrefab, i * 2, LegLink, -new Vector3(LegLink.collider.bounds.size.x / 4, 0, 0)); 
+			CreateLeg(FrontLegPrefab, i * 2 + 1, LegLink, new Vector3(LegLink.collider.bounds.size.x / 4, 0, 0));
+			
+
 			LastCentipedeLink = LegLink;
 
-			if (i == Legs.Length - 1)
+			if ((i * 2 + 1) == Legs.Length - 1)
 			{
 				Destroy(LegLink.hingeJoint);
 				break;
@@ -65,5 +66,15 @@ public class CreateCentipede : MonoBehaviour
 
 		Position = new Vector3(Position.x + CurrentCentipedeLink.renderer.bounds.size.x, Position.y, Position.z);
 		return CurrentCentipedeLink;
+	}
+
+	private void CreateLeg(GameObject LegPrefab, Int32 Index, GameObject LegLink, Vector3 RelativePosition)
+	{
+		var Leg = Instantiate(LegPrefab,
+								  LegLink.transform.position + LegPrefab.transform.position + RelativePosition,
+								  LegLink.transform.rotation) as GameObject;
+		Common.Assert(Leg != null);
+		Leg.name = String.Format("{0}_{1}", LegPrefab.name, Index + 1);
+		Leg.transform.parent = LegLink.transform;
 	}
 }
