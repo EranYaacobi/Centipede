@@ -109,8 +109,9 @@ public class NormalLegMotor : LegMotor
 
 		foreach (var SoleMotor in SolesMotors)
 		{
-			SoleMotor.BackJointAnchor = BackJointAnchor;
-			SoleMotor.FrontJointAnchor = FrontJointAnchor;
+			var LegOffsetInLink = new Vector3(transform.localPosition.x, 0, 0);
+			SoleMotor.BackJointAnchor = BackJointAnchor + LegOffsetInLink;
+			SoleMotor.FrontJointAnchor = FrontJointAnchor + LegOffsetInLink;
 			SoleMotor.Flexibility = Flexibility;
 			SoleMotor.ForceConstant = ForceConstant;
 			SoleMotor.MaxMotorForce = MaxMotorForce;
