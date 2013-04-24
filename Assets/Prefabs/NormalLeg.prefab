@@ -8,7 +8,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400000}
-  - 114: {fileID: 11400014}
   - 114: {fileID: 11400004}
   m_Layer: 0
   m_Name: NormalLeg
@@ -346,18 +345,6 @@ MonoBehaviour:
   m_Name: 
   RestrictedByTranform: {fileID: 0}
   ReverseRestraint: 0
---- !u!114 &11400014
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d051a8f2df36edc4097b19b105464d37, type: 3}
-  m_Name: 
-  RestrictedByTranform: {fileID: 0}
-  ReverseRestraint: 0
 --- !u!114 &11400016
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -369,8 +356,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aa0f82949371a646bed0a8cb5ba601e, type: 3}
   m_Name: 
   RestrictedByTranform: {fileID: 0}
-  MinimumDistance: {x: -.400000006, y: -.400000006, z: -100}
-  MaximumDistance: {x: .400000006, y: .400000006, z: 100}
+  MinimumDistance: {x: -.5, y: -.5, z: -Infinity}
+  MaximumDistance: {x: .5, y: .5, z: Infinity}
   ReverseRestraint: 0
 --- !u!114 &11400018
 MonoBehaviour:
@@ -383,8 +370,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aa0f82949371a646bed0a8cb5ba601e, type: 3}
   m_Name: 
   RestrictedByTranform: {fileID: 0}
-  MinimumDistance: {x: -.400000006, y: -.400000006, z: -100}
-  MaximumDistance: {x: .400000006, y: .400000006, z: 100}
+  MinimumDistance: {x: -.5, y: -.5, z: -Infinity}
+  MaximumDistance: {x: .5, y: .5, z: Infinity}
   ReverseRestraint: 0
 --- !u!1001 &100100000
 Prefab:

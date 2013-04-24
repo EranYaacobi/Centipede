@@ -41,24 +41,15 @@ public class RestraintDistance : MonoBehaviour
 			Model = Affected;
 			Affected = Temp;
 		}
-		
-		var TranformedMinimumDistance = Model.TransformPoint(MinimumDistance);
-		var TranformedMaximumPosition = Model.TransformPoint(MaximumDistance);
 
-		var TransformedFixedMinimumPosition =
-			new Vector3(Mathf.Min(TranformedMinimumDistance.x, TranformedMaximumPosition.x),
-						Mathf.Min(TranformedMinimumDistance.y, TranformedMaximumPosition.y),
-						Mathf.Min(TranformedMinimumDistance.z, TranformedMaximumPosition.z));
+		var RelativeAffectedPosition = Model.InverseTransformPoint(Affected.transform.position);
 
-		var TransformedFixedMaximumPosition =
-			new Vector3(Mathf.Max(TranformedMinimumDistance.x, TranformedMaximumPosition.x),
-						Mathf.Max(TranformedMinimumDistance.y, TranformedMaximumPosition.y),
-						Mathf.Max(TranformedMinimumDistance.z, TranformedMaximumPosition.z));
+		RelativeAffectedPosition = new Vector3(
+			Mathf.Clamp(RelativeAffectedPosition.x, MinimumDistance.x, MaximumDistance.x),
+			Mathf.Clamp(RelativeAffectedPosition.y, MinimumDistance.y, MaximumDistance.y),
+			Mathf.Clamp(RelativeAffectedPosition.z, MinimumDistance.z, MaximumDistance.z));
 
-		Affected.position = new Vector3(
-			Mathf.Clamp(transform.position.x, TransformedFixedMinimumPosition.x, TransformedFixedMaximumPosition.x),
-			Mathf.Clamp(transform.position.y, TransformedFixedMinimumPosition.y, TransformedFixedMaximumPosition.y),
-			Mathf.Clamp(transform.position.z, TransformedFixedMinimumPosition.z, TransformedFixedMaximumPosition.z));
+		Affected.position = Model.TransformPoint(RelativeAffectedPosition);
 	}
 
 	void OnDrawGizmos()
@@ -68,27 +59,20 @@ public class RestraintDistance : MonoBehaviour
 		if (ReverseRestraint)
 			Model = transform;;
 
-		var TranformedMinimumDistance = Model.TransformPoint(MinimumDistance);
-		var TranformedMaximumPosition = Model.TransformPoint(MaximumDistance);
+		var TopLeft = new Vector3(MaximumDistance.x, MinimumDistance.y, Depth);
+		var TopRight = new Vector3(MaximumDistance.x, MaximumDistance.y, Depth);
+		var BottomLeft = new Vector3(MinimumDistance.x, MinimumDistance.y, Depth);
+		var BottomRight = new Vector3(MinimumDistance.x, MaximumDistance.y, Depth);
 
-		var TransformedFixedMinimumPosition =
-			new Vector3(Mathf.Min(TranformedMinimumDistance.x, TranformedMaximumPosition.x),
-						Mathf.Min(TranformedMinimumDistance.y, TranformedMaximumPosition.y),
-						Mathf.Min(TranformedMinimumDistance.z, TranformedMaximumPosition.z));
+		var TranformedTopLeft = Model.TransformPoint(TopLeft);
+		var TranformedTopRight = Model.TransformPoint(TopRight);
+		var TranformedBottomLeft = Model.TransformPoint(BottomLeft);
+		var TranformedBottomRight = Model.TransformPoint(BottomRight);
 
-		var TransformedFixedMaximumPosition =
-			new Vector3(Mathf.Max(TranformedMinimumDistance.x, TranformedMaximumPosition.x),
-						Mathf.Max(TranformedMinimumDistance.y, TranformedMaximumPosition.y),
-						Mathf.Max(TranformedMinimumDistance.z, TranformedMaximumPosition.z));
 		Gizmos.color = Color.magenta;
-
-		var TopLeft = new Vector3(TransformedFixedMaximumPosition.x, TransformedFixedMinimumPosition.y, Depth);
-		var TopRight = new Vector3(TransformedFixedMaximumPosition.x, TransformedFixedMaximumPosition.y, Depth);
-		var BottomLeft = new Vector3(TransformedFixedMinimumPosition.x, TransformedFixedMinimumPosition.y, Depth);
-		var BottomRight = new Vector3(TransformedFixedMinimumPosition.x, TransformedFixedMaximumPosition.y, Depth);
-		Gizmos.DrawLine(TopLeft, TopRight);
-		Gizmos.DrawLine(TopRight, BottomRight);
-		Gizmos.DrawLine(BottomRight, BottomLeft);
-		Gizmos.DrawLine(BottomLeft, TopLeft);
+		Gizmos.DrawLine(TranformedTopLeft, TranformedTopRight);
+		Gizmos.DrawLine(TranformedTopRight, TranformedBottomRight);
+		Gizmos.DrawLine(TranformedBottomRight, TranformedBottomLeft);
+		Gizmos.DrawLine(TranformedBottomLeft, TranformedTopLeft);
 	}
 }

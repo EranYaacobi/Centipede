@@ -4,12 +4,15 @@
     <Pads>
       <Pad Id="MonoDevelop.Debugger.WatchPad">
         <State>
-          <Value>DesiredAngle</Value>
-          <Value>CurrentAngle </Value>
-          <Value>AppliedForce</Value>
-          <Value>LastCentipedeLink.GetComponent&lt;FSRevoluteJointComponent&gt;()</Value>
-          <Value>Time.fixedDeltaTime</Value>
-          <Value>Time.deltaTime</Value>
+          <Value>MinimumDistance</Value>
+          <Value>MaximumDistance</Value>
+          <Value>TranformedMinimumDistance</Value>
+          <Value>TranformedMaximumPosition</Value>
+          <Value>TransformedFixedMinimumPosition</Value>
+          <Value>TransformedFixedMaximumPosition</Value>
+          <Value>TempVector</Value>
+          <Value>Model.transform.position</Value>
+          <Value>Model.transform.rotation</Value>
         </State>
       </Pad>
     </Pads>

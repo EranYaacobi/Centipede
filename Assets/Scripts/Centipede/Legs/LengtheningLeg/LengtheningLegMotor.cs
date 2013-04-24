@@ -87,11 +87,6 @@ public class LengtheningLegMotor : LegMotor
 	/// </summary>
 	private readonly Vector3[] Anchors = new Vector3[2];
 
-	/// <summary>
-	/// The script that restrains the leg.
-	/// </summary>
-	private RestraintRotation RestraintRotation;
-
 	public override void Initialize()
 	{
 		base.Initialize();
@@ -99,8 +94,6 @@ public class LengtheningLegMotor : LegMotor
 
 		Anchors[0] = BackJointAnchor;
 		Anchors[1] = FrontJointAnchor;
-
-		RestraintRotation = GetComponent<RestraintRotation>();
 
 		for (int i = 0; i < PrismaticJoints.Length; i++)
 		{
@@ -125,7 +118,7 @@ public class LengtheningLegMotor : LegMotor
 		{
 			var PrismaticJoint = PrismaticJoints[i];
 
-			PrismaticJoint.Anchor = Anchors[i];
+			PrismaticJoint.Anchor = Anchors[i] / 2;
 			PrismaticJoint.RemoteAnchor = Anchors[i];
 			PrismaticJoint.LowerLimit = RetractedLength;
 			PrismaticJoint.UpperLimit = MaximumLength;
@@ -136,7 +129,6 @@ public class LengtheningLegMotor : LegMotor
 
 			if (TempRetracted)
 			{
-				RestraintRotation.ReverseRestraint = false;
 				PrismaticJoint.MaxMotorForce = MotorRetractingForce;
 				PrismaticJoint.State = BasicPrismaticJoint.MotorState.Backward;
 				PrismaticJoint.MotorSpeed = MotorRetractingSpeed;
@@ -146,7 +138,6 @@ public class LengtheningLegMotor : LegMotor
 			}
 			else
 			{
-				RestraintRotation.ReverseRestraint = true;
 				PrismaticJoint.MaxMotorForce = MotorLengtheningForce;
 				PrismaticJoint.State = BasicPrismaticJoint.MotorState.Forward;
 				PrismaticJoint.MotorSpeed = MotorLengtheningSpeed;
