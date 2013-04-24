@@ -159,11 +159,9 @@ public class BasicPrismaticJoint : MonoBehaviour
 		var JointDirection = (OtherPosition - Position).normalized;
 
 		// Getting the force that should be applied to make the joint reach its desired length.
-		//var DeltaLengthForce = Vector3.zero;
 		var DeltaLengthForce = -ForceConstant * MaxMotorForce * (Mathf.Sign(DeltaLength) * Mathf.Pow(Mathf.Abs(DeltaLength), 1F) / Mathf.Pow(Flexibility, 1F)) * JointDirection;
 
 		// Getting the projection of the current velocity, in order to apply a force that will counter it.
-		//var VelocityForce = -Damping * Vector3.Dot(rigidbody.mass * rigidbody.velocity - ConnectedBody.rigidbody.mass * ConnectedBody.rigidbody.velocity, JointDirection) * JointDirection;
 		var Damping = DampingRate * 2 * Mathf.Sqrt(rigidbody.mass * ForceConstant * MaxMotorForce);
 		var VelocityForce = -Damping * Vector3.Dot(rigidbody.velocity - ConnectedBody.rigidbody.velocity, JointDirection) * JointDirection;
 

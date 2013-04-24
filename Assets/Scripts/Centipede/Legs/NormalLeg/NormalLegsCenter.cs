@@ -5,6 +5,11 @@ using System.Collections;
 public class NormalLegsCenter : MonoBehaviour
 {
 	/// <summary>
+	/// The initial transform of the leg, relative to the body.
+	/// </summary>
+	public Vector3 InitialLegTransform;
+
+	/// <summary>
 	/// The anchor of the back-joint, relative to the body.
 	/// </summary>
 	public Vector3 BackJointAnchor;
@@ -65,7 +70,6 @@ public class NormalLegsCenter : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
-		Time.timeScale = 1F;
 		var Legs = transform.GetComponentsInChildren<NormalLegMotor>();
 
 		if (Legs.Length == 0)
@@ -79,6 +83,7 @@ public class NormalLegsCenter : MonoBehaviour
 		for (int i = 0; i < Legs.Length; i++)
 		{
 			var Leg = Legs[i];
+			Leg.transform.localPosition += InitialLegTransform;
 			Leg.InitialOffset = i * (1080 / (Legs.Length - 1));
 			Leg.Initialize();
 		}

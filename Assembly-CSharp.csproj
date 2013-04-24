@@ -44,6 +44,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Camera\LookOnGameObject.cs" />
      <Compile Include="Assets\Scripts\Centipede\CreateCentipede.cs" />
      <Compile Include="Assets\Scripts\Centipede\Legs\LegMotor.cs" />
      <Compile Include="Assets\Scripts\Centipede\Legs\LengtheningLeg\LengtheningLegMotor.cs" />
@@ -52,6 +53,7 @@
      <Compile Include="Assets\Scripts\Centipede\Legs\NormalLeg\NormalLegSoleMotor.cs" />
      <Compile Include="Assets\Scripts\Centipede\Legs\NormalLeg\NormalLegsCenter.cs" />
      <Compile Include="Assets\Scripts\Centipede\Legs\SetLegsInputButton.cs" />
+     <Compile Include="Assets\Scripts\Common\CenterToChildren.cs" />
      <Compile Include="Assets\Scripts\Common\Common.cs" />
      <Compile Include="Assets\Scripts\Common\Keys.cs" />
      <Compile Include="Assets\Scripts\Physics\Collision\CollisionGroupsManager.cs" />

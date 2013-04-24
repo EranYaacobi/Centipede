@@ -14,6 +14,11 @@ public class RestraintRotation : MonoBehaviour
 	/// </summary>
 	public Boolean ReverseRestraint;
 
+	/// <summary>
+	/// The torque applied to rotate the transform to the restrainted by transform.
+	/// </summary>
+	public Single TorqueConstant;
+
 	void Start()
 	{
 		if (RestrictedByTranform == null)
@@ -23,9 +28,15 @@ public class RestraintRotation : MonoBehaviour
 	// Update is called once per frame
 	void FixedUpdate()
 	{
+		var TranformDirection = (transform.right + transform.up).normalized;
+		var RestrictedByTranformDirection = (RestrictedByTranform.right + RestrictedByTranform.up).normalized;
+
+		var BaseTorque = Vector3.Cross(TranformDirection, RestrictedByTranformDirection);
+		var Torque = TorqueConstant * BaseTorque.normalized * Mathf.Pow(BaseTorque.magnitude, 2);
+
 		if (!ReverseRestraint)
-			transform.rotation = RestrictedByTranform.rotation;
+			transform.rigidbody.AddTorque(Torque, ForceMode.Force);
 		else
-			RestrictedByTranform.rotation = transform.rotation;
+			RestrictedByTranform.rigidbody.AddTorque(-Torque, ForceMode.Force);
 	}
 }
