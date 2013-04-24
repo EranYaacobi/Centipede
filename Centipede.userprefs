@@ -8,12 +8,16 @@
           <Value>CurrentAngle </Value>
           <Value>AppliedForce</Value>
           <Value>LastCentipedeLink.GetComponent&lt;FSRevoluteJointComponent&gt;()</Value>
+          <Value>Time.fixedDeltaTime</Value>
+          <Value>Time.deltaTime</Value>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="D:\temp\CentipedeFarseer\Centipede\Assets\Scripts\NormalLegMotor.cs" line="61" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

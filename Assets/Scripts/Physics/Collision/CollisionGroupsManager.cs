@@ -29,7 +29,7 @@ public class CollisionGroupsManager : MonoBehaviour
 		// This code exists in case any of the groups were deleted.
 		foreach (var CollisionGroup in Enum.GetValues(typeof(CollisionGroups)).Cast<CollisionGroups>())
 		{
-			if (!RegisteredColliders.Keys.Contains(CollisionGroup))
+			if (!GroupsConfigurations.Select(GroupsConfiguration => GroupsConfiguration.CollisionGroup).Contains(CollisionGroup))
 				GroupsConfigurations.Add(new CollisionGroupConfiguration(CollisionGroup, new List<CollisionGroups>()));
 		}
 	}

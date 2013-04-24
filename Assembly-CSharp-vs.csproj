@@ -46,6 +46,8 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Centipede\CreateCentipede.cs" />
      <Compile Include="Assets\Scripts\Centipede\Legs\LegMotor.cs" />
+     <Compile Include="Assets\Scripts\Centipede\Legs\LengtheningLeg\LengtheningLegMotor.cs" />
+     <Compile Include="Assets\Scripts\Centipede\Legs\LengtheningLeg\LengtheningLegsCenter.cs" />
      <Compile Include="Assets\Scripts\Centipede\Legs\NormalLeg\NormalLegMotor.cs" />
      <Compile Include="Assets\Scripts\Centipede\Legs\NormalLeg\NormalLegSoleMotor.cs" />
      <Compile Include="Assets\Scripts\Centipede\Legs\NormalLeg\NormalLegsCenter.cs" />

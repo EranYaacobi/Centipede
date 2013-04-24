@@ -19,7 +19,7 @@ public class NormalLegSoleMotor : MonoBehaviour
 	/// The anchor of the sole.
 	/// </summary>
 	public Vector3 SoleAnchor;
-	
+
 	private Vector3 backJointAnchor;
 	/// <summary>
 	/// The anchor of the back joint, relative to the body.
@@ -79,7 +79,6 @@ public class NormalLegSoleMotor : MonoBehaviour
 	/// <summary>
 	/// The damping of the motor.
 	/// </summary>
-	[Range(0, 10)]
 	public Single Damping;
 
 	/// <summary>
@@ -87,6 +86,11 @@ public class NormalLegSoleMotor : MonoBehaviour
 	/// </summary>
 	public BasicPrismaticJoint.MotorState MotorState;
 
+	/// <summary>
+	/// Configuration of centering when the motor stops.
+	/// </summary>
+	public BasicPrismaticJoint.CenterOnStopConfiguration CenterOnStop;
+	
 	/// <summary>
 	/// The desired angle of the sole.
 	/// </summary>
@@ -118,10 +122,10 @@ public class NormalLegSoleMotor : MonoBehaviour
 		SoleInitialTranform = transform.localPosition;
 
 		BackJoint = gameObject.AddComponent<BasicPrismaticJoint>();
-		BackJoint.Initialize(ConnectedBody, SoleAnchor, BackJointAnchor, Flexibility, ForceConstant, MaxMotorForce, MaxMotorSpeed, LowerLimit, UpperLimit);
+		BackJoint.Initialize(ConnectedBody, SoleAnchor, BackJointAnchor, Flexibility, ForceConstant, MaxMotorForce, MaxMotorSpeed, LowerLimit, UpperLimit, Damping);
 
 		FrontJoint = gameObject.AddComponent<BasicPrismaticJoint>();
-		FrontJoint.Initialize(ConnectedBody, SoleAnchor, FrontJointAnchor, Flexibility, ForceConstant, MaxMotorForce, MaxMotorSpeed, LowerLimit, UpperLimit);
+		FrontJoint.Initialize(ConnectedBody, SoleAnchor, FrontJointAnchor, Flexibility, ForceConstant, MaxMotorForce, MaxMotorSpeed, LowerLimit, UpperLimit, Damping);
 
 		UpdateJoints();
 
@@ -133,7 +137,7 @@ public class NormalLegSoleMotor : MonoBehaviour
 		if (Initialized)
 		{
 			UpdateJoints();
-			DesiredSoleAngle = (DesiredSoleAngle + ((Int32) MotorState)*CycleSpeed*360*Time.deltaTime + 360)%360;
+			DesiredSoleAngle = (DesiredSoleAngle + ((Int32)MotorState) * CycleSpeed * 360 * Time.fixedDeltaTime + 360) % 360;
 		}
 	}
 
@@ -147,8 +151,12 @@ public class NormalLegSoleMotor : MonoBehaviour
 		BackJoint.ForceConstant = ForceConstant;
 		BackJoint.MaxMotorForce = MaxMotorForce;
 		BackJoint.MotorSpeed = MaxMotorSpeed * Mathf.Sin(DesiredSoleAngle * Mathf.Deg2Rad);
-		BackJoint.State = MotorState;
+		if (MotorState != BasicPrismaticJoint.MotorState.Stopped)
+			BackJoint.State = BasicPrismaticJoint.MotorState.Forward;
+		else
+			BackJoint.State = MotorState;
 		BackJoint.Damping = Damping;
+		BackJoint.CenterOnStop = CenterOnStop;
 
 		FrontJoint.Anchor = SoleAnchor;
 		FrontJoint.RemoteAnchor = FrontJointAnchor;
@@ -156,7 +164,11 @@ public class NormalLegSoleMotor : MonoBehaviour
 		FrontJoint.UpperLimit = UpperLimit;
 		FrontJoint.MaxMotorForce = MaxMotorForce;
 		FrontJoint.MotorSpeed = MaxMotorSpeed * Mathf.Sin((DesiredSoleAngle - 90) * Mathf.Deg2Rad);
-		FrontJoint.State = MotorState;
+		if (MotorState != BasicPrismaticJoint.MotorState.Stopped)
+			FrontJoint.State = BasicPrismaticJoint.MotorState.Forward;
+		else
+			FrontJoint.State = MotorState;
 		FrontJoint.Damping = Damping;
+		FrontJoint.CenterOnStop = CenterOnStop;
 	}
 }

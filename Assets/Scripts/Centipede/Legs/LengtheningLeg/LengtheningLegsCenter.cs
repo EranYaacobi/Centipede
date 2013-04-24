@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using System.Collections;
 
-public class NormalLegsCenter : MonoBehaviour
+public class LengtheningLegsCenter : MonoBehaviour
 {
 	/// <summary>
 	/// The anchor of the back-joint, relative to the body.
@@ -26,45 +26,44 @@ public class NormalLegsCenter : MonoBehaviour
 	public Single ForceConstant;
 
 	/// <summary>
-	/// The maxmimum force of the motor.
+	/// The speed of the motor when retracting.
 	/// </summary>
-	public Single MaxMotorForce;
+	public Single MotorRetractingForce;
 
 	/// <summary>
-	/// The maximum speed of the motor of each sole in each leg.
+	/// The force of the motor when lengthening.
 	/// </summary>
-	public Single MaxMotorSpeed;
+	public Single MotorLengtheningForce;
 
 	/// <summary>
-	/// The number of cycles in second.
+	/// The speed of the motor when retracting.
 	/// </summary>
-	public Single CycleSpeed;
+	public Single MotorRetractingSpeed;
 
 	/// <summary>
-	/// The lower limit of the joints of each sole in each leg, relative to their initial length.
+	/// The speed of the motor when lengthening.
 	/// </summary>
-	public Single LowerLimit;
+	public Single MotorLengtheningSpeed;
 
 	/// <summary>
-	/// The upper limit of the joints of each sole in each leg, relative to their initial length.
+	/// The retracted length of the leg.
 	/// </summary>
-	public Single UpperLimit;
+	public Single RetractedLength;
+
+	/// <summary>
+	/// The maximum length of the leg.
+	/// </summary>
+	public Single MaximumLength;
 
 	/// <summary>
 	/// The damping of the motor.
 	/// </summary>
 	public Single Damping;
 
-	/// <summary>
-	/// Configuration of centering when the motor stops.
-	/// </summary>
-	public BasicPrismaticJoint.CenterOnStopConfiguration CenterOnStop;
-	
 	// Use this for initialization
 	void Start()
 	{
-		Time.timeScale = 1F;
-		var Legs = transform.GetComponentsInChildren<NormalLegMotor>();
+		var Legs = transform.GetComponentsInChildren<LengtheningLegMotor>();
 
 		if (Legs.Length == 0)
 		{
@@ -74,17 +73,16 @@ public class NormalLegsCenter : MonoBehaviour
 
 		UpdateLegs();
 
-		for (int i = 0; i < Legs.Length; i++)
+		foreach (var Leg in Legs)
 		{
-			var Leg = Legs[i];
-			Leg.InitialOffset = i * (360 / Legs.Length);
+			Leg.Retracted = true;
 			Leg.Initialize();
 		}
 	}
 
 	private void UpdateLegs()
 	{
-		var Legs = transform.GetComponentsInChildren<NormalLegMotor>();
+		var Legs = transform.GetComponentsInChildren<LengtheningLegMotor>();
 
 		foreach (var Leg in Legs)
 		{
@@ -92,13 +90,12 @@ public class NormalLegsCenter : MonoBehaviour
 			Leg.FrontJointAnchor = FrontJointAnchor;
 			Leg.Flexibility = Flexibility;
 			Leg.ForceConstant = ForceConstant;
-			Leg.MaxMotorForce = MaxMotorForce;
-			Leg.MaxMotorSpeed = MaxMotorSpeed;
-			Leg.LowerLimit = LowerLimit;
-			Leg.UpperLimit = UpperLimit;
-			Leg.CycleSpeed = CycleSpeed;
-			Leg.Damping = Damping;
-			Leg.CenterOnStop = CenterOnStop;
+			Leg.MotorRetractingForce = MotorRetractingForce;
+			Leg.MotorLengtheningForce = MotorLengtheningForce;
+			Leg.MotorRetractingSpeed = MotorRetractingSpeed;
+			Leg.MotorLengtheningSpeed = MotorLengtheningSpeed;
+			Leg.RetractedLength = RetractedLength;
+			Leg.MaximumLength = MaximumLength;
 		}
 	}
 

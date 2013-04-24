@@ -63,8 +63,12 @@ public class NormalLegMotor : LegMotor
 	/// <summary>
 	/// The damping of the motor.
 	/// </summary>
-	[Range(0, 10)]
 	public Single Damping;
+
+	/// <summary>
+	/// Configuration of centering when the motor stops.
+	/// </summary>
+	public BasicPrismaticJoint.CenterOnStopConfiguration CenterOnStop;
 
 	/// <summary>
 	/// The motors of the soles from which the normal leg consists of.
@@ -113,7 +117,9 @@ public class NormalLegMotor : LegMotor
 			SoleMotor.UpperLimit = UpperLimit;
 			SoleMotor.MotorState = MotorState;
 			SoleMotor.CycleSpeed = CycleSpeed;
+			SoleMotor.SoleAnchor = LegAnchor;
 			SoleMotor.Damping = Damping;
+			SoleMotor.CenterOnStop = CenterOnStop;
 			
 			if (Retracted)
 			{

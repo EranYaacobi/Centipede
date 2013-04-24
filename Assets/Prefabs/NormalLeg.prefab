@@ -8,8 +8,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400000}
-  - 114: {fileID: 11400004}
   - 114: {fileID: 11400014}
+  - 114: {fileID: 11400004}
   m_Layer: 0
   m_Name: NormalLeg
   m_TagString: Untagged
@@ -363,8 +363,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aa0f82949371a646bed0a8cb5ba601e, type: 3}
   m_Name: 
   RestrictedByTranform: {fileID: 0}
-  MinimumDistance: {x: -Infinity, y: -.5, z: -Infinity}
-  MaximumDistance: {x: Infinity, y: .5, z: Infinity}
+  MinimumDistance: {x: -.400000006, y: -.400000006, z: -Infinity}
+  MaximumDistance: {x: .400000006, y: .400000006, z: Infinity}
 --- !u!114 &11400018
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -376,8 +376,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aa0f82949371a646bed0a8cb5ba601e, type: 3}
   m_Name: 
   RestrictedByTranform: {fileID: 0}
-  MinimumDistance: {x: -Infinity, y: -.5, z: -Infinity}
-  MaximumDistance: {x: Infinity, y: .5, z: Infinity}
+  MinimumDistance: {x: -.400000006, y: -.400000006, z: -Infinity}
+  MaximumDistance: {x: .400000006, y: .400000006, z: Infinity}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

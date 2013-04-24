@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using System.Collections;
 
@@ -8,6 +9,11 @@ public class RestraintRotation : MonoBehaviour
 	/// </summary>
 	public Transform RestrictedByTranform;
 
+	/// <summary>
+	/// Indicates whether restraining should be reversed
+	/// </summary>
+	public Boolean ReverseRestraint;
+
 	void Start()
 	{
 		if (RestrictedByTranform == null)
@@ -17,6 +23,9 @@ public class RestraintRotation : MonoBehaviour
 	// Update is called once per frame
 	void FixedUpdate()
 	{
-		transform.rotation = RestrictedByTranform.rotation;
+		if (!ReverseRestraint)
+			transform.rotation = RestrictedByTranform.rotation;
+		else
+			RestrictedByTranform.rotation = transform.rotation;
 	}
 }

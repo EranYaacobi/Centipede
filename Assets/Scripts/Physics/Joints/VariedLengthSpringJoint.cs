@@ -32,9 +32,10 @@ public class VariedLengthSpringJoint : MonoBehaviour
 	public Single EquilibriumLength;
 
 	/// <summary>
-	/// Indicates whether on start, the script should override equilibrium length to be the current distance between the objects.
+	/// Indicates whether the script should override equilibrium length to be the current distance between the objects,
+	/// and to update it when the anchors change.
 	/// </summary>
-	public Boolean UseDefaultEquilibriumLength;
+	public Boolean FixedDefaultEquilibriumLength;
 
 	/// <summary>
 	/// Causes the spring to apply negative force based on velocity, in addition to distance.
@@ -42,43 +43,51 @@ public class VariedLengthSpringJoint : MonoBehaviour
 	/// </summary>
 	public Boolean ApplyNegativeForce;
 
-	public void Initialize(Rigidbody ConnectedBody, Vector3 Anchor, Vector3 RemoteAnchor, Single Stiffness, Boolean ApplyNegativeForce)
-	{
-		Initialize(ConnectedBody, Anchor, RemoteAnchor, Stiffness, ApplyNegativeForce, (ConnectedBody.transform.TransformPoint(RemoteAnchor) - transform.TransformPoint(Anchor)).magnitude);
-		// We don't set UseDefaultEquilibriumLength to true, as the default equilibrium length was already used.
-	}
+	/// <summary>
+	/// The initial transform of the joint.
+	/// This is used to adjust the length, when the anchors change.
+	/// </summary>
+	private Vector3 InitialTranform;
 
-	public void Initialize(Rigidbody ConnectedBody, Vector3 Anchor, Vector3 RemoteAnchor, Single Stiffness, Boolean ApplyNegativeForce, Single EquilibriumLength)
+	public Vector3 AppliedForce;
+
+	public void Initialize(Rigidbody ConnectedBody, Vector3 Anchor, Vector3 RemoteAnchor, Single Stiffness, Boolean ApplyNegativeForce, Single EquilibriumLength = -1)
 	{
+		InitialTranform = transform.parent.localPosition + transform.localPosition;
+
 		this.ConnectedBody = ConnectedBody;
 		this.Anchor = Anchor;
 		this.RemoteAnchor = RemoteAnchor;
 		this.Stiffness = Stiffness;
 		this.ApplyNegativeForce = ApplyNegativeForce;
-		this.EquilibriumLength = EquilibriumLength;
-		this.UseDefaultEquilibriumLength = false;
-	}
 
-	void Start()
-	{
-		if (UseDefaultEquilibriumLength)
-			EquilibriumLength = (ConnectedBody.transform.TransformPoint(RemoteAnchor) - transform.TransformPoint(Anchor)).magnitude;
+		if (EquilibriumLength == -1)
+		{
+			this.EquilibriumLength = (RemoteAnchor - transform.parent.localPosition - transform.localPosition - Anchor).magnitude;
+			this.FixedDefaultEquilibriumLength = true;
+		}
+		else
+		{
+			this.EquilibriumLength = EquilibriumLength;
+			this.FixedDefaultEquilibriumLength = false;
+		}
 	}
 
 	// Update is called once per frame
-	void Update()
+	void FixedUpdate()
 	{
+		if (FixedDefaultEquilibriumLength)
+			EquilibriumLength = (RemoteAnchor - InitialTranform - Anchor).magnitude;
+
 		var Position = transform.TransformPoint(Anchor);
 		var OtherPosition = ConnectedBody.transform.TransformPoint(RemoteAnchor);
 		var CurrentLength = (OtherPosition - Position).magnitude;
 		var RelaxedDistance = CurrentLength - EquilibriumLength;
 		var ForceDirection = (OtherPosition - Position).normalized;
-		var AppliedForce = ForceDirection * RelaxedDistance * Stiffness;
+		AppliedForce = ForceDirection * RelaxedDistance * Stiffness;
 
 		ConnectedBody.rigidbody.AddForce(-AppliedForce, ForceMode.Force);
 		rigidbody.AddForce(AppliedForce, ForceMode.Force);
-		//Debug.DrawLine(Position, Position + ForceDirection * EquilibriumLength);
-		Debug.DrawLine(Position, OtherPosition);
 
 		if (ApplyNegativeForce)
 		{
@@ -92,5 +101,13 @@ public class VariedLengthSpringJoint : MonoBehaviour
 				ConnectedBody.rigidbody.AddForce(-ConnectedBody.rigidbody.velocity, ForceMode.Acceleration);
 			}
 		}
+	}
+
+	void OnDrawGizmos()
+	{
+		var Position = transform.TransformPoint(Anchor);
+		var OtherPosition = ConnectedBody.transform.TransformPoint(RemoteAnchor);
+		Gizmos.color = Color.yellow;
+		Gizmos.DrawLine(Position, OtherPosition);
 	}
 }
