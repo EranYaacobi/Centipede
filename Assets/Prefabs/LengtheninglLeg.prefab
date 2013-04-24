@@ -140,14 +140,18 @@ MonoBehaviour:
   ConnectedBody: {fileID: 0}
   LegAnchor: {x: 0, y: 0, z: 0}
   InputButton: 
+  BackJointAnchor: {x: 0, y: 0, z: 0}
+  FrontJointAnchor: {x: 0, y: 0, z: 0}
   Flexibility: 0
   ForceConstant: 0
-  MaxMotorForce: 0
+  MotorRetractingForce: 0
+  MotorLengtheningForce: 0
   MotorRetractingSpeed: 0
   MotorLengtheningSpeed: 0
   RetractedLength: 0
   MaximumLength: 0
-  Damping: 0
+  DampingRate: 0
+  CenterOnStop: 0
   Retracted: 0
 --- !u!114 &11400002
 MonoBehaviour:
@@ -160,8 +164,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aa0f82949371a646bed0a8cb5ba601e, type: 3}
   m_Name: 
   RestrictedByTranform: {fileID: 0}
-  MinimumDistance: {x: -.5, y: -Infinity, z: -Infinity}
-  MaximumDistance: {x: .5, y: 0, z: Infinity}
+  MinimumDistance: {x: -.5, y: -100, z: -100}
+  MaximumDistance: {x: .5, y: 0, z: 100}
+  ReverseRestraint: 0
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -184,6 +189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d051a8f2df36edc4097b19b105464d37, type: 3}
   m_Name: 
   RestrictedByTranform: {fileID: 0}
+  ReverseRestraint: 0
 --- !u!114 &11400008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -195,6 +201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d051a8f2df36edc4097b19b105464d37, type: 3}
   m_Name: 
   RestrictedByTranform: {fileID: 0}
+  ReverseRestraint: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

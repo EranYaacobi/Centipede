@@ -11837,15 +11837,12 @@ MonoBehaviour:
   Flexibility: .600000024
   ForceConstant: 1
   MaxMotorForce: 150
-  MaxMotorSpeed: 5
-  CycleSpeed: 1.20000005
+  MaxMotorSpeed: 4.5
+  CycleSpeed: 2.25
   LowerLimit: -.200000003
   UpperLimit: .200000003
-  Damping: 20
-  CenterOnStop:
-    Enabled: 1
-    MinimumMotorSpeed: 1
-    FrameCountSnap: 2
+  DampingRate: 1
+  CenterOnStop: 1
 --- !u!114 &1646627718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11898,7 +11895,8 @@ MonoBehaviour:
   MotorLengtheningSpeed: 30
   RetractedLength: 0
   MaximumLength: 3
-  Damping: 20
+  DampingRate: 0
+  CenterOnStop: 0
 --- !u!1001 &1652838925
 Prefab:
   m_ObjectHideFlags: 0

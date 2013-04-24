@@ -36,6 +36,7 @@ public class BasicPrismaticJoint : MonoBehaviour
 
 	/// <summary>
 	/// The maxmimum force of the motor.
+	/// Units in N.
 	/// </summary>
 	public Single MaxMotorForce;
 
@@ -56,8 +57,10 @@ public class BasicPrismaticJoint : MonoBehaviour
 
 	/// <summary>
 	/// The damping of the motor.
+	/// Ranges from 0 (no damping) to 1 (critial damping).
 	/// </summary>
-	public Single Damping;
+	[Range(0, 1)]
+	public Single DampingRate;
 
 	/// <summary>
 	/// The basic length of the joint.
@@ -76,9 +79,9 @@ public class BasicPrismaticJoint : MonoBehaviour
 	public MotorState State;
 
 	/// <summary>
-	/// Configuration of centering when the motor stops.
+	/// Indicates whether the desired length should be set to the center, when the motor stops.
 	/// </summary>
-	public CenterOnStopConfiguration CenterOnStop;
+	public Boolean CenterOnStop;
 
 	/// <summary>
 	/// The current length of the joint.
@@ -99,7 +102,7 @@ public class BasicPrismaticJoint : MonoBehaviour
 	/// </summary>
 	private Vector3 InitialTranform;
 
-	public void Initialize(Rigidbody ConnectedBody, Vector3 Anchor, Vector3 RemoteAnchor, Single Flexibility, Single ForceConstant, Single MaxMotorForce, Single MotorSpeed, Single LowerLimit, Single UpperLimit, Single Damping, Single InitialLength = -1)
+	public void Initialize(Rigidbody ConnectedBody, Vector3 Anchor, Vector3 RemoteAnchor, Single Flexibility, Single ForceConstant, Single MaxMotorForce, Single MotorSpeed, Single LowerLimit, Single UpperLimit, Single DampingRate, Boolean CenterOnStop, Single InitialLength = -1)
 	{
 		InitialTranform = transform.parent.localPosition + transform.localPosition;
 
@@ -112,7 +115,8 @@ public class BasicPrismaticJoint : MonoBehaviour
 		this.MotorSpeed = MotorSpeed;
 		this.LowerLimit = LowerLimit;
 		this.UpperLimit = UpperLimit;
-		this.Damping = Damping;
+		this.DampingRate = DampingRate;
+		this.CenterOnStop = CenterOnStop;
 
 		if (InitialLength == -1)
 		{
@@ -145,22 +149,8 @@ public class BasicPrismaticJoint : MonoBehaviour
 		var OtherPosition = ConnectedBody.transform.TransformPoint(RemoteAnchor);
 
 		Single MovementDirection = Math.Sign((Int32)State);
-		if ((MovementDirection == 0) && (CenterOnStop.Enabled))
-		{
-			MotorSpeed = Mathf.Sign(MotorSpeed) * Mathf.Max(CenterOnStop.MinimumMotorSpeed, Mathf.Abs(MotorSpeed));
-			var Center = InitialLength + (UpperLimit + LowerLimit) / 2;
-			var DistanceFromCenter = Center - CurrentLength;
-			MovementDirection = DistanceFromCenter / (MotorSpeed * Time.fixedDeltaTime);
-			if (Mathf.Abs(MovementDirection) < CenterOnStop.FrameCountSnap)
-			{
-				MovementDirection = 0;
-				DesiredLength = Center;
-			}
-			else
-			{
-				MovementDirection = Mathf.Clamp(MovementDirection, -1, 1);
-			}
-		}
+		if ((MovementDirection == 0) && (CenterOnStop))
+			DesiredLength = InitialLength + (UpperLimit + LowerLimit) / 2;
 
 		DesiredLength += MovementDirection * MotorSpeed * Time.fixedDeltaTime;
 		DesiredLength = Mathf.Clamp(DesiredLength, InitialLength + LowerLimit, InitialLength + UpperLimit);
@@ -170,14 +160,14 @@ public class BasicPrismaticJoint : MonoBehaviour
 
 		// Getting the force that should be applied to make the joint reach its desired length.
 		//var DeltaLengthForce = Vector3.zero;
-		//if (State != MotorState.Stopped)
-		//var DeltaLengthForce = -ForceConstant * rigidbody.mass * MaxMotorForce * (Mathf.Sqrt(Mathf.Abs(DeltaLength)) * Mathf.Sign(DeltaLength) / Mathf.Sqrt(Flexibility)) * JointDirection;
-		var DeltaLengthForce = -ForceConstant * rigidbody.mass * MaxMotorForce * (Mathf.Sign(DeltaLength) * Mathf.Pow(Mathf.Abs(DeltaLength), 0.5F) / Mathf.Pow(Flexibility, 0.5F)) * JointDirection;
+		var DeltaLengthForce = -ForceConstant * MaxMotorForce * (Mathf.Sign(DeltaLength) * Mathf.Pow(Mathf.Abs(DeltaLength), 1F) / Mathf.Pow(Flexibility, 1F)) * JointDirection;
 
 		// Getting the projection of the current velocity, in order to apply a force that will counter it.
-		var VelocityForce = -Damping * Vector3.Dot(rigidbody.mass * rigidbody.velocity - ConnectedBody.rigidbody.mass * ConnectedBody.rigidbody.velocity, JointDirection) * JointDirection;
+		//var VelocityForce = -Damping * Vector3.Dot(rigidbody.mass * rigidbody.velocity - ConnectedBody.rigidbody.mass * ConnectedBody.rigidbody.velocity, JointDirection) * JointDirection;
+		var Damping = DampingRate * 2 * Mathf.Sqrt(rigidbody.mass * ForceConstant * MaxMotorForce);
+		var VelocityForce = -Damping * Vector3.Dot(rigidbody.velocity - ConnectedBody.rigidbody.velocity, JointDirection) * JointDirection;
 
-		var AppliedForce = Vector3.ClampMagnitude(DeltaLengthForce + VelocityForce, MaxMotorForce);
+		var AppliedForce = Vector3.ClampMagnitude(DeltaLengthForce, MaxMotorForce) + VelocityForce;
 
 		rigidbody.AddForce(AppliedForce, ForceMode.Force);
 		ConnectedBody.rigidbody.AddForce(-AppliedForce, ForceMode.Force);
@@ -227,27 +217,5 @@ public class BasicPrismaticJoint : MonoBehaviour
 		Gizmos.color = Color.red;
 		Gizmos.DrawLine(LowerLimitPosition - LimitsNormal * LimitLineRadius,
 					   LowerLimitPosition + LimitsNormal * LimitLineRadius);
-	}
-
-	/// <summary>
-	/// Contains data regarding centering the joint when the motor is stopped.
-	/// </summary>
-	[Serializable]
-	public class CenterOnStopConfiguration
-	{
-		/// <summary>
-		/// Indicates whether centering on stop is enabled.
-		/// </summary>
-		public Boolean Enabled;
-
-		/// <summary>
-		/// The minimum speed of the motor when centering.
-		/// </summary>
-		public Single MinimumMotorSpeed;
-
-		/// <summary>
-		/// The number of frame required to reach the center, below which the joint snaps to center.
-		/// </summary>
-		public Single FrameCountSnap;
 	}
 }

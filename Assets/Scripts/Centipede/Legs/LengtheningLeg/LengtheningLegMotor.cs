@@ -62,8 +62,15 @@ public class LengtheningLegMotor : LegMotor
 
 	/// <summary>
 	/// The damping of the motor.
+	/// Ranges from 0 (no damping) to 1 (critial damping).
 	/// </summary>
-	public Single Damping;
+	[Range(0, 1)]
+	public Single DampingRate;
+
+	/// <summary>
+	/// Indicates whether the desired length should be set to the center, when the motor stops.
+	/// </summary>
+	public Boolean CenterOnStop;
 
 	/// <summary>
 	/// Indicates whether the leg is retracted.
@@ -98,7 +105,7 @@ public class LengtheningLegMotor : LegMotor
 		for (int i = 0; i < PrismaticJoints.Length; i++)
 		{
 			PrismaticJoints[i] = Sole.AddComponent<BasicPrismaticJoint>();
-			PrismaticJoints[i].Initialize(ConnectedBody, Anchors[i], Anchors[i], Flexibility, ForceConstant, MotorRetractingForce, 0, RetractedLength, MaximumLength, Damping);
+			PrismaticJoints[i].Initialize(ConnectedBody, Anchors[i], Anchors[i], Flexibility, ForceConstant, MotorRetractingForce, 0, RetractedLength, MaximumLength, DampingRate, CenterOnStop);
 		}
 		
 		Retracted = true;
@@ -124,6 +131,8 @@ public class LengtheningLegMotor : LegMotor
 			PrismaticJoint.UpperLimit = MaximumLength;
 			PrismaticJoint.Flexibility = Flexibility;
 			PrismaticJoint.ForceConstant = ForceConstant;
+			PrismaticJoint.DampingRate = DampingRate;
+			PrismaticJoint.CenterOnStop = CenterOnStop;
 
 			if (TempRetracted)
 			{
@@ -147,8 +156,6 @@ public class LengtheningLegMotor : LegMotor
 					TempRetracted = true;
 				}
 			}
-
-			PrismaticJoint.Damping = Damping;
 		}
 
 		Retracted = TempRetracted;

@@ -78,8 +78,10 @@ public class NormalLegSoleMotor : MonoBehaviour
 
 	/// <summary>
 	/// The damping of the motor.
+	/// Ranges from 0 (no damping) to 1 (critial damping).
 	/// </summary>
-	public Single Damping;
+	[Range(0, 1)]
+	public Single DampingRate;
 
 	/// <summary>
 	/// The state of the motor.
@@ -87,9 +89,9 @@ public class NormalLegSoleMotor : MonoBehaviour
 	public BasicPrismaticJoint.MotorState MotorState;
 
 	/// <summary>
-	/// Configuration of centering when the motor stops.
+	/// Indicates whether the desired length should be set to the center, when the motor stops.
 	/// </summary>
-	public BasicPrismaticJoint.CenterOnStopConfiguration CenterOnStop;
+	public Boolean CenterOnStop;
 	
 	/// <summary>
 	/// The desired angle of the sole.
@@ -122,10 +124,10 @@ public class NormalLegSoleMotor : MonoBehaviour
 		SoleInitialTranform = transform.localPosition;
 
 		BackJoint = gameObject.AddComponent<BasicPrismaticJoint>();
-		BackJoint.Initialize(ConnectedBody, SoleAnchor, BackJointAnchor, Flexibility, ForceConstant, MaxMotorForce, MaxMotorSpeed, LowerLimit, UpperLimit, Damping);
+		BackJoint.Initialize(ConnectedBody, SoleAnchor, BackJointAnchor, Flexibility, ForceConstant, MaxMotorForce, MaxMotorSpeed, LowerLimit, UpperLimit, DampingRate, CenterOnStop);
 
 		FrontJoint = gameObject.AddComponent<BasicPrismaticJoint>();
-		FrontJoint.Initialize(ConnectedBody, SoleAnchor, FrontJointAnchor, Flexibility, ForceConstant, MaxMotorForce, MaxMotorSpeed, LowerLimit, UpperLimit, Damping);
+		FrontJoint.Initialize(ConnectedBody, SoleAnchor, FrontJointAnchor, Flexibility, ForceConstant, MaxMotorForce, MaxMotorSpeed, LowerLimit, UpperLimit, DampingRate, CenterOnStop);
 
 		UpdateJoints();
 
@@ -155,7 +157,7 @@ public class NormalLegSoleMotor : MonoBehaviour
 			BackJoint.State = BasicPrismaticJoint.MotorState.Forward;
 		else
 			BackJoint.State = MotorState;
-		BackJoint.Damping = Damping;
+		BackJoint.DampingRate = DampingRate;
 		BackJoint.CenterOnStop = CenterOnStop;
 
 		FrontJoint.Anchor = SoleAnchor;
@@ -168,7 +170,7 @@ public class NormalLegSoleMotor : MonoBehaviour
 			FrontJoint.State = BasicPrismaticJoint.MotorState.Forward;
 		else
 			FrontJoint.State = MotorState;
-		FrontJoint.Damping = Damping;
+		FrontJoint.DampingRate = DampingRate;
 		FrontJoint.CenterOnStop = CenterOnStop;
 	}
 }

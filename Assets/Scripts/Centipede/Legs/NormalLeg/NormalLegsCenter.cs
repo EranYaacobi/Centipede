@@ -52,13 +52,15 @@ public class NormalLegsCenter : MonoBehaviour
 
 	/// <summary>
 	/// The damping of the motor.
+	/// Ranges from 0 (no damping) to 1 (critial damping).
 	/// </summary>
-	public Single Damping;
+	[Range(0, 1)]
+	public Single DampingRate;
 
 	/// <summary>
-	/// Configuration of centering when the motor stops.
+	/// Indicates whether the desired length should be set to the center, when the motor stops.
 	/// </summary>
-	public BasicPrismaticJoint.CenterOnStopConfiguration CenterOnStop;
+	public Boolean CenterOnStop;
 	
 	// Use this for initialization
 	void Start()
@@ -77,7 +79,7 @@ public class NormalLegsCenter : MonoBehaviour
 		for (int i = 0; i < Legs.Length; i++)
 		{
 			var Leg = Legs[i];
-			Leg.InitialOffset = i * (360 / Legs.Length);
+			Leg.InitialOffset = i * (1080 / (Legs.Length - 1));
 			Leg.Initialize();
 		}
 	}
@@ -97,7 +99,7 @@ public class NormalLegsCenter : MonoBehaviour
 			Leg.LowerLimit = LowerLimit;
 			Leg.UpperLimit = UpperLimit;
 			Leg.CycleSpeed = CycleSpeed;
-			Leg.Damping = Damping;
+			Leg.DampingRate = DampingRate;
 			Leg.CenterOnStop = CenterOnStop;
 		}
 	}

@@ -57,8 +57,15 @@ public class LengtheningLegsCenter : MonoBehaviour
 
 	/// <summary>
 	/// The damping of the motor.
+	/// Ranges from 0 (no damping) to 1 (critial damping).
 	/// </summary>
-	public Single Damping;
+	[Range(0, 1)]
+	public Single DampingRate;
+
+	/// <summary>
+	/// Indicates whether the desired length should be set to the center, when the motor stops.
+	/// </summary>
+	public Boolean CenterOnStop;
 
 	// Use this for initialization
 	void Start()
@@ -96,6 +103,8 @@ public class LengtheningLegsCenter : MonoBehaviour
 			Leg.MotorLengtheningSpeed = MotorLengtheningSpeed;
 			Leg.RetractedLength = RetractedLength;
 			Leg.MaximumLength = MaximumLength;
+			Leg.DampingRate = DampingRate;
+			Leg.CenterOnStop = CenterOnStop;
 		}
 	}
 

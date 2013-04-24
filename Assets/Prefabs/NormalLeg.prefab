@@ -247,8 +247,9 @@ MonoBehaviour:
   CycleSpeed: 0
   LowerLimit: 0
   UpperLimit: 0
-  Damping: 0
+  DampingRate: 0
   MotorState: 0
+  CenterOnStop: 0
   DesiredSoleAngle: 0
 --- !u!114 &11400002
 MonoBehaviour:
@@ -269,8 +270,9 @@ MonoBehaviour:
   CycleSpeed: 0
   LowerLimit: 0
   UpperLimit: 0
-  Damping: 0
+  DampingRate: 0
   MotorState: 0
+  CenterOnStop: 0
   DesiredSoleAngle: 0
 --- !u!114 &11400004
 MonoBehaviour:
@@ -295,7 +297,8 @@ MonoBehaviour:
   LowerLimit: 0
   UpperLimit: 0
   InitialOffset: 0
-  Damping: 0
+  DampingRate: 0
+  CenterOnStop: 0
   Retracted: 0
 --- !u!114 &11400006
 MonoBehaviour:
@@ -330,6 +333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d051a8f2df36edc4097b19b105464d37, type: 3}
   m_Name: 
   RestrictedByTranform: {fileID: 0}
+  ReverseRestraint: 0
 --- !u!114 &11400012
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -341,6 +345,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d051a8f2df36edc4097b19b105464d37, type: 3}
   m_Name: 
   RestrictedByTranform: {fileID: 0}
+  ReverseRestraint: 0
 --- !u!114 &11400014
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -352,6 +357,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d051a8f2df36edc4097b19b105464d37, type: 3}
   m_Name: 
   RestrictedByTranform: {fileID: 0}
+  ReverseRestraint: 0
 --- !u!114 &11400016
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -363,8 +369,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aa0f82949371a646bed0a8cb5ba601e, type: 3}
   m_Name: 
   RestrictedByTranform: {fileID: 0}
-  MinimumDistance: {x: -.400000006, y: -.400000006, z: -Infinity}
-  MaximumDistance: {x: .400000006, y: .400000006, z: Infinity}
+  MinimumDistance: {x: -.400000006, y: -.400000006, z: -100}
+  MaximumDistance: {x: .400000006, y: .400000006, z: 100}
+  ReverseRestraint: 0
 --- !u!114 &11400018
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -376,8 +383,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aa0f82949371a646bed0a8cb5ba601e, type: 3}
   m_Name: 
   RestrictedByTranform: {fileID: 0}
-  MinimumDistance: {x: -.400000006, y: -.400000006, z: -Infinity}
-  MaximumDistance: {x: .400000006, y: .400000006, z: Infinity}
+  MinimumDistance: {x: -.400000006, y: -.400000006, z: -100}
+  MaximumDistance: {x: .400000006, y: .400000006, z: 100}
+  ReverseRestraint: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
