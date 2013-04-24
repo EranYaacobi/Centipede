@@ -165,3 +165,5 @@ pip-log.txt
 Library/*
 Temp/*
 Assets/Standard Assets/
+*.sln
+*.csproj
