@@ -10278,8 +10278,8 @@ MonoBehaviour:
   Legs:
   - {fileID: 100000, guid: 158ff1f8e49675743a38c04bdc4ca174, type: 2}
   - {fileID: 100000, guid: 158ff1f8e49675743a38c04bdc4ca174, type: 2}
-  - {fileID: 100000, guid: 158ff1f8e49675743a38c04bdc4ca174, type: 2}
-  - {fileID: 100000, guid: 158ff1f8e49675743a38c04bdc4ca174, type: 2}
+  - {fileID: 100004, guid: e3556627580559042810e2032656e1e1, type: 2}
+  - {fileID: 100004, guid: e3556627580559042810e2032656e1e1, type: 2}
   - {fileID: 100000, guid: 158ff1f8e49675743a38c04bdc4ca174, type: 2}
   - {fileID: 100000, guid: 158ff1f8e49675743a38c04bdc4ca174, type: 2}
   - {fileID: 100000, guid: 158ff1f8e49675743a38c04bdc4ca174, type: 2}
