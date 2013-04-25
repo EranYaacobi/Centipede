@@ -167,3 +167,4 @@ Temp/*
 Assets/Standard Assets/
 *.sln
 *.csproj
+Assets/Orthello/*

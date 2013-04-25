@@ -33,7 +33,7 @@ GameObject:
   - 4: {fileID: 400002}
   - 114: {fileID: 11400000}
   m_Layer: 0
-  m_Name: LengtheninglLeg
+  m_Name: LonglLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -189,6 +189,7 @@ MonoBehaviour:
   m_Name: 
   RestrictedByTranform: {fileID: 0}
   ReverseRestraint: 0
+  TorqueConstant: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

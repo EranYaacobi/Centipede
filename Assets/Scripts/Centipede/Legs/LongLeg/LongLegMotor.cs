@@ -7,7 +7,7 @@ using System.Collections;
 /// The public members of this class should not be set directly, but via the
 /// LengtheningLegsCenter to make all legs synchronized.
 /// </summary>
-public class LengtheningLegMotor : LegMotor
+public class LongLegMotor : LegMotor
 {
 	/// <summary>
 	/// The anchor of the back-joint, relative to the body.

@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using System.Collections;
 
-public class LengtheningLegsCenter : MonoBehaviour
+public class LongLegsCenter : MonoBehaviour
 {
 	/// <summary>
 	/// The anchor of the back-joint, relative to the body.
@@ -70,7 +70,7 @@ public class LengtheningLegsCenter : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
-		var Legs = transform.GetComponentsInChildren<LengtheningLegMotor>();
+		var Legs = transform.GetComponentsInChildren<LongLegMotor>();
 
 		if (Legs.Length == 0)
 		{
@@ -89,7 +89,7 @@ public class LengtheningLegsCenter : MonoBehaviour
 
 	private void UpdateLegs()
 	{
-		var Legs = transform.GetComponentsInChildren<LengtheningLegMotor>();
+		var Legs = transform.GetComponentsInChildren<LongLegMotor>();
 
 		foreach (var Leg in Legs)
 		{
