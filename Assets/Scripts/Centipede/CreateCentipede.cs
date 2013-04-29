@@ -71,8 +71,8 @@ public class CreateCentipede : MonoBehaviour
 	private void CreateLeg(GameObject LegPrefab, Int32 Index, GameObject LegLink, Vector3 RelativePosition)
 	{
 		var Leg = Instantiate(LegPrefab,
-								  LegLink.transform.position + LegPrefab.transform.position + RelativePosition,
-								  LegLink.transform.rotation) as GameObject;
+							  LegLink.transform.position + LegPrefab.transform.position + RelativePosition,
+							  LegLink.transform.rotation) as GameObject;
 		Common.Assert(Leg != null);
 		Leg.name = String.Format("{0}_{1}", LegPrefab.name, Index + 1);
 		Leg.transform.parent = LegLink.transform;

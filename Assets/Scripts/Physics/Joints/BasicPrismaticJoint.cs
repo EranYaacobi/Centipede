@@ -178,7 +178,7 @@ public class BasicPrismaticJoint : MonoBehaviour
 		Forward = 1
 	}
 
-	void OnDrawGizmos()
+	void OnDrawGizmosSelected()
 	{
 		const Single LimitLineRadius = 0.05F;
 		const Single SphereRadius = 0.05F;

@@ -103,7 +103,7 @@ public class VariedLengthSpringJoint : MonoBehaviour
 		}
 	}
 
-	void OnDrawGizmos()
+	void OnDrawGizmosSelected()
 	{
 		var Position = transform.TransformPoint(Anchor);
 		var OtherPosition = ConnectedBody.transform.TransformPoint(RemoteAnchor);

@@ -52,7 +52,7 @@ public class RestraintDistance : MonoBehaviour
 		Affected.position = Model.TransformPoint(RelativeAffectedPosition);
 	}
 
-	void OnDrawGizmos()
+	void OnDrawGizmosSelected()
 	{
 		const Single Depth = -5F;
 		var Model = RestrictedByTranform;
