@@ -94,8 +94,8 @@ HingeJoint:
     freeSpin: 0
   m_UseLimits: 1
   m_Limits:
-    min: -10
-    max: 10
+    min: -2
+    max: 2
     minBounce: 0
     maxBounce: 0
   m_BreakForce: Infinity
