@@ -1,7 +1,8 @@
 using System;
+using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace TileMapEditorPackage
 {
@@ -13,7 +14,7 @@ namespace TileMapEditorPackage
 		/// <summary>
 		/// The tiles sets of which the map can consist.
 		/// </summary>
-		public TileSet[] TileSets;
+		public List<TileSet> TileSets;
 
 		/// <summary>
 		/// Gets or sets the number of columns of tiles.
@@ -41,21 +42,27 @@ namespace TileMapEditorPackage
 		[HideInInspector]
 		public List<Vector3> MarkedPositions;
 
-#if UNITY_EDITOR
-
-		/// <summary>
-		/// Data stored for the editor plugins.
-		/// This is stored here as an Object, as ContextMenuPlugin is not available here.
-		/// </summary>
-		[HideInInspector]
-		public Object TileMapEditorPluginsData;
-#endif
-
+		private Int32 CurrentTileSetIndex = -1;
 		/// <summary>
 		/// The currently used tile-set.
 		/// </summary>
 		[HideInInspector]
-		public TileSet CurrentTileSet;
+		public TileSet CurrentTileSet
+		{
+			get 
+			{
+				if (CurrentTileSetIndex == -1)
+					return null;
+				return TileSets[CurrentTileSetIndex];
+			}
+			set
+			{
+				if (value == null)
+					CurrentTileSetIndex = -1;
+				else
+					CurrentTileSetIndex = TileSets.IndexOf(value);
+			}
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TileMap"/> class.
@@ -123,7 +130,7 @@ namespace TileMapEditorPackage
 			/// <summary>
 			/// The models used to build the tiles.
 			/// </summary>
-			public GameObject[] Tiles;
+			public List<GameObject> Tiles = new List<GameObject>();
 
 			/// <summary>
 			/// The tiles material.
@@ -131,6 +138,13 @@ namespace TileMapEditorPackage
 			/// and there is no default tile.
 			/// </summary>
 			public Material Material;
+
+			/// <summary>
+			/// The tiles physic material.
+			/// If none, then each tile's physic material is used for itself only,
+			/// and there is no default tile.
+			/// </summary>
+			public PhysicMaterial PhysicMaterial;
 		}
 	}
 }

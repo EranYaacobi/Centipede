@@ -9,7 +9,7 @@ public class LookOnGameObject : MonoBehaviour
 	public GameObject GameObject;
 
 	// Update is called once per frame
-	void Update ()
+	void LateUpdate()
 	{
 		transform.position = GameObject.transform.position + Vector3.forward * -10;
 	}

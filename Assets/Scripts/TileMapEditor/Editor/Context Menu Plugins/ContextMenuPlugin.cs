@@ -19,7 +19,12 @@ namespace TileMapEditorPackage.ContextMenuPlugins
 		/// <summary>
 		/// The size of the button created by the context-menu plugin (if it has one).
 		/// </summary>
-		protected Vector2 ButtonSize = new Vector2(100, 20);
+		protected Vector2 ButtonSize = new Vector2(100, 30);
+
+		/// <summary>
+		/// The size of a grid cell. Initialized to ButtonSize.
+		/// </summary>
+		protected Vector2 GridCellSize;
 
 		/// <summary>
 		/// The menu grid-location from the center of the context menu.
@@ -41,6 +46,11 @@ namespace TileMapEditorPackage.ContextMenuPlugins
 		/// </summary>
 		/// <returns></returns>
 		public abstract Boolean Action(TileMapEditor Editor, Vector2 ContextMenuTilePosition);
+
+		protected ContextMenuPlugin()
+		{
+			GridCellSize = ButtonSize;
+		}
 
 		/// <summary>
 		/// Utility function that checks whether a specific mouse button was clicked.
@@ -64,14 +74,13 @@ namespace TileMapEditorPackage.ContextMenuPlugins
 
 		/// <summary>
 		/// Utility function that returns the actual location of a button, from it's grid location.
-		/// A grid cell is at the size of ButtonSize.
 		/// </summary>
 		/// <param name="GridLocation"></param>
 		/// <returns></returns>
 		protected Vector2 PositionFromGridLocation(Vector2 GridLocation)
 		{
-			return new Vector2(GridLocation.x * (ButtonSize.x + ButtonMargin),
-							   GridLocation.y * (ButtonSize.y + ButtonMargin)) - ButtonSize / 2;
+			return new Vector2(GridLocation.x * (GridCellSize.x + ButtonMargin),
+							   GridLocation.y * (GridCellSize.y + ButtonMargin)) - ButtonSize / 2;
 		}
 
 		/// <summary>
@@ -79,14 +88,32 @@ namespace TileMapEditorPackage.ContextMenuPlugins
 		/// </summary>
 		/// <param name="Editor"></param>
 		/// <param name="ContextMenuTilePosition"></param>
+		/// <param name="ButtonGridLocation"></param>
 		/// <param name="Label"></param>
 		/// <returns></returns>
-		protected Boolean ShowButton(TileMapEditor Editor, Vector2 ContextMenuTilePosition, String Label)
+		protected Boolean ShowButton(TileMapEditor Editor, Vector2 ContextMenuTilePosition, Vector2 ButtonGridLocation, String Label)
 		{
 			var ContextMenuScreenPosition = HandleUtility.WorldToGUIPoint(Editor.TilePositionToWorldPosition(ContextMenuTilePosition));
-			var ButtonScreenPosition = PositionFromGridLocation(MenuGridLocation) + ContextMenuScreenPosition;
+			var ButtonScreenPosition = PositionFromGridLocation(ButtonGridLocation) + ContextMenuScreenPosition;
 
 			return (GUI.Button(new Rect(ButtonScreenPosition.x, ButtonScreenPosition.y, ButtonSize.x, ButtonSize.y), Label));
+		}
+
+		/// <summary>
+		/// Utility function that shows an iconic button.
+		/// </summary>
+		/// <param name="Editor"></param>
+		/// <param name="ContextMenuTilePosition"></param>
+		/// <param name="ButtonGridLocation"></param>
+		/// <param name="Icon"></param>
+		/// <returns></returns>
+		protected Boolean ShowIconicButton(TileMapEditor Editor, Vector2 ContextMenuTilePosition, Vector2 ButtonGridLocation, Texture Icon)
+		{
+			var ContextMenuScreenPosition = HandleUtility.WorldToGUIPoint(Editor.TilePositionToWorldPosition(ContextMenuTilePosition));
+			var ButtonScreenPosition = PositionFromGridLocation(ButtonGridLocation) + ContextMenuScreenPosition;
+
+			//GUI.DrawTexture(new Rect(ButtonScreenPosition.x, ButtonScreenPosition.y, ButtonSize.y, ButtonSize.y), Icon, ScaleMode.ScaleToFit); 
+			return (GUI.Button(new Rect(ButtonScreenPosition.x, ButtonScreenPosition.y, ButtonSize.y, ButtonSize.y), Icon));
 		}
 	}
 }

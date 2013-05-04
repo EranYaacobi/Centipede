@@ -61,6 +61,11 @@ public class LongLegMotor : LegMotor
 	public Single MaximumLength;
 
 	/// <summary>
+	/// The amount of time that the leg should lengthen when activated.
+	/// </summary>
+	public Single LengtheningTime;
+
+	/// <summary>
 	/// The damping of the motor.
 	/// Ranges from 0 (no damping) to 1 (critial damping).
 	/// </summary>
@@ -113,12 +118,11 @@ public class LongLegMotor : LegMotor
 		Anchors[0] = BackJointAnchor;
 		Anchors[1] = FrontJointAnchor;
 
-		var TempRetracted = Retracted;
 		for (int i = 0; i < PrismaticJoints.Length; i++)
 		{
 			var PrismaticJoint = PrismaticJoints[i];
 
-			PrismaticJoint.Anchor = Anchors[i] / 2;
+			PrismaticJoint.Anchor = Vector3.zero;
 			PrismaticJoint.RemoteAnchor = Anchors[i];
 			PrismaticJoint.LowerLimit = RetractedLength;
 			PrismaticJoint.UpperLimit = MaximumLength;
@@ -126,36 +130,62 @@ public class LongLegMotor : LegMotor
 			PrismaticJoint.ForceConstant = ForceConstant;
 			PrismaticJoint.DampingRate = DampingRate;
 			PrismaticJoint.CenterOnStop = CenterOnStop;
-
-			if (TempRetracted)
-			{
-				PrismaticJoint.MaxMotorForce = MotorRetractingForce;
-				PrismaticJoint.State = BasicPrismaticJoint.MotorState.Backward;
-				PrismaticJoint.MotorSpeed = MotorRetractingSpeed;
-				if (PrismaticJoint.CurrentLength <= RetractedLength + PrismaticJoint.InitialLength)
-					PrismaticJoint.State = BasicPrismaticJoint.MotorState.Stopped;
-
-			}
-			else
-			{
-				PrismaticJoint.MaxMotorForce = MotorLengtheningForce;
-				PrismaticJoint.State = BasicPrismaticJoint.MotorState.Forward;
-				PrismaticJoint.MotorSpeed = MotorLengtheningSpeed;
-				if (PrismaticJoint.CurrentLength >= MaximumLength + PrismaticJoint.InitialLength)
-				{
-					PrismaticJoint.State = BasicPrismaticJoint.MotorState.Backward;
-					TempRetracted = true;
-				}
-			}
 		}
-
-		Retracted = TempRetracted;
 	}
 
 	protected override void PerformAction()
 	{
 		if (PrismaticJoints[0].CurrentLength <= RetractedLength + PrismaticJoints[0].InitialLength + 0.1)
+		{
 			Retracted = false;
+			StartCoroutine(Lengthen());
+		}
+	}
+
+	private IEnumerator Lengthen()
+	{
+		// Making the become longer.
+		foreach (var PrismaticJoint in PrismaticJoints)
+		{
+			PrismaticJoint.MaxMotorForce = MotorLengtheningForce;
+			PrismaticJoint.State = BasicPrismaticJoint.MotorState.Forward;
+			PrismaticJoint.MotorSpeed = MotorLengtheningSpeed;
+		}
+
+		// Waiting for the specified time.
+		yield return new WaitForSeconds(LengtheningTime);
+
+		// Retracting the leg.
+		foreach (var PrismaticJoint in PrismaticJoints)
+		{
+			PrismaticJoint.MaxMotorForce = MotorRetractingForce;
+			PrismaticJoint.State = BasicPrismaticJoint.MotorState.Backward;
+			PrismaticJoint.MotorSpeed = MotorRetractingSpeed;
+		}
+
+		// Waiting until the leg is retracted.
+		var JointsRunning = PrismaticJoints.Length;
+		while (true)
+		{
+			foreach (var PrismaticJoint in PrismaticJoints)
+			{
+				if (PrismaticJoint.State != BasicPrismaticJoint.MotorState.Stopped)
+				{
+					if (PrismaticJoint.CurrentLength <= RetractedLength + PrismaticJoint.InitialLength)
+					{
+						PrismaticJoint.State = BasicPrismaticJoint.MotorState.Stopped;
+						JointsRunning -= 1;
+					}
+				}
+			}
+
+			if (JointsRunning == 0)
+				break;
+
+			yield return new WaitForFixedUpdate();
+		}
+
+		Retracted = true;
 	}
 
 	protected override void Move(Single Direction)

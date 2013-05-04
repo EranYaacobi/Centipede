@@ -4,17 +4,17 @@ using UnityEditor;
 using UnityEngine;
 
 [Serializable]
-public class SolidLineContextMenuPlugin : ContextMenuPlugin
+public class LineContextMenuPlugin : ContextMenuPlugin
 {
-	public SolidLineContextMenuPlugin()
+	public LineContextMenuPlugin()
 	{
 		// Setting default menu offset.
-		MenuGridLocation = new Vector2(0.5F, -3);
+		MenuGridLocation = new Vector2(1.5F, -3);
 	}
 
 	public override Boolean Interact(TileMapEditor Editor, Vector2 ContextMenuTilePosition)
 	{
-		return ShowButton(Editor, ContextMenuTilePosition, MenuGridLocation, "Solid Line");
+		return ShowButton(Editor, ContextMenuTilePosition, MenuGridLocation, "Line");
 	}
 
 	public override Boolean Action(TileMapEditor Editor, Vector2 ContextMenuTilePosition)
@@ -30,16 +30,15 @@ public class SolidLineContextMenuPlugin : ContextMenuPlugin
 
 		var Width = (Int32)(LineEnd.x - LineStart.x);
 		var Heigth = (Int32)(LineEnd.y - LineStart.y);
-		var Maximum = Mathf.Max(Mathf.Abs(Width), Math.Abs(Heigth));
 
-		if ((Width != 0) || (Heigth != 0))
+		var RatioDivisor = GreatestCommonDivisor(Mathf.Abs(Width), Mathf.Abs(Heigth));
+
+		if (RatioDivisor != 0)
 		{
-			var ColumnStep = Width / (Single)Maximum;
-			var RowStep = Heigth / (Single)Maximum;
-			for (int i = 0; i <= Maximum; i++)
+			for (int i = 0; i <= RatioDivisor; i++)
 			{
-				var Column = Mathf.RoundToInt(LineStart.x + i * ColumnStep);
-				var Row = Mathf.RoundToInt(LineStart.y + i * RowStep);
+				var Column = (Int32)(LineStart.x + i*(Width/RatioDivisor));
+				var Row = (Int32)(LineStart.y + i*(Heigth/RatioDivisor));
 				var TableTilePosition = new Vector2(Column, Row);
 				if (!Editor.ContainsTile(TableTilePosition))
 					Editor.AddMarkedSelectedPosition(TableTilePosition);
@@ -63,5 +62,24 @@ public class SolidLineContextMenuPlugin : ContextMenuPlugin
 		}
 
 		return false;
+	}
+
+	private Int32 GreatestCommonDivisor(Int32 First, Int32 Second)
+	{
+		var Small = Mathf.Min(First, Second);
+		var Large = Mathf.Max(First, Second);
+		Int32 Remainder;
+
+		if (Small == 0)
+			return Large;
+
+		do
+		{
+			Remainder = Large % Small;
+			Large = Small;
+			Small = Remainder;
+		} while (Remainder > 0);
+
+		return Large;
 	}
 }

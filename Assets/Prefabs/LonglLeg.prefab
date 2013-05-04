@@ -94,14 +94,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 4
   m_Drag: 0
-  m_AngularDrag: .0500000007
-  m_UseGravity: 0
+  m_AngularDrag: 20
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 56
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!65 &6500000
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -149,6 +149,7 @@ MonoBehaviour:
   MotorLengtheningSpeed: 0
   RetractedLength: 0
   MaximumLength: 0
+  LengtheningTime: 0
   DampingRate: 0
   CenterOnStop: 0
   Retracted: 0
@@ -163,9 +164,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aa0f82949371a646bed0a8cb5ba601e, type: 3}
   m_Name: 
   RestrictedByTranform: {fileID: 0}
-  MinimumDistance: {x: -.5, y: -Infinity, z: -Infinity}
-  MaximumDistance: {x: .5, y: 0, z: Infinity}
+  MinimumDistance: {x: -.100000001, y: -Infinity, z: -Infinity}
+  MaximumDistance: {x: .100000001, y: 0, z: Infinity}
   ReverseRestraint: 0
+  ForceConstant: 150
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -189,7 +191,7 @@ MonoBehaviour:
   m_Name: 
   RestrictedByTranform: {fileID: 0}
   ReverseRestraint: 0
-  TorqueConstant: 0
+  TorqueConstant: 100
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

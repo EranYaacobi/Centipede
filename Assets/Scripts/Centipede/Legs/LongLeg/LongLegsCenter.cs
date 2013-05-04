@@ -56,6 +56,11 @@ public class LongLegsCenter : MonoBehaviour
 	public Single MaximumLength;
 
 	/// <summary>
+	/// The amount of time that the leg should lengthen when activated.
+	/// </summary>
+	public Single LengtheningTime;
+
+	/// <summary>
 	/// The damping of the motor.
 	/// Ranges from 0 (no damping) to 1 (critial damping).
 	/// </summary>
@@ -105,6 +110,7 @@ public class LongLegsCenter : MonoBehaviour
 			Leg.MaximumLength = MaximumLength;
 			Leg.DampingRate = DampingRate;
 			Leg.CenterOnStop = CenterOnStop;
+			Leg.LengtheningTime = LengtheningTime;
 		}
 	}
 

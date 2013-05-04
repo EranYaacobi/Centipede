@@ -29,8 +29,8 @@ public class CreateCentipede : MonoBehaviour
 		Common.Assert(Legs.Length % 2 == 0);
 		for (int i = 0; i < Legs.Length / 2; i++)
 		{
-			var FrontLegPrefab = Legs[i * 2];
-			var BackLegPrefab = Legs[i * 2 + 1];
+			var BackLegPrefab = Legs[i * 2];
+			var FrontLegPrefab = Legs[i * 2 + 1];
 			var LegLink = CreateCentipedeLink(ref CentipedeLinkPosition, LastCentipedeLink);
 
 			CreateLeg(BackLegPrefab, i * 2, LegLink, -new Vector3(LegLink.collider.bounds.size.x / 4, 0, 0)); 
@@ -58,7 +58,7 @@ public class CreateCentipede : MonoBehaviour
 											   transform.position + Position,
 											   transform.rotation) as GameObject;
 		Common.Assert(CurrentCentipedeLink != null);
-		CurrentCentipedeLink.name = String.Format("CentipedeLink_{0}", LinksCount + 1);
+		CurrentCentipedeLink.name = String.Format("{0}_CentipedeLink", LinksCount + 1);
 		LinksCount += 1;
 		CurrentCentipedeLink.transform.parent = transform;
 		if (LastCentipedeLink != null)
@@ -74,7 +74,7 @@ public class CreateCentipede : MonoBehaviour
 							  LegLink.transform.position + LegPrefab.transform.position + RelativePosition,
 							  LegLink.transform.rotation) as GameObject;
 		Common.Assert(Leg != null);
-		Leg.name = String.Format("{0}_{1}", LegPrefab.name, Index + 1);
+		Leg.name = String.Format("{0}_{1}", Index + 1, LegPrefab.name);
 		Leg.transform.parent = LegLink.transform;
 	}
 }

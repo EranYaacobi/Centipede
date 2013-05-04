@@ -51,11 +51,14 @@
      <Compile Include="Assets\Scripts\TileMapEditor\Editor\Common\TileMapEditorState.cs" />
      <Compile Include="Assets\Scripts\TileMapEditor\Editor\Context Menu Plugins\ClearAllContextMenuPlugin.cs" />
      <Compile Include="Assets\Scripts\TileMapEditor\Editor\Context Menu Plugins\ContextMenuPlugin.cs" />
+     <Compile Include="Assets\Scripts\TileMapEditor\Editor\Context Menu Plugins\ContextMenuPluginHostEditor.cs" />
+     <Compile Include="Assets\Scripts\TileMapEditor\Editor\Context Menu Plugins\FillAllContextMenuPlugin.cs" />
+     <Compile Include="Assets\Scripts\TileMapEditor\Editor\Context Menu Plugins\LineContextMenuPlugin.cs" />
      <Compile Include="Assets\Scripts\TileMapEditor\Editor\Context Menu Plugins\RectangleContextMenuPlugin.cs" />
      <Compile Include="Assets\Scripts\TileMapEditor\Editor\Context Menu Plugins\SolidLineContextMenuPlugin.cs" />
      <Compile Include="Assets\Scripts\TileMapEditor\Editor\Context Menu Plugins\SolidRectangleContextMenuPlugin.cs" />
+     <Compile Include="Assets\Scripts\TileMapEditor\Editor\Context Menu Plugins\TileSetContextMenuPlugin.cs" />
      <Compile Include="Assets\Scripts\TileMapEditor\Editor\TileMapEditor.cs" />
-     <Compile Include="Assets\Scripts\TileMapEditor\Editor\TileMapEditorPluginsData.cs" />
      <None Include="Assets\Standard Assets\Projectors\Guidelines.txt" />
      <None Include="Assets\Image Effects\_Sources\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\Image Effects\_Sources\Shaders\NoiseEffectShaderRGB.shader" />

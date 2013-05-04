@@ -24,6 +24,11 @@ public class RestraintDistance : MonoBehaviour
 	/// </summary>
 	public Boolean ReverseRestraint;
 
+	/// <summary>
+	/// The force applied to translate the transform to the restrainted by transform area.
+	/// </summary>
+	public Single ForceConstant;
+
 	void Start()
 	{
 		if (RestrictedByTranform == null)
@@ -49,7 +54,7 @@ public class RestraintDistance : MonoBehaviour
 			Mathf.Clamp(RelativeAffectedPosition.y, MinimumDistance.y, MaximumDistance.y),
 			Mathf.Clamp(RelativeAffectedPosition.z, MinimumDistance.z, MaximumDistance.z));
 
-		Affected.position = Model.TransformPoint(RelativeAffectedPosition);
+		Affected.rigidbody.AddForce(ForceConstant * (Model.TransformPoint(RelativeAffectedPosition) - Affected.position));
 	}
 
 	void OnDrawGizmosSelected()

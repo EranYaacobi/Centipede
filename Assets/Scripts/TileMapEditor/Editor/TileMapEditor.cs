@@ -5,6 +5,7 @@ using TileMapEditorPackage.ContextMenuPlugins;
 using UnityEngine;
 using UnityEditor;
 using TileMapEditorPackage;
+using Object = UnityEngine.Object;
 
 /// <summary>
 /// Provides an editor for the <see cref="TileMap"/> component
@@ -119,48 +120,39 @@ public class TileMapEditor : Editor
 	{
 		DrawDefaultInspector();
 
-		// Creating default plugin-data.
-		if (TileMap.TileMapEditorPluginsData == null)
-			TileMap.TileMapEditorPluginsData = CreateDefaultPlugins();
-
-		// Creating a serialized object, that will be used to update changes in the original class.
-		var SerializedObject = new SerializedObject(TileMap.TileMapEditorPluginsData);
-		SerializedObject.Update();
-
-		GUILayout.Space(10);
-		var ContextMenuPluginsProperty = SerializedObject.FindProperty("ContextMenuPlugins");
-		EditorGUILayout.PropertyField(ContextMenuPluginsProperty, true);
-
-		TileMapEditorPluginsData TempPluginsData = null;
+		EditorGUILayout.LabelField("Current Tileset", TileMap.CurrentTileSet.Name);
 		if (GUILayout.Button("Reset Plugins", GUILayout.ExpandWidth(false)))
 		{
-			TempPluginsData = TileMap.TileMapEditorPluginsData as TileMapEditorPluginsData;
-			TileMap.TileMapEditorPluginsData = CreateDefaultPlugins();
+			var Plugins = TileMap.gameObject.GetComponents<ContextMenuPluginHost>();
+			foreach (var Plugin in Plugins)
+			{
+				if (Plugin.ContextMenuPlugin != null)
+					DestroyImmediate(Plugin.ContextMenuPlugin);
+				DestroyImmediate(Plugin);
+			}
+
+			CreateDefaultPlugins();
 		}
-
-		GUILayout.Space(10);
-		EditorGUILayout.LabelField("Current Tileset", TileMap.CurrentTileSet.Name);
-
-		SerializedObject.ApplyModifiedProperties();
-
-		// Cleaning up old plugins data, to avoid Unity's info of a leak being cleaned-up.
-		if (TempPluginsData != null)
-			DestroyImmediate(TempPluginsData);
 	}
 
-	private TileMapEditorPluginsData CreateDefaultPlugins()
+	/// <summary>
+	/// Creates the default plugins.
+	/// </summary>
+	private void CreateDefaultPlugins()
 	{
-		var TileMapEditorPluginsData = CreateInstance<TileMapEditorPluginsData>();
-		TileMapEditorPluginsData.ContextMenuPlugins.Add(CreateInstance<ClearAllContextMenuPlugin>());
-		TileMapEditorPluginsData.ContextMenuPlugins.Add(CreateInstance<RectangleContextMenuPlugin>());
-		TileMapEditorPluginsData.ContextMenuPlugins.Add(CreateInstance<SolidRectangleContextMenuPlugin>());
-		/*TileMapEditorPluginsData.ContextMenuPlugins.Add(new RectangleContextMenuPlugin());
-		TileMapEditorPluginsData.ContextMenuPlugins.Add(new ClearAllContextMenuPlugin());
-		TileMapEditorPluginsData.ContextMenuPlugins.Add(new SolidRectangleContextMenuPlugin());*/
+		AddPlugin<FillAllContextMenuPlugin>();
+		AddPlugin<ClearAllContextMenuPlugin>();
+		AddPlugin<RectangleContextMenuPlugin>();
+		AddPlugin<SolidRectangleContextMenuPlugin>();
+		AddPlugin<LineContextMenuPlugin>();
+		AddPlugin<SolidLineContextMenuPlugin>();
+		AddPlugin<TileSetContextMenuPlugin>();
+	}
 
-		//AssetDatabase.AddObjectToAsset(TileMapEditorPluginsData, "TileMapEditorPluginsData");
-
-		return TileMapEditorPluginsData;
+	private void AddPlugin<T>() where T : ContextMenuPlugin
+	{
+		var Plugin = TileMap.gameObject.AddComponent<ContextMenuPluginHost>();
+		Plugin.ContextMenuPlugin = CreateInstance<T>();
 	}
 
 	/// <summary>
@@ -352,6 +344,7 @@ public class TileMapEditor : Editor
 					{
 						EditorState = TileMapEditorState.ContextMenu;
 						ContextMenuPosition = CurrentTilePosition;
+						AddMarkedPosition(ContextMenuPosition);
 					}
 					// Not checking against MouseUp, because there is a problem with the right button for some reason.
 					else if (CurrentEditorEvent.type != EventType.MouseDrag)
@@ -393,10 +386,19 @@ public class TileMapEditor : Editor
 	/// Add the given tile-position to the selected positions and to the marked position.
 	/// </summary>
 	/// <param name="TableTilePosition"></param>
+	public void AddMarkedPosition(Vector2 TableTilePosition)
+	{
+		MarkedPositions.Add(TilePositionToWorldPosition(TableTilePosition));
+	}
+
+	/// <summary>
+	/// Add the given tile-position to the selected positions and to the marked position.
+	/// </summary>
+	/// <param name="TableTilePosition"></param>
 	public void AddMarkedSelectedPosition(Vector2 TableTilePosition)
 	{
 		SelectedPositions.Add(TableTilePosition);
-		MarkedPositions.Add(TilePositionToWorldPosition(TableTilePosition));
+		AddMarkedPosition(TableTilePosition);
 	}
 
 	/// <summary>
@@ -420,6 +422,10 @@ public class TileMapEditor : Editor
 			{
 				// If there is no material in the current tile-set, then we can't create a default tile.
 				if (TileMap.CurrentTileSet.Material == null)
+					return;
+
+				// If there is no physic material in the current tile-set, then we can't create a default tile.
+				if (TileMap.CurrentTileSet.PhysicMaterial == null)
 					return;
 
 				NewTile = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -450,6 +456,10 @@ public class TileMapEditor : Editor
 			NewTile.renderer.enabled = true;
 			NewTile.renderer.sharedMaterial = TileMap.CurrentTileSet.Material;
 			NewTile.renderer.useLightProbes = true;
+
+			// Set the tile's physic material.
+			if (NewTile.collider != null)
+				NewTile.collider.material = TileMap.CurrentTileSet.PhysicMaterial;
 		}
 	}
 
@@ -496,11 +506,12 @@ public class TileMapEditor : Editor
 			if (ActiveContextMenu == null)
 			{
 				// Enumerating context menu plugins.
-				foreach (var ContextMenuPlugin in ((TileMapEditorPluginsData) TileMap.TileMapEditorPluginsData).ContextMenuPlugins)
+				foreach (var ContextMenuPlugin in TileMap.gameObject.GetComponents<ContextMenuPluginHost>().Select(Plugin => Plugin.ContextMenuPlugin).Cast<ContextMenuPlugin>())
 				{
 					if (ContextMenuPlugin.Interact(this, ContextMenuPosition))
 					{
 						ActiveContextMenu = ContextMenuPlugin;
+						MarkedPositions.Clear();
 						break;
 					}
 				}
@@ -518,6 +529,7 @@ public class TileMapEditor : Editor
 				var CurrentEditorEvent = Event.current;
 				if ((CurrentEditorEvent.isKey) && (CurrentEditorEvent.keyCode == KeyCode.Escape))
 				{
+					ActiveContextMenu = null;
 					EditorState = TileMapEditorState.None;
 					SelectedPositions.Clear();
 					MarkedPositions.Clear();
@@ -534,11 +546,14 @@ public class TileMapEditor : Editor
 				    ((CurrentEditorEvent.isKey) && (CurrentEditorEvent.keyCode == KeyCode.Escape)))
 				{
 					EditorState = TileMapEditorState.None;
+					MarkedPositions.Clear();
 					CurrentEditorEvent.Use();
 				}
 				else if ((CurrentEditorEvent.type == EventType.MouseDown) && (IsMouseOnLayer()))
 				{
+					MarkedPositions.Clear();
 					ContextMenuPosition = GetCurrentTilePosition();
+					AddMarkedPosition(ContextMenuPosition);
 				}
 			}
 		}
