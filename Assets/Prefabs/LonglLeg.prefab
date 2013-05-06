@@ -10,13 +10,11 @@ GameObject:
   - 4: {fileID: 400000}
   - 33: {fileID: 3300000}
   - 23: {fileID: 2300000}
-  - 95: {fileID: 9500000}
   - 54: {fileID: 5400000}
-  - 114: {fileID: 11400006}
   - 114: {fileID: 11400002}
+  - 114: {fileID: 11400000}
   - 65: {fileID: 6500000}
-  - 114: {fileID: 11400004}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Sole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31,8 +29,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400002}
-  - 114: {fileID: 11400000}
-  m_Layer: 0
+  - 114: {fileID: 11400004}
+  m_Layer: 9
   m_Name: LonglLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +55,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -.800000012, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400000}
@@ -74,7 +72,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: 5596cfae89f768440b309b10338b23c8, type: 2}
+  - {fileID: 2100000, guid: cf99017b93fe9fe48b3d6b0aaa8b0e70, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -94,7 +92,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   serializedVersion: 2
-  m_Mass: 4
+  m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 20
   m_UseGravity: 1
@@ -112,21 +110,37 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: .25, y: .25, z: .5}
+  m_Size: {x: .360000014, y: .239999995, z: .360000014}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!95 &9500000
-Animator:
+--- !u!114 &11400000
+MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: a5f38e1da84aaf54ab0929a9d2ac2904, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 1
-  m_ApplyRootMotion: 1
-  m_AnimatePhysics: 0
---- !u!114 &11400000
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0aa0f82949371a646bed0a8cb5ba601e, type: 3}
+  m_Name: 
+  RestrictedByTranform: {fileID: 0}
+  MinimumDistance: {x: -.300000012, y: .300000012, z: -Infinity}
+  MaximumDistance: {x: .300000012, y: .899999976, z: Infinity}
+  ReverseRestraint: 0
+  ForceConstant: 300
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d051a8f2df36edc4097b19b105464d37, type: 3}
+  m_Name: 
+  RestrictedByTranform: {fileID: 0}
+  ReverseRestraint: 0
+  TorqueConstant: 100
+--- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -150,48 +164,9 @@ MonoBehaviour:
   RetractedLength: 0
   MaximumLength: 0
   LengtheningTime: 0
+  ReloadingTime: 0
   DampingRate: 0
-  CenterOnStop: 0
   Retracted: 0
---- !u!114 &11400002
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0aa0f82949371a646bed0a8cb5ba601e, type: 3}
-  m_Name: 
-  RestrictedByTranform: {fileID: 0}
-  MinimumDistance: {x: -.100000001, y: -Infinity, z: -Infinity}
-  MaximumDistance: {x: .100000001, y: 0, z: Infinity}
-  ReverseRestraint: 0
-  ForceConstant: 150
---- !u!114 &11400004
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce63baa3a1099264988f54a007d61560, type: 3}
-  m_Name: 
-  CollisionGroup: 2
---- !u!114 &11400006
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d051a8f2df36edc4097b19b105464d37, type: 3}
-  m_Name: 
-  RestrictedByTranform: {fileID: 0}
-  ReverseRestraint: 0
-  TorqueConstant: 100
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

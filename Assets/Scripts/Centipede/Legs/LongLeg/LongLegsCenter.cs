@@ -1,8 +1,8 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
-using System.Collections;
 
-public class LongLegsCenter : MonoBehaviour
+public class LongLegsCenter : LegsCenter<LongLegMotor>
 {
 	/// <summary>
 	/// The anchor of the back-joint, relative to the body.
@@ -61,41 +61,25 @@ public class LongLegsCenter : MonoBehaviour
 	public Single LengtheningTime;
 
 	/// <summary>
+	/// The amount of time that must be waited before the leg can be activated again.
+	/// </summary>
+	public Single ReloadingTime;
+
+	/// <summary>
 	/// The damping of the motor.
 	/// Ranges from 0 (no damping) to 1 (critial damping).
 	/// </summary>
 	[Range(0, 1)]
 	public Single DampingRate;
 
-	/// <summary>
-	/// Indicates whether the desired length should be set to the center, when the motor stops.
-	/// </summary>
-	public Boolean CenterOnStop;
-
-	// Use this for initialization
-	void Start()
+	protected override void InitializeLeg(LongLegMotor Leg, Int32 LegIndex)
 	{
-		var Legs = transform.GetComponentsInChildren<LongLegMotor>();
-
-		if (Legs.Length == 0)
-		{
-			enabled = false;
-			return;
-		}
-
-		UpdateLegs();
-
-		foreach (var Leg in Legs)
-		{
-			Leg.Retracted = true;
-			Leg.Initialize();
-		}
+		Leg.Retracted = true;
+		base.InitializeLeg(Leg, LegIndex);
 	}
 
-	private void UpdateLegs()
+	protected override void UpdateLegs(IEnumerable<LongLegMotor> Legs)
 	{
-		var Legs = transform.GetComponentsInChildren<LongLegMotor>();
-
 		foreach (var Leg in Legs)
 		{
 			Leg.BackJointAnchor = BackJointAnchor;
@@ -109,13 +93,8 @@ public class LongLegsCenter : MonoBehaviour
 			Leg.RetractedLength = RetractedLength;
 			Leg.MaximumLength = MaximumLength;
 			Leg.DampingRate = DampingRate;
-			Leg.CenterOnStop = CenterOnStop;
 			Leg.LengtheningTime = LengtheningTime;
+			Leg.ReloadingTime = ReloadingTime;
 		}
-	}
-
-	public void Update()
-	{
-		UpdateLegs();
 	}
 }

@@ -54,7 +54,32 @@ public class RestraintDistance : MonoBehaviour
 			Mathf.Clamp(RelativeAffectedPosition.y, MinimumDistance.y, MaximumDistance.y),
 			Mathf.Clamp(RelativeAffectedPosition.z, MinimumDistance.z, MaximumDistance.z));
 
-		Affected.rigidbody.AddForce(ForceConstant * (Model.TransformPoint(RelativeAffectedPosition) - Affected.position));
+		Affected.rigidbody.AddForce(ForceConstant * (Model.TransformPoint(RelativeAffectedPosition) - Affected.position), ForceMode.Force);
+	}
+
+	/// <summary>
+	/// Returns whether the GameObject is inside the restricted area.
+	/// </summary>
+	/// <returns></returns>
+	public Boolean InArea()
+	{
+		var Model = RestrictedByTranform;
+		var Affected = transform;
+		if (ReverseRestraint)
+		{
+			var Temp = Model;
+			Model = Affected;
+			Affected = Temp;
+		}
+
+		var RelativeAffectedPosition = Model.InverseTransformPoint(Affected.transform.position);
+
+		var ClampedRelativeAffectedPosition = new Vector3(
+			Mathf.Clamp(RelativeAffectedPosition.x, MinimumDistance.x, MaximumDistance.x),
+			Mathf.Clamp(RelativeAffectedPosition.y, MinimumDistance.y, MaximumDistance.y),
+			Mathf.Clamp(RelativeAffectedPosition.z, MinimumDistance.z, MaximumDistance.z));
+
+		return (ClampedRelativeAffectedPosition - RelativeAffectedPosition).magnitude < Single.Epsilon;
 	}
 
 	void OnDrawGizmosSelected()

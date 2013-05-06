@@ -40,8 +40,9 @@ public abstract class LegMotor : MonoBehaviour
 
 	/// <summary>
 	/// Custom initialization for inherited class.
+	/// Derived implementations should set the mass of the leg.
 	/// </summary>
-	public virtual void Initialize()
+	public virtual void Initialize(Single Mass)
 	{
 		Initialized = true;
 	}
@@ -54,6 +55,14 @@ public abstract class LegMotor : MonoBehaviour
 
 			if (Input.GetButtonUp(InputButton))
 				PerformAction();
+		}
+	}
+
+	private void FixedUpdate()
+	{
+		if (Initialized)
+		{
+			FixedUpdateValues();
 
 			var Horizontal = Input.GetAxis(Keys.Horizontal);
 			if (Horizontal != 0)
@@ -70,9 +79,16 @@ public abstract class LegMotor : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Performs custom value updates, in order to allow changing values in debug mode using the IDE.
+	/// Performs custom value updates, during the Update phase.
 	/// </summary>
 	protected virtual void UpdateValues()
+	{
+	}
+
+	/// <summary>
+	/// Performs custom value updates, during the FixedUpdate phase.
+	/// </summary>
+	protected virtual void FixedUpdateValues()
 	{
 	}
 

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using System.Collections;
 
@@ -66,6 +67,11 @@ public class LongLegMotor : LegMotor
 	public Single LengtheningTime;
 
 	/// <summary>
+	/// The amount of time that must be waited before the leg can be activated again.
+	/// </summary>
+	public Single ReloadingTime;
+
+	/// <summary>
 	/// The damping of the motor.
 	/// Ranges from 0 (no damping) to 1 (critial damping).
 	/// </summary>
@@ -73,40 +79,49 @@ public class LongLegMotor : LegMotor
 	public Single DampingRate;
 
 	/// <summary>
-	/// Indicates whether the desired length should be set to the center, when the motor stops.
-	/// </summary>
-	public Boolean CenterOnStop;
-
-	/// <summary>
 	/// Indicates whether the leg is retracted.
 	/// </summary>
 	public Boolean Retracted;
 
 	/// <summary>
+	/// The leg's sole.
+	/// </summary>
+	private GameObject Sole;
+
+	/// <summary>
+	/// The RestraintDistance script that restraints the distance of the sole from its origin.
+	/// </summary>
+	private RestraintDistance RestraintDistance;
+
+	/// <summary>
 	/// The prismatic joint of which the leg consists.
 	/// </summary>
-	private readonly BasicPrismaticJoint[] PrismaticJoints = new BasicPrismaticJoint[2];
+	private BasicPrismaticJoint[] PrismaticJoints;
 
 	/// <summary>
 	/// The remote anchors of the joints.
 	/// </summary>
-	private readonly Vector3[] Anchors = new Vector3[2];
+	private Vector3[] Anchors;
 
-	public override void Initialize()
+	public override void Initialize(Single Mass)
 	{
-		base.Initialize();
-		var Sole = transform.GetChild(0).gameObject;
+		base.Initialize(Mass);
+		Sole = transform.GetChild(0).gameObject;
+		Sole.rigidbody.mass = Mass;
 
-		Anchors[0] = BackJointAnchor;
-		Anchors[1] = FrontJointAnchor;
+		RestraintDistance = Sole.GetComponent<RestraintDistance>();
+		RestraintDistance.enabled = true;
 
-		for (int i = 0; i < PrismaticJoints.Length; i++)
+		var LegOffsetInLink = new Vector3(transform.localPosition.x, 0, 0);
+		Anchors = new[] { BackJointAnchor + LegOffsetInLink, FrontJointAnchor + LegOffsetInLink };
+
+		PrismaticJoints = Enumerable.Range(0, 2).Select(Index =>
 		{
-			PrismaticJoints[i] = Sole.AddComponent<BasicPrismaticJoint>();
-			PrismaticJoints[i].Initialize(ConnectedBody, Anchors[i], Anchors[i], Flexibility, ForceConstant, MotorRetractingForce, 0, RetractedLength, MaximumLength, DampingRate, CenterOnStop);
-		}
+			var PrismaticJoint = Sole.AddComponent<BasicPrismaticJoint>();
+			PrismaticJoint.Initialize(ConnectedBody, Vector3.zero, Anchors[Index], Flexibility, ForceConstant, MotorRetractingForce, 0, RetractedLength, MaximumLength, DampingRate, false);
+			return PrismaticJoint;
+		}).ToArray();
 		
-		Retracted = true;
 		UpdateValues();
 	}
 
@@ -115,8 +130,9 @@ public class LongLegMotor : LegMotor
 	{
 		base.UpdateValues();
 
-		Anchors[0] = BackJointAnchor;
-		Anchors[1] = FrontJointAnchor;
+		var LegOffsetInLink = new Vector3(transform.localPosition.x, 0, 0);
+		Anchors[0] = BackJointAnchor + LegOffsetInLink;
+		Anchors[1] = FrontJointAnchor + LegOffsetInLink;
 
 		for (int i = 0; i < PrismaticJoints.Length; i++)
 		{
@@ -125,17 +141,30 @@ public class LongLegMotor : LegMotor
 			PrismaticJoint.Anchor = Vector3.zero;
 			PrismaticJoint.RemoteAnchor = Anchors[i];
 			PrismaticJoint.LowerLimit = RetractedLength;
-			PrismaticJoint.UpperLimit = MaximumLength;
 			PrismaticJoint.Flexibility = Flexibility;
 			PrismaticJoint.ForceConstant = ForceConstant;
 			PrismaticJoint.DampingRate = DampingRate;
-			PrismaticJoint.CenterOnStop = CenterOnStop;
+
+			if (Retracted)
+			{
+				PrismaticJoint.MaxMotorForce = MotorRetractingForce;
+				PrismaticJoint.UpperLimit = RetractedLength;
+				PrismaticJoint.CenterOnStop = true;
+			}
 		}
+
+		if (Retracted)
+			Sole.collider.isTrigger = true;		
+	}
+
+	private Boolean JointsRetracted()
+	{
+		return PrismaticJoints.All(PrismaticJoint => PrismaticJoint.CurrentLength <= RetractedLength + PrismaticJoint.InitialLength + Sole.collider.bounds.size.y);
 	}
 
 	protected override void PerformAction()
 	{
-		if (PrismaticJoints[0].CurrentLength <= RetractedLength + PrismaticJoints[0].InitialLength + 0.1)
+		if ((Retracted) && (RestraintDistance.InArea()))
 		{
 			Retracted = false;
 			StartCoroutine(Lengthen());
@@ -144,16 +173,23 @@ public class LongLegMotor : LegMotor
 
 	private IEnumerator Lengthen()
 	{
-		// Making the become longer.
+		Sole.collider.isTrigger = false;
+		RestraintDistance.enabled = false;
+
+		// Making the leg become longer.
 		foreach (var PrismaticJoint in PrismaticJoints)
 		{
 			PrismaticJoint.MaxMotorForce = MotorLengtheningForce;
 			PrismaticJoint.State = BasicPrismaticJoint.MotorState.Forward;
 			PrismaticJoint.MotorSpeed = MotorLengtheningSpeed;
+			PrismaticJoint.CenterOnStop = false;
+			PrismaticJoint.UpperLimit = MaximumLength;
 		}
 
 		// Waiting for the specified time.
 		yield return new WaitForSeconds(LengtheningTime);
+
+		Sole.collider.isTrigger = true;
 
 		// Retracting the leg.
 		foreach (var PrismaticJoint in PrismaticJoints)
@@ -164,26 +200,17 @@ public class LongLegMotor : LegMotor
 		}
 
 		// Waiting until the leg is retracted.
-		var JointsRunning = PrismaticJoints.Length;
-		while (true)
-		{
-			foreach (var PrismaticJoint in PrismaticJoints)
-			{
-				if (PrismaticJoint.State != BasicPrismaticJoint.MotorState.Stopped)
-				{
-					if (PrismaticJoint.CurrentLength <= RetractedLength + PrismaticJoint.InitialLength)
-					{
-						PrismaticJoint.State = BasicPrismaticJoint.MotorState.Stopped;
-						JointsRunning -= 1;
-					}
-				}
-			}
-
-			if (JointsRunning == 0)
-				break;
-
+		while (!JointsRetracted())
 			yield return new WaitForFixedUpdate();
-		}
+
+		foreach (var PrismaticJoint in PrismaticJoints)
+			PrismaticJoint.State = BasicPrismaticJoint.MotorState.Stopped;
+
+		RestraintDistance.enabled = true;
+		while (!RestraintDistance.InArea())
+			yield return new WaitForFixedUpdate();
+		
+		yield return new WaitForSeconds(ReloadingTime);
 
 		Retracted = true;
 	}

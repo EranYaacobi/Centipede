@@ -128,21 +128,24 @@ namespace TileMapEditorPackage
 			public String Name;
 
 			/// <summary>
+			/// The default tile in the tile set.
+			/// </summary>
+			public GameObject DefaultTile;
+
+			/// <summary>
 			/// The models used to build the tiles.
 			/// </summary>
 			public List<GameObject> Tiles = new List<GameObject>();
 
 			/// <summary>
 			/// The tiles material.
-			/// If none, then each tile's material is used for itself only,
-			/// and there is no default tile.
+			/// If none, then each tile's material is used for itself only.
 			/// </summary>
 			public Material Material;
 
 			/// <summary>
 			/// The tiles physic material.
-			/// If none, then each tile's physic material is used for itself only,
-			/// and there is no default tile.
+			/// If none, then each tile's physic material is used for itself only.
 			/// </summary>
 			public PhysicMaterial PhysicMaterial;
 		}

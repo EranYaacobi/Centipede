@@ -41,7 +41,7 @@ public class BasicPrismaticJoint : MonoBehaviour
 	public Single MaxMotorForce;
 
 	/// <summary>
-	/// The speed of the motor.
+	/// The speed of the motor, in cycles per second.
 	/// </summary>
 	public Single MotorSpeed;
 
@@ -152,7 +152,11 @@ public class BasicPrismaticJoint : MonoBehaviour
 		if ((MovementDirection == 0) && (CenterOnStop))
 			DesiredLength = InitialLength + (UpperLimit + LowerLimit) / 2;
 
-		DesiredLength += MovementDirection * MotorSpeed * Time.fixedDeltaTime;
+		// Calculating motor speed in meters.
+		var MotorSpeedInMeters = MotorSpeed * (UpperLimit - LowerLimit) * 2;
+
+		// Calculating new desired length.
+		DesiredLength += MovementDirection * MotorSpeedInMeters * Time.fixedDeltaTime;
 		DesiredLength = Mathf.Clamp(DesiredLength, InitialLength + LowerLimit, InitialLength + UpperLimit);
 
 		var DeltaLength = DesiredLength - CurrentLength;
@@ -173,6 +177,7 @@ public class BasicPrismaticJoint : MonoBehaviour
 
 	public enum MotorState
 	{
+		Invalid = Int32.MinValue,
 		Stopped = 0,
 		Backward = -1,
 		Forward = 1

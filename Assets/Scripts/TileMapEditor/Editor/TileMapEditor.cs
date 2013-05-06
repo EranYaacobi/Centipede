@@ -79,7 +79,7 @@ public class TileMapEditor : Editor
 
 	/// <summary>
 	/// The default tile for drawing.
-	/// A value of null for this indicates that the default tile is a cube.
+	/// A value of null for this indicates that the default tile is the default tile in the tile-set.
 	/// </summary>
 	public GameObject DefaultTile;
 
@@ -415,32 +415,18 @@ public class TileMapEditor : Editor
 		if (TileModel == null)
 		{
 			if (DefaultTile != null)
-			{
-				NewTile = Instantiate(DefaultTile) as GameObject;
-			}
+				TileModel = DefaultTile;
 			else
-			{
-				// If there is no material in the current tile-set, then we can't create a default tile.
-				if (TileMap.CurrentTileSet.Material == null)
-					return;
-
-				// If there is no physic material in the current tile-set, then we can't create a default tile.
-				if (TileMap.CurrentTileSet.PhysicMaterial == null)
-					return;
-
-				NewTile = GameObject.CreatePrimitive(PrimitiveType.Cube);
-			}
+				TileModel = TileMap.CurrentTileSet.DefaultTile;
 		}
-		else
-		{
-			NewTile = Instantiate(TileModel) as GameObject;
-		}
+
+		NewTile = PrefabUtility.InstantiateAttachedAsset(TileModel) as GameObject;
 
 		// Set the tile's position and rotation.
 		if (NewTile != null)
 		{
 			// Set the tile's position on the tile map
-			NewTile.transform.position = TilePositionToWorldPosition(TableTilePosition);
+			NewTile.transform.position = TilePositionToWorldPosition(TableTilePosition) + TileModel.transform.position;
 			NewTile.transform.rotation = TileMap.transform.rotation;
 
 			// Scale the tile to the tile size defined by the TileMap.TileWidth and TileMap.TileHeight fields 
@@ -459,7 +445,7 @@ public class TileMapEditor : Editor
 
 			// Set the tile's physic material.
 			if (NewTile.collider != null)
-				NewTile.collider.material = TileMap.CurrentTileSet.PhysicMaterial;
+				NewTile.collider.sharedMaterial = TileMap.CurrentTileSet.PhysicMaterial;
 		}
 	}
 

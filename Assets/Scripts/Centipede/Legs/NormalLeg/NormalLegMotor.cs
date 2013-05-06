@@ -36,7 +36,7 @@ public class NormalLegMotor : LegMotor
 	public Single MaxMotorForce;
 
 	/// <summary>
-	/// The maximum speed of the motor.
+	/// The maximum speed of the motor, in cycles per second.
 	/// </summary>
 	public Single MaxMotorSpeed;
 
@@ -54,6 +54,11 @@ public class NormalLegMotor : LegMotor
 	/// The upper limit of the joints, relative to their initial length.
 	/// </summary>
 	public Single UpperLimit;
+
+	/// <summary>
+	/// The retracted limit of the joints, relative to their initial length.
+	/// </summary>
+	public Single RetractedLimit;
 
 	/// <summary>
 	/// The initial offset of the leg.
@@ -82,15 +87,18 @@ public class NormalLegMotor : LegMotor
 	/// </summary>
 	public Boolean Retracted;
 
-	public override void Initialize()
+	public override void Initialize(Single Mass)
 	{
-		base.Initialize();
+		base.Initialize(Mass);
 
-		SolesMotors = transform.GetComponentsInChildren<NormalLegSoleMotor>();
+		SolesMotors = GetComponentsInChildren<NormalLegSoleMotor>();
 		foreach (var SoleMotor in SolesMotors)
+		{
 			SoleMotor.ConnectedBody = ConnectedBody;
+			SoleMotor.rigidbody.mass = Mass / 2;
+		}
 		Common.Assert(SolesMotors.Length == 2);
-		UpdateSoles(0);
+		UpdateSoles();
 
 		SolesMotors[0].DesiredSoleAngle = InitialOffset;
 		SolesMotors[1].DesiredSoleAngle = InitialOffset + 90;
@@ -99,9 +107,9 @@ public class NormalLegMotor : LegMotor
 			SoleMotor.Initialize();
 	}
 
-	private void UpdateSoles(Single Direction)
+	private void UpdateSoles(Single Direction = 0)
 	{
-		var MotorState = BasicPrismaticJoint.MotorState.Stopped;
+		var MotorState = BasicPrismaticJoint.MotorState.Invalid;
 		if (Direction > 0)
 			MotorState = BasicPrismaticJoint.MotorState.Forward;
 		else if (Direction < 0)
@@ -116,9 +124,8 @@ public class NormalLegMotor : LegMotor
 			SoleMotor.ForceConstant = ForceConstant;
 			SoleMotor.MaxMotorForce = MaxMotorForce;
 			SoleMotor.MaxMotorSpeed = MaxMotorSpeed;
-			SoleMotor.LowerLimit = LowerLimit;
-			SoleMotor.UpperLimit = UpperLimit;
-			SoleMotor.MotorState = MotorState;
+			if (MotorState != BasicPrismaticJoint.MotorState.Invalid)
+				SoleMotor.MotorState = MotorState;
 			SoleMotor.CycleSpeed = CycleSpeed;
 			SoleMotor.SoleAnchor = LegAnchor;
 			SoleMotor.DampingRate = DampingRate;
@@ -126,8 +133,15 @@ public class NormalLegMotor : LegMotor
 			
 			if (Retracted)
 			{
+				SoleMotor.LowerLimit = RetractedLimit;
+				SoleMotor.UpperLimit = RetractedLimit;
+				SoleMotor.collider.isTrigger = true;
+			}
+			else
+			{
 				SoleMotor.LowerLimit = LowerLimit;
-				SoleMotor.UpperLimit = LowerLimit;
+				SoleMotor.UpperLimit = UpperLimit;
+				SoleMotor.collider.isTrigger = false;
 			}
 		}
 	}
@@ -135,7 +149,7 @@ public class NormalLegMotor : LegMotor
 	protected override void UpdateValues()
 	{
 		base.UpdateValues();
-		UpdateSoles(0);
+		UpdateSoles();
 	}
 
 	protected override void PerformAction()
