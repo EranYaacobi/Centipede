@@ -105,7 +105,7 @@ public class WheelLegMotor : LegMotor
 	/// <summary>
 	/// Indicates whether the body can actually drive, meaning that the wheel is touching the ground.
 	/// </summary>
-	private Boolean CanDrive;
+	public Boolean CanDrive;
 
 	/// <summary>
 	/// The throttle applied by the engine.
@@ -215,9 +215,9 @@ public class WheelLegMotor : LegMotor
 		WheelTransform.Rotate(Vector3.back * (GroundSpeed.x / WheelCollider.radius) * Time.deltaTime * Mathf.Rad2Deg);
 	}
 
-	private void OnDrawGizmos()
+	private void OnDrawGizmosSelected()
 	{
-		const Single Depth = -5F;
+		const Single Depth = -1F;
 
 		if (!CanDrive)
 			return;

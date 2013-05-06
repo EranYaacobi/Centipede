@@ -188,7 +188,7 @@ public class BasicPrismaticJoint : MonoBehaviour
 		const Single LimitLineRadius = 0.05F;
 		const Single SphereRadius = 0.05F;
 		const Single SmallSphereRadius = 0.035F;
-		const Single Depth = -5F;
+		const Single Depth = -1F;
 		var Position = transform.TransformPoint(Anchor) + new Vector3(0, 0, Depth);
 		var OtherPosition = ConnectedBody.transform.TransformPoint(RemoteAnchor) + new Vector3(0, 0, Depth);
 		Gizmos.color = Color.green;
