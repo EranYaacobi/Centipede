@@ -112,14 +112,16 @@ public class NetworkRigidbody : Photon.MonoBehaviour
 					if (Length > 0)
 						LerpRate = (Single)((InterpolationTime - BestPlaybackState.Timestamp) / Length);
 
-					transform.position = Vector3.Lerp(BestPlaybackState.Position, AfterBestPlayerbackState.Position, LerpRate);
-					transform.rotation = Quaternion.Slerp(BestPlaybackState.Rotation, AfterBestPlayerbackState.Rotation, LerpRate);
+					var PlaybackPosition = Vector3.Lerp(BestPlaybackState.Position, AfterBestPlayerbackState.Position, LerpRate);
+					var PlaybackRotation = Quaternion.Slerp(BestPlaybackState.Rotation, AfterBestPlayerbackState.Rotation, LerpRate);
+					transform.position = Vector3.Lerp(transform.position, PlaybackPosition, 0.05F);
+					transform.rotation = Quaternion.Slerp(transform.rotation, PlaybackRotation, 0.05F);
 					break;
 				}
 			}
 		}
 		// Use extrapolation (Prediction)
-		else
+		/*else
 		{
 			var NewestState = BufferedStates[0];
 			var ExtrapolationLength = (float)(InterpolationTime - NewestState.Timestamp);
@@ -134,7 +136,7 @@ public class NetworkRigidbody : Photon.MonoBehaviour
 				rigidbody.velocity = NewestState.Velocity;
 				rigidbody.angularVelocity = NewestState.AngularVelocity;
 			}
-		}
+		}*/
 
 		// Detaching children, so they will not be affected.
 		/*foreach (var Child in Children)

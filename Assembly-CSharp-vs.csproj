@@ -103,6 +103,7 @@
      <Compile Include="Assets\Scripts\Menu\MainMenuGUIFrame.cs" />
      <Compile Include="Assets\Scripts\Menu\MultiplayerMenuGUIFrame.Designer.cs" />
      <Compile Include="Assets\Scripts\Menu\MultiplayerMenuGUIFrame.cs" />
+     <Compile Include="Assets\Scripts\Network\MonoBehaviour.cs" />
      <Compile Include="Assets\Scripts\Network\NetworkRigidbody.cs" />
      <Compile Include="Assets\Scripts\Network\PlayerInput.cs" />
      <Compile Include="Assets\Scripts\Network\SpawnPlayers.cs" />
