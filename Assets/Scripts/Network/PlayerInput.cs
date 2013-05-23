@@ -6,6 +6,8 @@ using System.Collections;
 
 public class PlayerInput : Photon.MonoBehaviour
 {
+	private const Single LocalInputDelay = 0.1F;
+
 	/// <summary>
 	/// Holds references for all PlayerInputs.
 	/// </summary>
@@ -43,32 +45,24 @@ public class PlayerInput : Photon.MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		if (Owner != PhotonNetwork.player)
-			return;
-
-		var NewHorizontalAxis = Input.GetAxis(Keys.Horizontal);
-
-		if (NewHorizontalAxis != HorizontalAxis)
-			photonView.RPC("UpdateHorizontalAxis", PhotonTargets.All, NewHorizontalAxis);
-
-		foreach (var Button in Buttons.ToArray())
+		if (Owner == PhotonNetwork.player)
 		{
-			var NewButtonState = CheckButtonState(Button.Key);
-			if (NewButtonState != Button.Value)
+			var NewHorizontalAxis = Input.GetAxis(Keys.Horizontal);
+
+			if (NewHorizontalAxis != HorizontalAxis)
+				photonView.RPC("UpdateHorizontalAxis", PhotonTargets.All, NewHorizontalAxis);
+
+			foreach (var Button in Buttons.ToArray())
 			{
-				// Not sending update for Down an Up, as it may cause missing the Pressed and Released states.
-				if ((NewButtonState != ButtonState.Down) && (NewButtonState != ButtonState.Up))
-					photonView.RPC("UpdateButtonState", PhotonTargets.All, Button.Key, (Int32) NewButtonState);
-				else
-					UpdateButtonState(Button.Key, (Int32) NewButtonState);
+				var NewButtonState = CheckButtonState(Button.Key);
+				if (NewButtonState != Button.Value)
+				{
+					// Not sending update for Down an Up, as it may cause missing the Pressed and Released states.
+					if ((NewButtonState != ButtonState.Down) && (NewButtonState != ButtonState.Up))
+						photonView.RPC("UpdateButtonState", PhotonTargets.All, Button.Key, (Int32)NewButtonState);
+				}
 			}
 		}
-	}
-
-	void LateUpdate()
-	{
-		if (Owner == PhotonNetwork.player)
-			return;
 
 		foreach (var Button in Buttons.ToArray())
 		{
@@ -94,14 +88,24 @@ public class PlayerInput : Photon.MonoBehaviour
 	}
 
 	[RPC]
-	private void UpdateHorizontalAxis(Single NewHorizontalAxis)
+	private IEnumerator UpdateHorizontalAxis(Single NewHorizontalAxis)
 	{
+		if (Owner == PhotonNetwork.player)
+			yield return new WaitForSeconds(LocalInputDelay);
+		else
+			yield return new WaitForEndOfFrame();
+
 		HorizontalAxis = NewHorizontalAxis;
 	}
 
 	[RPC]
-	private void UpdateButtonState(String ButtonName, Int32 NewButtonState)
+	private IEnumerator UpdateButtonState(String ButtonName, Int32 NewButtonState)
 	{
+		if (Owner == PhotonNetwork.player)
+			yield return new WaitForSeconds(LocalInputDelay);
+		else
+			yield return new WaitForEndOfFrame();
+
 		Buttons[ButtonName] = (ButtonState)NewButtonState;
 	}
 

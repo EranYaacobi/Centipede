@@ -6,7 +6,8 @@ using System.Collections.Generic;
 public class NetworkRigidbody : Photon.MonoBehaviour
 {
 	private const Single DefaultInterpolationTime = 0.1F;
-	private const Single SimulationLerpRate = 2F;
+	private const Single SnapDistance = 0.5F;
+	private const Single SimulationLerpRate = 8F;
 	private const Int32 StoredStates = 20;
 
 	public Single InterpolationBackTime = 0.1F;
@@ -116,22 +117,7 @@ public class NetworkRigidbody : Photon.MonoBehaviour
 					var PlaybackVelocity = Vector3.Lerp(BestPlaybackState.Velocity, AfterBestPlayerbackState.Velocity, LerpRate);
 					var PlaybackAngularVelocity = Vector3.Lerp(BestPlaybackState.AngularVelocity, AfterBestPlayerbackState.AngularVelocity, LerpRate);
 
-					if (Vector3.Distance(transform.position, PlaybackPosition) < 1)
-					{
-						transform.position = Vector3.Lerp(transform.position, PlaybackPosition, SimulationLerpRate * Time.deltaTime);
-						transform.rotation = Quaternion.Slerp(transform.rotation, PlaybackRotation, SimulationLerpRate * Time.deltaTime);
-						rigidbody.velocity = Vector3.Lerp(rigidbody.velocity, PlaybackVelocity, SimulationLerpRate * Time.deltaTime);
-						rigidbody.angularVelocity = Vector3.Lerp(rigidbody.angularVelocity, PlaybackAngularVelocity, SimulationLerpRate * Time.deltaTime);
-					}
-					else
-					{
-						// Snapping to location.
-						Debug.Log("Snapped!");
-						transform.position = PlaybackPosition;
-						transform.rotation = PlaybackRotation;
-						rigidbody.velocity = PlaybackVelocity;
-						rigidbody.angularVelocity = PlaybackAngularVelocity;
-					}
+					UpdateRigidBody(PlaybackPosition, PlaybackRotation, PlaybackVelocity, PlaybackAngularVelocity);
 					break;
 				}
 			}
@@ -146,11 +132,31 @@ public class NetworkRigidbody : Photon.MonoBehaviour
 			{
 				var AxisLength = ExtrapolationLength * NewestState.AngularVelocity.magnitude * Mathf.Rad2Deg;
 				var AngularRotation = Quaternion.AngleAxis(AxisLength, NewestState.AngularVelocity);
-				rigidbody.position = Vector3.Lerp(rigidbody.position, NewestState.Position + NewestState.Velocity * ExtrapolationLength, SimulationLerpRate * Time.deltaTime);
-				rigidbody.rotation = Quaternion.Slerp(rigidbody.rotation, AngularRotation * NewestState.Rotation, SimulationLerpRate * Time.deltaTime);
-				rigidbody.velocity = Vector3.Lerp(rigidbody.velocity, NewestState.Velocity, SimulationLerpRate * Time.deltaTime);
-				rigidbody.angularVelocity = Vector3.Lerp(rigidbody.angularVelocity, NewestState.AngularVelocity, SimulationLerpRate * Time.deltaTime);
+				UpdateRigidBody(NewestState.Position + NewestState.Velocity * ExtrapolationLength,
+								AngularRotation * NewestState.Rotation, 
+								NewestState.Velocity,
+								NewestState.AngularVelocity);
 			}
+		}
+	}
+
+	private void UpdateRigidBody(Vector3 Position, Quaternion Rotation, Vector3 Velocity, Vector3 AngularVelocity)
+	{
+		if (Vector3.Distance(transform.position, Position) < SnapDistance)
+		{
+			transform.position = Vector3.Lerp(transform.position, Position, SimulationLerpRate * Time.deltaTime);
+			transform.rotation = Quaternion.Slerp(transform.rotation, Rotation, SimulationLerpRate * Time.deltaTime);
+			rigidbody.velocity = Vector3.Lerp(rigidbody.velocity, Velocity, SimulationLerpRate * Time.deltaTime);
+			rigidbody.angularVelocity = Vector3.Lerp(rigidbody.angularVelocity, AngularVelocity, SimulationLerpRate * Time.deltaTime);
+		}
+		else
+		{
+			// Snapping to location.
+			Debug.Log("Snapped!");
+			transform.position = Position;
+			transform.rotation = Rotation;
+			rigidbody.velocity = Velocity;
+			rigidbody.angularVelocity = AngularVelocity;
 		}
 	}
 
