@@ -15,8 +15,8 @@ public class Pinger : MonoBehaviour
 	{
 		while (enabled)
 		{
-			yield return new WaitForSeconds(1);
 			Debug.Log(PhotonNetwork.GetPing());
+			yield return new WaitForSeconds(10);
 		}
 	}
 }

@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 public class NetworkRigidbody : Photon.MonoBehaviour
 {
+	private const Single DefaultInterpolationTime = 0.1F;
+	private const Single SimulationLerpRate = 2F;
 	private const Int32 StoredStates = 20;
 
 	public Single InterpolationBackTime = 0.1F;
@@ -22,6 +24,7 @@ public class NetworkRigidbody : Photon.MonoBehaviour
 
 	private void Start()
 	{
+		InterpolationBackTime = DefaultInterpolationTime;
 		if (photonView.owner == PhotonNetwork.player)
 			enabled = false;
 	}
@@ -81,10 +84,6 @@ public class NetworkRigidbody : Photon.MonoBehaviour
 	// And only if no more data arrives we will use extra polation
 	private void Update()
 	{
-		// Detaching children, so they will not be affected.
-		/*var Children = transform.Cast<Transform>().ToList();
-		transform.DetachChildren();*/
-
 		// This is the target playback time of the rigid body
 		var InterpolationTime = PhotonNetwork.time - InterpolationBackTime;
 
@@ -114,14 +113,31 @@ public class NetworkRigidbody : Photon.MonoBehaviour
 
 					var PlaybackPosition = Vector3.Lerp(BestPlaybackState.Position, AfterBestPlayerbackState.Position, LerpRate);
 					var PlaybackRotation = Quaternion.Slerp(BestPlaybackState.Rotation, AfterBestPlayerbackState.Rotation, LerpRate);
-					transform.position = Vector3.Lerp(transform.position, PlaybackPosition, 0.05F);
-					transform.rotation = Quaternion.Slerp(transform.rotation, PlaybackRotation, 0.05F);
+					var PlaybackVelocity = Vector3.Lerp(BestPlaybackState.Velocity, AfterBestPlayerbackState.Velocity, LerpRate);
+					var PlaybackAngularVelocity = Vector3.Lerp(BestPlaybackState.AngularVelocity, AfterBestPlayerbackState.AngularVelocity, LerpRate);
+
+					if (Vector3.Distance(transform.position, PlaybackPosition) < 1)
+					{
+						transform.position = Vector3.Lerp(transform.position, PlaybackPosition, SimulationLerpRate * Time.deltaTime);
+						transform.rotation = Quaternion.Slerp(transform.rotation, PlaybackRotation, SimulationLerpRate * Time.deltaTime);
+						rigidbody.velocity = Vector3.Lerp(rigidbody.velocity, PlaybackVelocity, SimulationLerpRate * Time.deltaTime);
+						rigidbody.angularVelocity = Vector3.Lerp(rigidbody.angularVelocity, PlaybackAngularVelocity, SimulationLerpRate * Time.deltaTime);
+					}
+					else
+					{
+						// Snapping to location.
+						Debug.Log("Snapped!");
+						transform.position = PlaybackPosition;
+						transform.rotation = PlaybackRotation;
+						rigidbody.velocity = PlaybackVelocity;
+						rigidbody.angularVelocity = PlaybackAngularVelocity;
+					}
 					break;
 				}
 			}
 		}
 		// Use extrapolation (Prediction)
-		/*else
+		else
 		{
 			var NewestState = BufferedStates[0];
 			var ExtrapolationLength = (float)(InterpolationTime - NewestState.Timestamp);
@@ -130,17 +146,12 @@ public class NetworkRigidbody : Photon.MonoBehaviour
 			{
 				var AxisLength = ExtrapolationLength * NewestState.AngularVelocity.magnitude * Mathf.Rad2Deg;
 				var AngularRotation = Quaternion.AngleAxis(AxisLength, NewestState.AngularVelocity);
-
-				rigidbody.position = NewestState.Position + NewestState.Velocity * ExtrapolationLength;
-				rigidbody.rotation = AngularRotation * NewestState.Rotation;
-				rigidbody.velocity = NewestState.Velocity;
-				rigidbody.angularVelocity = NewestState.AngularVelocity;
+				rigidbody.position = Vector3.Lerp(rigidbody.position, NewestState.Position + NewestState.Velocity * ExtrapolationLength, SimulationLerpRate * Time.deltaTime);
+				rigidbody.rotation = Quaternion.Slerp(rigidbody.rotation, AngularRotation * NewestState.Rotation, SimulationLerpRate * Time.deltaTime);
+				rigidbody.velocity = Vector3.Lerp(rigidbody.velocity, NewestState.Velocity, SimulationLerpRate * Time.deltaTime);
+				rigidbody.angularVelocity = Vector3.Lerp(rigidbody.angularVelocity, NewestState.AngularVelocity, SimulationLerpRate * Time.deltaTime);
 			}
-		}*/
-
-		// Detaching children, so they will not be affected.
-		/*foreach (var Child in Children)
-			Child.parent = transform;*/
+		}
 	}
 
 	/// <summary>
