@@ -33,5 +33,7 @@ public class ContextMenuPluginHostEditor : Editor
 				EditorGUILayout.PropertyField(Iterator, true, new GUILayoutOption[0]);
 			SerializedObject.ApplyModifiedProperties();
 		}
+
+		SceneView.RepaintAll();
 	}
 }

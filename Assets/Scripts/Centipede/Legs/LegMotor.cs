@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using System.Collections;
 
-public abstract class LegMotor : MonoBehaviour
+public abstract class LegMotor : Photon.MonoBehaviour
 {
 	/// <summary>
 	/// The body to which the leg is connected.
@@ -22,14 +22,29 @@ public abstract class LegMotor : MonoBehaviour
 	public String InputButton;
 
 	/// <summary>
+	/// The owner of the centipede.
+	/// </summary>
+	public PhotonPlayer Owner;
+
+	/// <summary>
+	/// Stores the current value of the horizontal axis.
+	/// </summary>
+	private Single HorizontalMovement;
+
+	/// <summary>
 	/// Stores the last value of the horizontal axis.
 	/// </summary>
-	private Single LastHorizontalMovement = 0;
+	private Single LastHorizontalMovement;
 
 	/// <summary>
 	/// Inidicates whether the script was initialized;
 	/// </summary>
 	private Boolean Initialized;
+
+	private void Awake()
+	{
+		enabled = false;
+	}
 
 	private void Start()
 	{
@@ -53,7 +68,7 @@ public abstract class LegMotor : MonoBehaviour
 		{
 			UpdateValues();
 
-			if (Input.GetButtonUp(InputButton))
+			if (PlayerInput.GetPlayerInput(Owner).GetButtonState(InputButton) == PlayerInput.ButtonState.Released)
 				PerformAction();
 		}
 	}
@@ -64,17 +79,19 @@ public abstract class LegMotor : MonoBehaviour
 		{
 			FixedUpdateValues();
 
-			var Horizontal = Input.GetAxis(Keys.Horizontal);
-			if (Horizontal != 0)
+			HorizontalMovement = PlayerInput.GetPlayerInput(Owner).GetHorizontalAxis();
+
+			if (HorizontalMovement != 0)
 			{
-				Move(Horizontal);
+				Move(HorizontalMovement);
 			}
 			else
 			{
 				if (LastHorizontalMovement != 0)
 					StopMoving();
 			}
-			LastHorizontalMovement = Horizontal;
+
+			LastHorizontalMovement = HorizontalMovement;
 		}
 	}
 
@@ -107,6 +124,10 @@ public abstract class LegMotor : MonoBehaviour
 	/// Performs custom action upon stopping.
 	/// </summary>
 	protected virtual void StopMoving()
+	{
+	}
+
+	protected virtual void OnPhotonSerializeView(PhotonStream Stream, PhotonMessageInfo Info)
 	{
 	}
 }

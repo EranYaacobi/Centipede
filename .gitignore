@@ -169,3 +169,7 @@ Assets/Standard Assets/
 *.csproj
 Assets/Orthello/*
 *.unityproj
+*.exe
+Centipede_Data/
+UnityVS/
+UnityVS.*

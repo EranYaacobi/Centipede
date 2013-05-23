@@ -1,0 +1,535 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!29 &1
+SceneSettings:
+  m_ObjectHideFlags: 0
+  m_PVSData: 
+  m_QueryMode: 1
+  m_PVSObjectsArray: []
+  m_PVSPortalsArray: []
+  m_OcclusionBakeSettings:
+    viewCellSize: 1
+    bakeMode: 2
+    memoryUsage: 10485760
+--- !u!104 &2
+RenderSettings:
+  m_Fog: 0
+  m_FogColor: {r: .5, g: .5, b: .5, a: 1}
+  m_FogMode: 3
+  m_FogDensity: .00999999978
+  m_LinearFogStart: 0
+  m_LinearFogEnd: 300
+  m_AmbientLight: {r: .200000003, g: .200000003, b: .200000003, a: 1}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 9ba05f538ee36044da5cd2a4f14a8b18, type: 2}
+  m_HaloStrength: .5
+  m_FlareStrength: 1
+  m_HaloTexture: {fileID: 0}
+  m_SpotCookie: {fileID: 0}
+  m_ObjectHideFlags: 0
+--- !u!127 &3
+LevelGameManager:
+  m_ObjectHideFlags: 0
+--- !u!157 &4
+LightmapSettings:
+  m_ObjectHideFlags: 0
+  m_LightProbes: {fileID: 0}
+  m_Lightmaps: []
+  m_LightmapsMode: 1
+  m_BakedColorSpace: 0
+  m_UseDualLightmapsInForward: 0
+  m_LightmapEditorSettings:
+    m_Resolution: 50
+    m_LastUsedResolution: 0
+    m_TextureWidth: 1024
+    m_TextureHeight: 1024
+    m_BounceBoost: 1
+    m_BounceIntensity: 1
+    m_SkyLightColor: {r: .860000014, g: .930000007, b: 1, a: 1}
+    m_SkyLightIntensity: 0
+    m_Quality: 0
+    m_Bounces: 1
+    m_FinalGatherRays: 1000
+    m_FinalGatherContrastThreshold: .0500000007
+    m_FinalGatherGradientThreshold: 0
+    m_FinalGatherInterpolationPoints: 15
+    m_AOAmount: 0
+    m_AOMaxDistance: .100000001
+    m_AOContrast: 1
+    m_LODSurfaceMappingDistance: 1
+    m_Padding: 0
+    m_TextureCompression: 0
+    m_LockAtlas: 0
+--- !u!196 &5
+NavMeshSettings:
+  m_ObjectHideFlags: 0
+  m_BuildSettings:
+    agentRadius: .5
+    agentHeight: 2
+    agentSlope: 45
+    agentClimb: .400000006
+    ledgeDropHeight: 0
+    maxJumpAcrossDistance: 0
+    accuratePlacement: 0
+    minRegionArea: 2
+    widthInaccuracy: 16.666666
+    heightInaccuracy: 10
+  m_NavMesh: {fileID: 0}
+--- !u!114 &11630594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 732a859ae25f9024f82cb4ce750d80dd, type: 3}
+  m_Name: 
+  Name: QuitButton
+  GUIStyle: button
+  Parent: {fileID: 2013500050}
+  InspectorFoldout: 1
+  Text: Quit
+  Size: {x: 0, y: 0}
+  MaximumSize: {x: 0, y: 130}
+  SizesInspectorFoldout: 0
+--- !u!114 &83538467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53e6fd1cdb8b43e4a8d5411e36a95bda, type: 3}
+  m_Name: 
+  Name: GamesList
+  GUIStyle: label
+  Parent: {fileID: 825734166}
+  InspectorFoldout: 1
+  SelectedItemInex: 0
+  BoxGUIStyle: box
+--- !u!114 &133667198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2d99f915e9893441a10dd3ab3aadb86, type: 3}
+  m_Name: 
+  Name: GUIFrameVertical_1674000384
+  GUIStyle: 
+  Parent: {fileID: 1974095244}
+  InspectorFoldout: 1
+  Controls:
+  - {fileID: 266958362}
+  - {fileID: 1192120004}
+--- !u!114 &266958362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 732a859ae25f9024f82cb4ce750d80dd, type: 3}
+  m_Name: 
+  Name: ConnectButton
+  GUIStyle: button
+  Parent: {fileID: 133667198}
+  InspectorFoldout: 1
+  Text: Connect
+  Size: {x: 0, y: 0}
+  MaximumSize: {x: 0, y: 100}
+  SizesInspectorFoldout: 1
+--- !u!114 &405940728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 732a859ae25f9024f82cb4ce750d80dd, type: 3}
+  m_Name: 
+  Name: ContinueCampaignButton
+  GUIStyle: button
+  Parent: {fileID: 2013500050}
+  InspectorFoldout: 1
+  Text: Continue
+  Size: {x: 0, y: 0}
+  MaximumSize: {x: 0, y: 130}
+  SizesInspectorFoldout: 0
+--- !u!114 &825734166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2d99f915e9893441a10dd3ab3aadb86, type: 3}
+  m_Name: 
+  Name: GUIFrameVertical_1495339226
+  GUIStyle: 
+  Parent: {fileID: 1974095244}
+  InspectorFoldout: 1
+  Controls:
+  - {fileID: 83538467}
+--- !u!114 &951802993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 732a859ae25f9024f82cb4ce750d80dd, type: 3}
+  m_Name: 
+  Name: StartCampaignButton
+  GUIStyle: button
+  Parent: {fileID: 2013500050}
+  InspectorFoldout: 1
+  Text: Start Campaign
+  Size: {x: 0, y: 0}
+  MaximumSize: {x: 0, y: 130}
+  SizesInspectorFoldout: 0
+--- !u!114 &1054068544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 732a859ae25f9024f82cb4ce750d80dd, type: 3}
+  m_Name: 
+  Name: EditorButton
+  GUIStyle: button
+  Parent: {fileID: 2013500050}
+  InspectorFoldout: 1
+  Text: Editor
+  Size: {x: 0, y: 0}
+  MaximumSize: {x: 0, y: 130}
+  SizesInspectorFoldout: 0
+--- !u!114 &1192120004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 732a859ae25f9024f82cb4ce750d80dd, type: 3}
+  m_Name: 
+  Name: HostButton
+  GUIStyle: button
+  Parent: {fileID: 133667198}
+  InspectorFoldout: 1
+  Text: Host
+  Size: {x: 0, y: 0}
+  MaximumSize: {x: 0, y: 100}
+  SizesInspectorFoldout: 1
+--- !u!114 &1319962158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5df2c6db17925e94a8cac7e18d469838, type: 3}
+  m_Name: 
+  Name: GUIFrameArea_537596899
+  GUIStyle: box
+  Parent: {fileID: 0}
+  InspectorFoldout: 1
+  RelativeMargins: {x: .100000001, y: .100000001}
+  MaximumMargins: {x: 100, y: 100}
+  Controls:
+  - {fileID: 1974095244}
+  MarginsInspectorFoldout: 1
+--- !u!1 &1533683445
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1533683451}
+  - 20: {fileID: 1533683450}
+  - 92: {fileID: 1533683449}
+  - 124: {fileID: 1533683448}
+  - 81: {fileID: 1533683447}
+  - 114: {fileID: 1533683453}
+  - 114: {fileID: 1533683446}
+  - 114: {fileID: 1533683452}
+  m_Layer: 0
+  m_Name: Main Camera
+  m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1533683446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1533683445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 567047afc939fe54f8a1253bb62626a9, type: 3}
+  m_Name: 
+  Name: MainMenu
+  Area: {fileID: 1663432317}
+  PreviousFrame: {fileID: 0}
+  Area_946817090: {fileID: 1663432317}
+  InnerArea: {fileID: 2013500050}
+  StartCampaignButton: {fileID: 951802993}
+  ContinueCampaignButton: {fileID: 405940728}
+  LoadCampaignButton: {fileID: 2144112169}
+  MultiplayerButton: {fileID: 1958119893}
+  EditorButton: {fileID: 1054068544}
+  FlexibleSpace_874724264: {fileID: 1825663241}
+  QuitButton: {fileID: 11630594}
+--- !u!81 &1533683447
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1533683445}
+  m_Enabled: 1
+--- !u!124 &1533683448
+Behaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1533683445}
+  m_Enabled: 1
+--- !u!92 &1533683449
+Behaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1533683445}
+  m_Enabled: 1
+--- !u!20 &1533683450
+Camera:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1533683445}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: .192156896, g: .320499152, b: .474509835, a: .0196078438}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: .300000012
+  far clip plane: 20
+  field of view: 60
+  orthographic: 1
+  orthographic size: 5
+  m_Depth: -1
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: 1
+  m_TargetTexture: {fileID: 0}
+  m_HDR: 0
+--- !u!4 &1533683451
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1533683445}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -6, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1646423774}
+--- !u!114 &1533683452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1533683445}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a616a246a349e84bb9c34391cc3c518, type: 3}
+  m_Name: 
+  Name: MultiplayerMenu
+  Area: {fileID: 1319962158}
+  PreviousFrame: {fileID: 1533683446}
+  GUIFrameArea_537596899: {fileID: 1319962158}
+  GUIFrameHorizontal_1962052501: {fileID: 1974095244}
+  GUIFrameVertical_1495339226: {fileID: 825734166}
+  GamesList: {fileID: 83538467}
+  GUIFrameVertical_1674000384: {fileID: 133667198}
+  ConnectButton: {fileID: 266958362}
+  HostButton: {fileID: 1192120004}
+--- !u!114 &1533683453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1533683445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  subId: 1
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  instantiationId: 0
+--- !u!1 &1646423773
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1646423774}
+  m_Layer: 0
+  m_Name: Cameras
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1646423774
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1646423773}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1533683451}
+  m_Father: {fileID: 0}
+--- !u!114 &1663432317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5df2c6db17925e94a8cac7e18d469838, type: 3}
+  m_Name: 
+  Name: Area_946817090
+  GUIStyle: box
+  Parent: {fileID: 0}
+  InspectorFoldout: 1
+  RelativeMargins: {x: .100000001, y: .100000001}
+  MaximumMargins: {x: 100, y: 100}
+  Controls:
+  - {fileID: 2013500050}
+  MarginsInspectorFoldout: 0
+--- !u!114 &1825663241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee4484bc34d039349b37800a1bd3dd22, type: 3}
+  m_Name: 
+  Name: FlexibleSpace_874724264
+  GUIStyle: 
+  Parent: {fileID: 2013500050}
+  InspectorFoldout: 1
+  MinimumSize: 75
+  MinimumSizeRate: .200000003
+--- !u!114 &1958119893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 732a859ae25f9024f82cb4ce750d80dd, type: 3}
+  m_Name: 
+  Name: MultiplayerButton
+  GUIStyle: button
+  Parent: {fileID: 2013500050}
+  InspectorFoldout: 1
+  Text: Multiplayer
+  Size: {x: 0, y: 0}
+  MaximumSize: {x: 0, y: 130}
+  SizesInspectorFoldout: 0
+--- !u!114 &1974095244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8769641660efefd468386f5713858954, type: 3}
+  m_Name: 
+  Name: GUIFrameHorizontal_1962052501
+  GUIStyle: 
+  Parent: {fileID: 1319962158}
+  InspectorFoldout: 1
+  Controls:
+  - {fileID: 825734166}
+  - {fileID: 133667198}
+--- !u!114 &2013500050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5df2c6db17925e94a8cac7e18d469838, type: 3}
+  m_Name: 
+  Name: InnerArea
+  GUIStyle: box
+  Parent: {fileID: 1663432317}
+  InspectorFoldout: 1
+  RelativeMargins: {x: .25, y: .100000001}
+  MaximumMargins: {x: 400, y: 100}
+  Controls:
+  - {fileID: 951802993}
+  - {fileID: 405940728}
+  - {fileID: 2144112169}
+  - {fileID: 1958119893}
+  - {fileID: 1054068544}
+  - {fileID: 1825663241}
+  - {fileID: 11630594}
+  MarginsInspectorFoldout: 1
+--- !u!114 &2144112169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 732a859ae25f9024f82cb4ce750d80dd, type: 3}
+  m_Name: 
+  Name: LoadCampaignButton
+  GUIStyle: button
+  Parent: {fileID: 2013500050}
+  InspectorFoldout: 1
+  Text: Load
+  Size: {x: 0, y: 0}
+  MaximumSize: {x: 0, y: 130}
+  SizesInspectorFoldout: 0

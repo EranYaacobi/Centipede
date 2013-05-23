@@ -11,6 +11,9 @@ public class LookOnGameObject : MonoBehaviour
 	// Update is called once per frame
 	void LateUpdate()
 	{
-		transform.position = GameObject.transform.position + Vector3.forward * -10;
+		if (GameObject != null)
+		{
+			transform.position = GameObject.transform.position + Vector3.forward*-10;
+		}
 	}
 }

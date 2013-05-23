@@ -4,7 +4,12 @@ using System.Collections;
 
 public class SetLegsInputButton : MonoBehaviour {
 
-	// Use this for initialization
+	void Awake()
+	{
+		// Disabling the script on awake, as it should start only when all legs are initialized.
+		enabled = false;
+	}
+
 	void Start()
 	{
 		var Legs = GetComponentsInChildren<LegMotor>();

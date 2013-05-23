@@ -3,7 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
 
-public abstract class LegsCenter<T> : MonoBehaviour where T : LegMotor
+/// <summary>
+/// An empty "interface" for LegsCenter, in order to enable getting all components that inherits from it
+/// (not possible for the generic class).
+/// </summary>
+public abstract class LegsCenter : MonoBehaviour
+{
+}
+
+public abstract class LegsCenter<T> : LegsCenter where T : LegMotor
 {
 	/// <summary>
 	/// The initial transform of the leg, relative to the body.
@@ -14,6 +22,12 @@ public abstract class LegsCenter<T> : MonoBehaviour where T : LegMotor
 	/// The total mass of the leg.
 	/// </summary>
 	public Single LegMass;
+	
+	void Awake()
+	{	
+		// Disabling the script on awake, as it should start only when all legs are initialized.
+		enabled = false;
+	}
 
 	void Start()
 	{
