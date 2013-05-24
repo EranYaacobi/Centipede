@@ -10,10 +10,10 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9f3758f8f58fdef43803eb9be1df0608, type: 3}
   m_Name: PhotonServerSettings
-  HostType: 1
-  ServerAddress: app-eu.exitgamescloud.com
+  HostType: 2
+  ServerAddress: 87.69.222.91
   ServerPort: 5055
-  AppID: 09a30c81-8563-4f3c-981d-52696f666304
+  AppID: Master
   RpcList:
   - SendChatMessage
   - Marco

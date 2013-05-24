@@ -6,7 +6,7 @@ using System.Collections;
 
 public class PlayerInput : Photon.MonoBehaviour
 {
-	private const Single LocalInputDelay = 0.05F;
+	private const Single LocalInputDelay = 0;
 
 	/// <summary>
 	/// Holds references for all PlayerInputs.

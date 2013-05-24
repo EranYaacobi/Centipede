@@ -69,12 +69,12 @@ MonoBehaviour:
   Flexibility: 1
   ForceConstant: 1.5
   MotorRetractingForce: 250
-  MotorLengtheningForce: 300
+  MotorLengtheningForce: 500
   MotorRetractingSpeed: 1
   MotorLengtheningSpeed: 1
   RetractedLength: -.449999988
   MaximumLength: 3
-  LengtheningTime: 1.5
+  LengtheningTime: .5
   ReloadingTime: 1
   DampingRate: .75
 --- !u!114 &11400004
