@@ -44,7 +44,7 @@ public partial class MultiplayerMenuGUIFrame : GUIFrame
 	/// </summary>
 	private void Host()
 	{
-		PhotonNetwork.CreateRoom("Test");
+		PhotonNetwork.CreateRoom(String.Format("Test_{0}", UnityEngine.Random.Range(0, Int16.MaxValue)));
 	}
 
 	/// <summary>

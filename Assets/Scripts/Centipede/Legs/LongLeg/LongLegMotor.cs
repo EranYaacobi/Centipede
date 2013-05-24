@@ -176,6 +176,8 @@ public class LongLegMotor : LegMotor
 		Sole.collider.isTrigger = false;
 		RestraintDistance.enabled = false;
 
+		var CurrentTime = Time.time;
+
 		// Making the leg become longer.
 		foreach (var PrismaticJoint in PrismaticJoints)
 		{
@@ -204,13 +206,17 @@ public class LongLegMotor : LegMotor
 			yield return new WaitForFixedUpdate();
 
 		foreach (var PrismaticJoint in PrismaticJoints)
-			PrismaticJoint.State = BasicPrismaticJoint.MotorState.Stopped;
+			PrismaticJoint.State = BasicPrismaticJoint.MotorState.Stopped;	
 
 		RestraintDistance.enabled = true;
 		while (!RestraintDistance.InArea())
 			yield return new WaitForFixedUpdate();
-		
-		yield return new WaitForSeconds(ReloadingTime);
+
+		var FinishTime = Time.time;
+
+		var SleepTime = Mathf.Max(ReloadingTime - ((FinishTime - CurrentTime) - LengtheningTime), 0);
+
+		yield return new WaitForSeconds(SleepTime);
 
 		Retracted = true;
 	}
