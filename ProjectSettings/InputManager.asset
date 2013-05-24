@@ -8,8 +8,8 @@ InputManager:
     m_Name: Horizontal
     descriptiveName: Right
     descriptiveNegativeName: Left
-    negativeButton: b
-    positiveButton: n
+    negativeButton: 1
+    positiveButton: 2
     altNegativeButton: 
     altPositiveButton: 
     gravity: Infinity
@@ -41,7 +41,7 @@ InputManager:
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: w
+    positiveButton: s
     altNegativeButton: 
     altPositiveButton: 
     gravity: Infinity
@@ -57,7 +57,7 @@ InputManager:
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: e
+    positiveButton: d
     altNegativeButton: 
     altPositiveButton: 
     gravity: Infinity
@@ -73,7 +73,7 @@ InputManager:
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: r
+    positiveButton: f
     altNegativeButton: 
     altPositiveButton: 
     gravity: Infinity
@@ -89,7 +89,7 @@ InputManager:
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: t
+    positiveButton: g
     altNegativeButton: 
     altPositiveButton: 
     gravity: Infinity
@@ -105,7 +105,7 @@ InputManager:
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: y
+    positiveButton: h
     altNegativeButton: 
     altPositiveButton: 
     gravity: Infinity
@@ -121,7 +121,7 @@ InputManager:
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: u
+    positiveButton: j
     altNegativeButton: 
     altPositiveButton: 
     gravity: Infinity
@@ -137,7 +137,7 @@ InputManager:
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: i
+    positiveButton: k
     altNegativeButton: 
     altPositiveButton: 
     gravity: Infinity
@@ -153,7 +153,7 @@ InputManager:
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: o
+    positiveButton: l
     altNegativeButton: 
     altPositiveButton: 
     gravity: Infinity

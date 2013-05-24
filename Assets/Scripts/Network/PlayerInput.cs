@@ -19,6 +19,16 @@ public class PlayerInput : Photon.MonoBehaviour
 	private readonly Dictionary<String, ButtonState> Buttons = new Dictionary<String, ButtonState>();
 
 	/// <summary>
+	/// The keys used to move left.
+	/// </summary>
+	public KeyCode[] LeftKeys;
+
+	/// <summary>
+	/// The keys used to move right.
+	/// </summary>
+	public KeyCode[] RightKeys;
+
+	/// <summary>
 	/// Holds the value of the horizontal axis.
 	/// </summary>
 	private Single HorizontalAxis;
@@ -47,7 +57,7 @@ public class PlayerInput : Photon.MonoBehaviour
 	{
 		if (Owner == PhotonNetwork.player)
 		{
-			var NewHorizontalAxis = Input.GetAxis(Keys.Horizontal);
+			Single NewHorizontalAxis = Mathf.Clamp(RightKeys.Count(KeyDown) - LeftKeys.Count(KeyDown), -1, 1);
 
 			if (NewHorizontalAxis != HorizontalAxis)
 				photonView.RPC("UpdateHorizontalAxis", PhotonTargets.All, NewHorizontalAxis);
@@ -68,9 +78,19 @@ public class PlayerInput : Photon.MonoBehaviour
 		{
 			if (Button.Value == ButtonState.Released)
 				Buttons[Button.Key] = ButtonState.Up;
-			else if (Button.Value == ButtonState.Down)
-				Buttons[Button.Key] = ButtonState.Pressed;
+			else if (Button.Value == ButtonState.Pressed)
+				Buttons[Button.Key] = ButtonState.Down;
 		}
+	}
+
+	private Boolean KeyDown(KeyCode Key)
+	{
+		return (Input.GetKeyDown(Key)) || (Input.GetKey(Key));
+	}
+
+	private Boolean KeyUp(KeyCode Key)
+	{
+		return !KeyDown(Key);
 	}
 
 	private ButtonState CheckButtonState(String ButtonName)
@@ -104,6 +124,11 @@ public class PlayerInput : Photon.MonoBehaviour
 		if (Owner == PhotonNetwork.player)
 			yield return new WaitForSeconds(LocalInputDelay);
 		else
+			yield return new WaitForEndOfFrame();
+
+		// In order to avoid a situation in which a key press\key released is immediately overriden, waiting
+		// until they are changed.
+		while ((Buttons[ButtonName] == ButtonState.Pressed) || (Buttons[ButtonName] == ButtonState.Released))
 			yield return new WaitForEndOfFrame();
 
 		Buttons[ButtonName] = (ButtonState)NewButtonState;

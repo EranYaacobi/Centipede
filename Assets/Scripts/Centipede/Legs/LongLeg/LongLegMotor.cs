@@ -162,6 +162,11 @@ public class LongLegMotor : LegMotor
 		return PrismaticJoints.All(PrismaticJoint => PrismaticJoint.CurrentLength <= RetractedLength + PrismaticJoint.InitialLength + Sole.collider.bounds.size.y);
 	}
 
+	protected override bool CheckActionInput()
+	{
+		return PlayerInput.GetPlayerInput(Owner).ButtonDown(InputButton);
+	}
+
 	protected override void PerformAction()
 	{
 		if ((Retracted) && (RestraintDistance.InArea()))

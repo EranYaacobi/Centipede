@@ -70,12 +70,12 @@ MonoBehaviour:
   ForceConstant: 1.5
   MotorRetractingForce: 250
   MotorLengtheningForce: 500
-  MotorRetractingSpeed: 1
-  MotorLengtheningSpeed: 1
+  MotorRetractingSpeed: 2
+  MotorLengtheningSpeed: 1.5
   RetractedLength: -.449999988
   MaximumLength: 3
   LengtheningTime: .5
-  ReloadingTime: 1
+  ReloadingTime: 2.79999995
   DampingRate: .75
 --- !u!114 &11400004
 MonoBehaviour:
@@ -163,6 +163,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b40b4ff958eab2642bec6706111c9e19, type: 3}
   m_Name: 
+  LeftKeys: 77000000650000007200000074000000
+  RightKeys: 7900000075000000690000006f000000
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -68,7 +68,7 @@ public abstract class LegMotor : Photon.MonoBehaviour
 		{
 			UpdateValues();
 
-			if (PlayerInput.GetPlayerInput(Owner).GetButtonState(InputButton) == PlayerInput.ButtonState.Released)
+			if (CheckActionInput())
 				PerformAction();
 		}
 	}
@@ -93,6 +93,15 @@ public abstract class LegMotor : Photon.MonoBehaviour
 
 			LastHorizontalMovement = HorizontalMovement;
 		}
+	}
+
+	/// <summary>
+	/// Checks if the input implies that an action should be performed.
+	/// </summary>
+	/// <returns></returns>
+	protected virtual Boolean CheckActionInput()
+	{
+		return PlayerInput.GetPlayerInput(Owner).GetButtonState(InputButton) == PlayerInput.ButtonState.Pressed;
 	}
 
 	/// <summary>
