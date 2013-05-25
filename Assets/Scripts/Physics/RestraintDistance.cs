@@ -84,7 +84,7 @@ public class RestraintDistance : MonoBehaviour
 
 	void OnDrawGizmosSelected()
 	{
-		const Single Depth = -5F;
+		const Single Depth = -1F;
 		var Model = RestrictedByTranform;
 		if (ReverseRestraint)
 			Model = transform;;

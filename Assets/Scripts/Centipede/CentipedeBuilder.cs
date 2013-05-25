@@ -37,17 +37,17 @@ public class CentipedeBuilder : Photon.MonoBehaviour
 	/// </summary>
 	public PhotonPlayer Owner;
 
-	private void Start()
-	{
-		if (!PhotonNetwork.isMasterClient)
-			return;
+	/// <summary>
+	/// The colliders of the created links.
+	/// </summary>
+	public List<Collider> LinkColliders;
 
-		Common.Assert(Legs.Length%2 == 0);
+	/// <summary>
+	/// The colliders of the created legs.
+	/// </summary>
+	public List<Collider> LegColliders;
 
-		CreateCentipede();
-	}
-
-	private void CreateCentipede()
+	public void CreateCentipede()
 	{
 		// Create the links, and their legs.
 		var Links = Enumerable.Range(0, Legs.Length / 2).Select(Index =>
@@ -87,27 +87,43 @@ public class CentipedeBuilder : Photon.MonoBehaviour
 			LastLink = Link;
 		}
 
+		// Get colliders.
+		LegColliders = GetComponentsInChildren<LegMotor>().SelectMany(Leg => Leg.GetComponentsInChildren<Collider>()).ToList();
+		LinkColliders = Links.Select(Link => Link.collider).ToList();
+
+		IgnoreCollisions();
+
+		// Enabling legs centers.
+		foreach (var LegsCenter in GetComponents(typeof (LegsCenter)).Cast<MonoBehaviour>())
+			LegsCenter.enabled = true;
+	}
+
+	private void IgnoreCollisions()
+	{
+		var EnabledLinkColliders = LinkColliders.Where(LinkCollider => LinkCollider.enabled).ToList();
+		var EnabledLegColliders = LegColliders.Where(LegCollider => LegCollider.enabled).ToList();
+
 		// Ignore collisions between a centipede and its legs.
-		var LegColliders = GetComponentsInChildren<LegMotor>().SelectMany(Leg => Leg.GetComponentsInChildren<Collider>()).ToList();
-		foreach (var Link in Links)
+		foreach (var LinkCollider in EnabledLinkColliders)
 		{
-			foreach (var LegCollider in LegColliders)
-				Physics.IgnoreCollision(Link.collider, LegCollider, true);
+			foreach (var LegCollider in EnabledLegColliders)
+				Physics.IgnoreCollision(LinkCollider, LegCollider, true);
 		}
 
 		// Ignore collisions between legs.
-		foreach (var FirstLegCollider in LegColliders)
+		foreach (var FirstLegCollider in EnabledLegColliders)
 		{
-			foreach (var SecondLegCollider in LegColliders)
+			foreach (var SecondLegCollider in EnabledLegColliders)
 			{
 				if (FirstLegCollider != SecondLegCollider)
 					Physics.IgnoreCollision(FirstLegCollider, SecondLegCollider, true);
 			}
 		}
+	}
 
-		// Enabling legs centers.
-		foreach (var LegsCenter in GetComponents(typeof (LegsCenter)).Cast<MonoBehaviour>())
-			LegsCenter.enabled = true;
+	private void Update()
+	{
+		IgnoreCollisions();
 	}
 
 	private void InitializeHingeJoint(HingeJoint HingeJoint, Rigidbody ConnectedBody)

@@ -12,8 +12,15 @@ public class SpawnPlayers : Photon.MonoBehaviour
 
 	private Int32 PlayersReadyCount;
 
-	private void Awake()
+	private void Start()
 	{
+		if (!PhotonNetwork.connected)
+		{
+			Debug.Log("Offline mode");
+			PhotonNetwork.offlineMode = true;
+			PhotonNetwork.CreateRoom("Playground");
+		}
+		
 		photonView.RPC("LoadedLevel", PhotonTargets.MasterClient);
 	}
 
@@ -45,13 +52,18 @@ public class SpawnPlayers : Photon.MonoBehaviour
 	[RPC]
 	public void SpawnPlayer(Vector3 Position, Quaternion Rotation, PhotonPlayer Owner, Int32 NetworkViewID)
 	{
+		Debug.Log("Created player");
 		var Player = Instantiate(SpawnedGameObject, Position, Rotation) as GameObject;		
 		Player.GetPhotonView().viewID = NetworkViewID;
-		Player.GetComponent<CentipedeBuilder>().Owner = Owner;
-
 		Player.GetComponent<PlayerInput>().Initialize(Owner);
-
 		if (Owner == PhotonNetwork.player)
 			Camera.mainCamera.GetComponent<LookOnGameObject>().GameObject = Player;
+
+		var CentipedeBuilder = Player.GetComponent<CentipedeBuilder>();
+			
+		CentipedeBuilder.Owner = Owner;
+		Common.Assert(CentipedeBuilder.Legs.Length%2 == 0);
+		if (PhotonNetwork.isMasterClient)
+			CentipedeBuilder.CreateCentipede();
 	}
 }

@@ -15,7 +15,7 @@ public class NormalLegMotor : LegMotor
 	public Vector3 BackJointAnchor;
 
 	/// <summary>
-	/// The anchor of the front spring, relative to the body.
+	/// The anchor of the front joint, relative to the body.
 	/// </summary>
 	public Vector3 FrontJointAnchor;
 
@@ -135,13 +135,16 @@ public class NormalLegMotor : LegMotor
 			{
 				SoleMotor.LowerLimit = RetractedLimit;
 				SoleMotor.UpperLimit = RetractedLimit;
-				SoleMotor.collider.isTrigger = true;
+				SoleMotor.collider.enabled = false;
+
+				SoleMotor.BackJointAnchor += 0.1F * transform.up;
+				SoleMotor.FrontJointAnchor += 0.1F * transform.up;
 			}
 			else
 			{
 				SoleMotor.LowerLimit = LowerLimit;
 				SoleMotor.UpperLimit = UpperLimit;
-				SoleMotor.collider.isTrigger = false;
+				SoleMotor.collider.enabled = true;
 			}
 		}
 	}

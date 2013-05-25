@@ -134,7 +134,7 @@ public class NormalLegSoleMotor : MonoBehaviour
 		Initialized = true;
 	}
 
-	private void Update()
+	private void FixedUpdate()
 	{
 		if (Initialized)
 		{

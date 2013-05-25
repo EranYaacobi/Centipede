@@ -70,7 +70,7 @@ public class WheelLegMotor : LegMotor
 		set
 		{
 			retracted = value;
-			WheelCollider.isTrigger = retracted;
+			WheelCollider.enabled = !retracted;
 		}
 	}
 

@@ -154,7 +154,7 @@ public class LongLegMotor : LegMotor
 		}
 
 		if (Retracted)
-			Sole.collider.isTrigger = true;		
+			Sole.collider.enabled = false;		
 	}
 
 	private Boolean JointsRetracted()
@@ -178,7 +178,7 @@ public class LongLegMotor : LegMotor
 
 	private IEnumerator Lengthen()
 	{
-		Sole.collider.isTrigger = false;
+		Sole.collider.enabled = true;
 		RestraintDistance.enabled = false;
 
 		var CurrentTime = Time.time;
@@ -196,7 +196,7 @@ public class LongLegMotor : LegMotor
 		// Waiting for the specified time.
 		yield return new WaitForSeconds(LengtheningTime);
 
-		Sole.collider.isTrigger = true;
+		Sole.collider.enabled = false;
 
 		// Retracting the leg.
 		foreach (var PrismaticJoint in PrismaticJoints)
