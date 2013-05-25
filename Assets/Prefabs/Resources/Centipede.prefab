@@ -181,8 +181,9 @@ MonoBehaviour:
   InitialLegTransform: {x: 0, y: .200000003, z: 0}
   LegMass: 2
   MaximumAngularVelocity: 25
-  MotorTorque: 250
+  MotorTorque: 50
   BrakeTorque: 50
+  MaximumSlipRate: .0500000007
   BackSuspensionJointAnchor: {x: -.5, y: 0, z: 0}
   FrontSuspensionJointAnchor: {x: .5, y: 0, z: 0}
   SuspensionJointsForceConstant: 1.5
