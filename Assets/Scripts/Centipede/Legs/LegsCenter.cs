@@ -19,9 +19,9 @@ public abstract class LegsCenter<T> : LegsCenter where T : LegMotor
 	public Vector3 InitialLegTransform;
 	
 	/// <summary>
-	/// The total mass of the leg.
+	/// The initial total mass of the leg.
 	/// </summary>
-	public Single LegMass;
+	public Single InitialLegMass;
 	
 	void Awake()
 	{	
@@ -61,7 +61,7 @@ public abstract class LegsCenter<T> : LegsCenter where T : LegMotor
 	protected virtual void InitializeLeg(T Leg, Int32 LegIndex)
 	{
 		Leg.transform.localPosition += InitialLegTransform;
-		Leg.Initialize(LegMass);
+		Leg.Initialize(InitialLegMass);
 	}
 
 	/// <summary>

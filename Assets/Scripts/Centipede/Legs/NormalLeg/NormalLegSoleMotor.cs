@@ -124,10 +124,10 @@ public class NormalLegSoleMotor : MonoBehaviour
 		SoleInitialTranform = transform.localPosition;
 
 		BackJoint = gameObject.AddComponent<BasicPrismaticJoint>();
-		BackJoint.Initialize(ConnectedBody, SoleAnchor, BackJointAnchor, Flexibility, ForceConstant, MaxMotorForce, MaxMotorSpeed, LowerLimit, UpperLimit, DampingRate, CenterOnStop);
+		BackJoint.Initialize(ConnectedBody, SoleAnchor, BackJointAnchor, Flexibility, ForceConstant, MaxMotorForce, MaxMotorSpeed, LowerLimit, UpperLimit, DampingRate, CenterOnStop, true);
 
 		FrontJoint = gameObject.AddComponent<BasicPrismaticJoint>();
-		FrontJoint.Initialize(ConnectedBody, SoleAnchor, FrontJointAnchor, Flexibility, ForceConstant, MaxMotorForce, MaxMotorSpeed, LowerLimit, UpperLimit, DampingRate, CenterOnStop);
+		FrontJoint.Initialize(ConnectedBody, SoleAnchor, FrontJointAnchor, Flexibility, ForceConstant, MaxMotorForce, MaxMotorSpeed, LowerLimit, UpperLimit, DampingRate, CenterOnStop, true);
 
 		UpdateJoints();
 

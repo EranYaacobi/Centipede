@@ -133,18 +133,20 @@ public class NormalLegMotor : LegMotor
 			
 			if (Retracted)
 			{
-				SoleMotor.LowerLimit = RetractedLimit;
-				SoleMotor.UpperLimit = RetractedLimit;
+				SoleMotor.LowerLimit = Mathf.Lerp(SoleMotor.LowerLimit, RetractedLimit, 10 * Time.deltaTime);
+				SoleMotor.UpperLimit = Mathf.Lerp(SoleMotor.UpperLimit, RetractedLimit, 10 * Time.deltaTime);
 				SoleMotor.collider.enabled = false;
+				SoleMotor.rigidbody.useGravity = false;
 
-				SoleMotor.BackJointAnchor += 0.1F * transform.up;
-				SoleMotor.FrontJointAnchor += 0.1F * transform.up;
+				SoleMotor.BackJointAnchor += 0.1F * Vector3.up;
+				SoleMotor.FrontJointAnchor += 0.1F * Vector3.up;
 			}
 			else
 			{
-				SoleMotor.LowerLimit = LowerLimit;
-				SoleMotor.UpperLimit = UpperLimit;
+				SoleMotor.LowerLimit = Mathf.Lerp(SoleMotor.LowerLimit, LowerLimit, 10 * Time.deltaTime);
+				SoleMotor.UpperLimit = Mathf.Lerp(SoleMotor.UpperLimit, UpperLimit, 10 * Time.deltaTime);
 				SoleMotor.collider.enabled = true;
+				SoleMotor.rigidbody.useGravity = true;
 			}
 		}
 	}

@@ -33,30 +33,31 @@ public class NaturalWheelLegMotor : LegMotor
 	public Single BrakeTorque;
 
 	/// <summary>
+	/// The minimum slip rate after which the motor applies less force.
+	/// </summary>
+	[Range(0, 1)]
+	public Single MinimumSlipRate;
+
+	/// <summary>
 	/// The maximum slip rate after which the motor shuts down.
 	/// </summary>
 	[Range(0, 1)]
 	public Single MaximumSlipRate;
 
-	private Vector3 backSuspensionJointAnchor;
+	/// <summary>
+	/// The minimum required angular velocity for checking if the wheel is slipping.
+	/// </summary>
+	public Single MinimumSlipAngularVelocity;
+
 	/// <summary>
 	/// The anchor of the back suspension joint, relative to the body.
 	/// </summary>
-	public Vector3 BackSuspensionJointAnchor
-	{
-		get { return backSuspensionJointAnchor + InitialTranform; }
-		set { backSuspensionJointAnchor = value; }
-	}
+	public Vector3 BackSuspensionJointAnchor;
 
-	private Vector3 frontSuspensionJointAnchor;
 	/// <summary>
 	/// The anchor of the front suspension joint, relative to the body.
 	/// </summary>
-	public Vector3 FrontSuspensionJointAnchor
-	{
-		get { return frontSuspensionJointAnchor + InitialTranform; }
-		set { frontSuspensionJointAnchor = value; }
-	}
+	public Vector3 FrontSuspensionJointAnchor;
 
 	/// <summary>
 	/// The force constant, which is used as a scalar when applying force.
@@ -111,25 +112,23 @@ public class NaturalWheelLegMotor : LegMotor
 	private BasicPrismaticJoint FrontSuspensionJoint;
 
 	/// <summary>
-	/// The initial transform of the wheel.
-	/// This is used to adjust the suspension joints' remote anchors.
+	/// Indicates whether the wheel is currently touching anything.
 	/// </summary>
-	private Vector3 InitialTranform;
+	private Boolean CollidingSomething;
 
 	public override void Initialize(Single Mass)
 	{
 		base.Initialize(Mass);
 
-		InitialTranform = transform.localPosition;
-
 		Wheel = transform.GetChild(0).gameObject;
 		Wheel.rigidbody.mass = Mass;
 
+		var LegOffsetInLink = new Vector3(transform.localPosition.x, 0, 0);
 		BackSuspensionJoint = Wheel.AddComponent<BasicPrismaticJoint>();
-		BackSuspensionJoint.Initialize(ConnectedBody, LegAnchor, BackSuspensionJointAnchor, 1, SuspensionJointsForceConstant, SuspensionJointsMaxMotorForce, 0, SuspensionLowerLimit, SuspensionUpperLimit, SuspensionDampingRate, true);
+		BackSuspensionJoint.Initialize(ConnectedBody, LegAnchor, BackSuspensionJointAnchor + LegOffsetInLink, 1, SuspensionJointsForceConstant, SuspensionJointsMaxMotorForce, 0, SuspensionLowerLimit, SuspensionUpperLimit, SuspensionDampingRate, true, true);
 
 		FrontSuspensionJoint = Wheel.AddComponent<BasicPrismaticJoint>();
-		FrontSuspensionJoint.Initialize(ConnectedBody, LegAnchor, FrontSuspensionJointAnchor, 1, SuspensionJointsForceConstant, SuspensionJointsMaxMotorForce, 0, SuspensionLowerLimit, SuspensionUpperLimit, SuspensionDampingRate, true);
+		FrontSuspensionJoint.Initialize(ConnectedBody, LegAnchor, FrontSuspensionJointAnchor + LegOffsetInLink, 1, SuspensionJointsForceConstant, SuspensionJointsMaxMotorForce, 0, SuspensionLowerLimit, SuspensionUpperLimit, SuspensionDampingRate, true, true);
 
 		Retracted = true;
 
@@ -140,14 +139,15 @@ public class NaturalWheelLegMotor : LegMotor
 	{
 		base.UpdateValues();
 
+		var LegOffsetInLink = new Vector3(transform.localPosition.x, 0, 0);
 		BackSuspensionJoint.Anchor = LegAnchor;
-		BackSuspensionJoint.RemoteAnchor = BackSuspensionJointAnchor;
+		BackSuspensionJoint.RemoteAnchor = BackSuspensionJointAnchor + LegOffsetInLink;
 		BackSuspensionJoint.ForceConstant = SuspensionJointsForceConstant;
 		BackSuspensionJoint.MaxMotorForce = SuspensionJointsMaxMotorForce;
 		BackSuspensionJoint.DampingRate = SuspensionDampingRate;
 
 		FrontSuspensionJoint.Anchor = LegAnchor;
-		FrontSuspensionJoint.RemoteAnchor = FrontSuspensionJointAnchor;
+		FrontSuspensionJoint.RemoteAnchor = FrontSuspensionJointAnchor + LegOffsetInLink;
 		FrontSuspensionJoint.ForceConstant = SuspensionJointsForceConstant;
 		FrontSuspensionJoint.MaxMotorForce = SuspensionJointsMaxMotorForce;
 		FrontSuspensionJoint.DampingRate = SuspensionDampingRate;
@@ -160,17 +160,20 @@ public class NaturalWheelLegMotor : LegMotor
 
 		if (Retracted)
 		{
-			BackSuspensionJoint.LowerLimit = SuspensionRetractedLength;
-			BackSuspensionJoint.UpperLimit = SuspensionRetractedLength;
-			BackSuspensionJoint.LowerLimit = SuspensionRetractedLength;
-			FrontSuspensionJoint.UpperLimit = SuspensionRetractedLength;
+			BackSuspensionJoint.LowerLimit = Mathf.Lerp(BackSuspensionJoint.LowerLimit, SuspensionRetractedLength, 10 * Time.deltaTime);
+			BackSuspensionJoint.UpperLimit = Mathf.Lerp(BackSuspensionJoint.UpperLimit, SuspensionRetractedLength, 10 * Time.deltaTime);
+			FrontSuspensionJoint.LowerLimit = Mathf.Lerp(FrontSuspensionJoint.LowerLimit, SuspensionRetractedLength, 10 * Time.deltaTime);
+			FrontSuspensionJoint.UpperLimit = Mathf.Lerp(FrontSuspensionJoint.UpperLimit, SuspensionRetractedLength, 10 * Time.deltaTime);
+
+			BackSuspensionJoint.RemoteAnchor += 0.15F * Vector3.up;
+			FrontSuspensionJoint.RemoteAnchor += 0.15F * Vector3.up;
 		}
 		else
 		{
-			BackSuspensionJoint.LowerLimit = SuspensionLowerLimit;
-			BackSuspensionJoint.UpperLimit = SuspensionUpperLimit;
-			FrontSuspensionJoint.LowerLimit = SuspensionLowerLimit;
-			FrontSuspensionJoint.UpperLimit = SuspensionUpperLimit;
+			BackSuspensionJoint.LowerLimit = Mathf.Lerp(BackSuspensionJoint.LowerLimit, SuspensionLowerLimit, 10 * Time.deltaTime);
+			BackSuspensionJoint.UpperLimit = Mathf.Lerp(BackSuspensionJoint.UpperLimit, SuspensionUpperLimit, 10 * Time.deltaTime);
+			FrontSuspensionJoint.LowerLimit = Mathf.Lerp(FrontSuspensionJoint.LowerLimit, SuspensionLowerLimit, 10 * Time.deltaTime);
+			FrontSuspensionJoint.UpperLimit = Mathf.Lerp(FrontSuspensionJoint.UpperLimit, SuspensionUpperLimit, 10 * Time.deltaTime);
 		}
 	}
 
@@ -190,10 +193,31 @@ public class NaturalWheelLegMotor : LegMotor
 			{
 				Force *= MotorTorque;
 
-				var CurrentVelocity = Wheel.rigidbody.velocity.magnitude;
-				var RotationsProgress = CurrentAngularVelocity * WheelRadius;
-				if (Mathf.Abs(CurrentVelocity) < Mathf.Abs(RotationsProgress * (1 - MaximumSlipRate)))
-					Force *= 0;
+				if (CollidingSomething)
+				{
+					if (MinimumSlipAngularVelocity < Mathf.Abs(CurrentAngularVelocity))
+					{
+						var CurrentVelocity = Mathf.Abs(Wheel.rigidbody.velocity.magnitude);
+						var WheelVelocity = Mathf.Abs(CurrentAngularVelocity*WheelRadius);
+						var MinimumSlipVelocity = WheelVelocity*(1 - MinimumSlipRate);
+
+						if (CurrentVelocity < MinimumSlipVelocity)
+						{
+							// The wheel is slipping a little
+							var MaximumSlipVelocity = WheelVelocity*(1 - MaximumSlipRate);
+							if (CurrentVelocity < MaximumSlipVelocity)
+							{
+								// The wheel is slipping to much.
+								// Shuting down engine.
+								Force = 0;
+							}
+							else
+							{
+								Force *= (CurrentVelocity - MaximumSlipVelocity)/(MinimumSlipVelocity - MaximumSlipVelocity);
+							}
+						}
+					}
+				}
 			}
 			else
 				Force *= BrakeTorque;
@@ -203,14 +227,31 @@ public class NaturalWheelLegMotor : LegMotor
 		}
 	}
 
+	protected void OnCollisionEnter(Collision Collision)
+	{
+		CollidingSomething = true;
+	}
+
+	protected void OnCollisionStay(Collision Collision)
+	{
+		CollidingSomething = true;
+	}
+
+	protected void OnCollisionExit(Collision Collision)
+	{
+		CollidingSomething = true;
+	}
+
 	private void OnGUI()
 	{
 		if (transform.parent.parent.transform.GetComponentsInChildren<NaturalWheelLegMotor>()[0] != this)
 			return;
 		var Position = Wheel.transform.position - Vector3.up;
-		var Percents = Mathf.Abs(Wheel.rigidbody.angularVelocity.z)/MaximumAngularVelocity;
+		var AngularVelocityPercent = -Wheel.rigidbody.angularVelocity.z/MaximumAngularVelocity;
+		var VelocityPercent = Mathf.Sign(Wheel.rigidbody.velocity.x) * Wheel.rigidbody.velocity.magnitude / (MaximumAngularVelocity * WheelRadius);
 		var GUIPosition = Camera.mainCamera.WorldToScreenPoint(Position);
 
-		GUI.HorizontalSlider(new Rect(GUIPosition.x, GUIPosition.y, 200, 20), Percents, 0, 1);
+		GUI.HorizontalSlider(new Rect(GUIPosition.x, GUIPosition.y, 200, 20), AngularVelocityPercent, -1, 1);
+		GUI.HorizontalSlider(new Rect(GUIPosition.x, GUIPosition.y + 20, 200, 20), VelocityPercent, -1, 1);
 	}
 }

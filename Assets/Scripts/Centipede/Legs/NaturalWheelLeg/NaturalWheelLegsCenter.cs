@@ -23,10 +23,21 @@ public class NaturalWheelLegsCenter : LegsCenter<NaturalWheelLegMotor>
 	public Single BrakeTorque;
 
 	/// <summary>
+	/// The minimum slip rate after which the motor applies less force.
+	/// </summary>
+	[Range(0, 1)]
+	public Single MinimumSlipRate;
+
+	/// <summary>
 	/// The maximum slip rate after which the motor shuts down.
 	/// </summary>
 	[Range(0, 1)]
 	public Single MaximumSlipRate;
+
+	/// <summary>
+	/// The minimum required angular velocity for checking if the wheel is slipping.
+	/// </summary>
+	public Single MinimumSlipAngularVelocity;
 
 	/// <summary>
 	/// The anchor of the back suspension joint, relative to the body.
@@ -83,7 +94,9 @@ public class NaturalWheelLegsCenter : LegsCenter<NaturalWheelLegMotor>
 			Leg.MaximumAngularVelocity = MaximumAngularVelocity;
 			Leg.MotorTorque = MotorTorque;
 			Leg.BrakeTorque = BrakeTorque;
+			Leg.MinimumSlipRate = MinimumSlipRate;
 			Leg.MaximumSlipRate = MaximumSlipRate;
+			Leg.MinimumSlipAngularVelocity = MinimumSlipAngularVelocity;
 			Leg.BackSuspensionJointAnchor = BackSuspensionJointAnchor;
 			Leg.FrontSuspensionJointAnchor = FrontSuspensionJointAnchor;
 			Leg.SuspensionJointsForceConstant = SuspensionJointsForceConstant;

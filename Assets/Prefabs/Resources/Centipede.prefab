@@ -64,7 +64,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ebbd376a103d74795c3bfb8fc7d403, type: 3}
   m_Name: 
   InitialLegTransform: {x: 0, y: -1, z: 0}
-  LegMass: 2
+  InitialLegMass: 4
   BackJointAnchor: {x: -.5, y: 0, z: 0}
   FrontJointAnchor: {x: .5, y: 0, z: 0}
   Flexibility: 1
@@ -89,7 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47ef1583b4016a548b87fc76366aa9e4, type: 3}
   m_Name: 
   InitialLegTransform: {x: 0, y: -1, z: 0}
-  LegMass: 2
+  InitialLegMass: 2
   BackJointAnchor: {x: -1, y: 0, z: 0}
   FrontJointAnchor: {x: 1, y: 0, z: 0}
   Flexibility: 1
@@ -117,14 +117,14 @@ MonoBehaviour:
   LinkLimit: 2
   CenterOfMass: {x: 0, y: -.400000006, z: 0}
   Legs:
-  - {fileID: 100002, guid: 65af9f49a2dc6414cb0c36969e848457, type: 2}
-  - {fileID: 100002, guid: 65af9f49a2dc6414cb0c36969e848457, type: 2}
-  - {fileID: 100002, guid: 65af9f49a2dc6414cb0c36969e848457, type: 2}
-  - {fileID: 100002, guid: 65af9f49a2dc6414cb0c36969e848457, type: 2}
-  - {fileID: 100002, guid: 65af9f49a2dc6414cb0c36969e848457, type: 2}
-  - {fileID: 100002, guid: 65af9f49a2dc6414cb0c36969e848457, type: 2}
-  - {fileID: 100002, guid: 65af9f49a2dc6414cb0c36969e848457, type: 2}
-  - {fileID: 100002, guid: 65af9f49a2dc6414cb0c36969e848457, type: 2}
+  - {fileID: 100002, guid: 7d6dd3591aa0d1047b6ef0d76c436532, type: 2}
+  - {fileID: 100002, guid: 7d6dd3591aa0d1047b6ef0d76c436532, type: 2}
+  - {fileID: 100002, guid: 7d6dd3591aa0d1047b6ef0d76c436532, type: 2}
+  - {fileID: 100002, guid: 7d6dd3591aa0d1047b6ef0d76c436532, type: 2}
+  - {fileID: 100002, guid: 7d6dd3591aa0d1047b6ef0d76c436532, type: 2}
+  - {fileID: 100002, guid: 7d6dd3591aa0d1047b6ef0d76c436532, type: 2}
+  - {fileID: 100002, guid: 7d6dd3591aa0d1047b6ef0d76c436532, type: 2}
+  - {fileID: 100002, guid: 7d6dd3591aa0d1047b6ef0d76c436532, type: 2}
   LinkColliders: []
   LegColliders: []
 --- !u!114 &11400008
@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a800aeefc36b9924da1c7e3fdefb0704, type: 3}
   m_Name: 
   InitialLegTransform: {x: 0, y: -.349999994, z: 0}
-  LegMass: 2
+  InitialLegMass: 3
   SuspensionDistance: .5
   RetractedSuspensionDistance: 0
   SuspensionSpring: 1000
@@ -178,19 +178,21 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90be38e5aca690f4d81947d9560d447f, type: 3}
   m_Name: 
-  InitialLegTransform: {x: 0, y: .200000003, z: 0}
-  LegMass: 2
-  MaximumAngularVelocity: 25
-  MotorTorque: 50
-  BrakeTorque: 50
-  MaximumSlipRate: .0500000007
+  InitialLegTransform: {x: 0, y: 0, z: 0}
+  InitialLegMass: 3
+  MaximumAngularVelocity: 80
+  MotorTorque: 10
+  BrakeTorque: 10
+  MinimumSlipRate: .0299999993
+  MaximumSlipRate: .133000001
+  MinimumSlipAngularVelocity: 0
   BackSuspensionJointAnchor: {x: -.5, y: 0, z: 0}
   FrontSuspensionJointAnchor: {x: .5, y: 0, z: 0}
   SuspensionJointsForceConstant: 1.5
   SuspensionJointsMaxMotorForce: 450
-  SuspensionLowerLimit: .200000003
-  SuspensionUpperLimit: .699999988
-  SuspensionRetractedLength: 0
+  SuspensionLowerLimit: .400000006
+  SuspensionUpperLimit: .5
+  SuspensionRetractedLength: .150000006
   SuspensionDampingRate: .75
 --- !u!1001 &100100000
 Prefab:

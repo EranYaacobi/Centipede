@@ -84,6 +84,11 @@ public class BasicPrismaticJoint : MonoBehaviour
 	public Boolean CenterOnStop;
 
 	/// <summary>
+	/// Indicates whether the joint should stop applying force when it is upwards, relative to the connected body.
+	/// </summary>
+	public Boolean DisableUpwardMovement;
+
+	/// <summary>
 	/// The current length of the joint.
 	/// </summary>
 	public Single CurrentLength
@@ -102,7 +107,7 @@ public class BasicPrismaticJoint : MonoBehaviour
 	/// </summary>
 	private Vector3 InitialTranform;
 
-	public void Initialize(Rigidbody ConnectedBody, Vector3 Anchor, Vector3 RemoteAnchor, Single Flexibility, Single ForceConstant, Single MaxMotorForce, Single MotorSpeed, Single LowerLimit, Single UpperLimit, Single DampingRate, Boolean CenterOnStop, Single InitialLength = -1)
+	public void Initialize(Rigidbody ConnectedBody, Vector3 Anchor, Vector3 RemoteAnchor, Single Flexibility, Single ForceConstant, Single MaxMotorForce, Single MotorSpeed, Single LowerLimit, Single UpperLimit, Single DampingRate, Boolean CenterOnStop, Boolean DisableUpwardMovement, Single InitialLength = -1)
 	{
 		InitialTranform = transform.parent.localPosition + transform.localPosition;
 
@@ -117,6 +122,7 @@ public class BasicPrismaticJoint : MonoBehaviour
 		this.UpperLimit = UpperLimit;
 		this.DampingRate = DampingRate;
 		this.CenterOnStop = CenterOnStop;
+		this.DisableUpwardMovement = DisableUpwardMovement;
 
 		if (InitialLength == -1)
 		{
@@ -167,9 +173,16 @@ public class BasicPrismaticJoint : MonoBehaviour
 
 		// Getting the projection of the current velocity, in order to apply a force that will counter it.
 		var Damping = DampingRate * 2 * Mathf.Sqrt(rigidbody.mass * ForceConstant * MaxMotorForce);
-		var VelocityForce = -Damping * Vector3.Dot(rigidbody.velocity - ConnectedBody.rigidbody.velocity, JointDirection) * JointDirection;
+		var VelocityForce = -Damping * Vector3.Project(rigidbody.velocity - ConnectedBody.rigidbody.velocity, JointDirection);
 
-		var AppliedForce = Vector3.ClampMagnitude(DeltaLengthForce, MaxMotorForce) + VelocityForce;
+		var AppliedForce = VelocityForce;
+
+		if ((!DisableUpwardMovement) ||
+			(((Vector3.Cross(JointDirection, ConnectedBody.transform.right).z <= 0) && (Vector3.Cross(JointDirection, -ConnectedBody.transform.right).z >= 0)) ||
+			 ((Vector3.Cross(DeltaLengthForce, ConnectedBody.transform.right).z >= 0) && (Vector3.Cross(DeltaLengthForce, -ConnectedBody.transform.right).z <= 0))))
+			AppliedForce += Vector3.ClampMagnitude(DeltaLengthForce, MaxMotorForce);
+		else
+			AppliedForce += Vector3.ClampMagnitude(Vector3.Reflect(DeltaLengthForce, -ConnectedBody.transform.up), MaxMotorForce);
 
 		rigidbody.AddForce(AppliedForce, ForceMode.Force);
 		ConnectedBody.rigidbody.AddForce(-AppliedForce, ForceMode.Force);

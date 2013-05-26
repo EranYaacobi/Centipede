@@ -12,8 +12,6 @@ public class LookOnGameObject : MonoBehaviour
 	void LateUpdate()
 	{
 		if (GameObject != null)
-		{
 			transform.position = GameObject.transform.position + Vector3.forward*-10;
-		}
 	}
 }
