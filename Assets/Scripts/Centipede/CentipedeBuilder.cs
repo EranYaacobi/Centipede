@@ -23,6 +23,16 @@ public class CentipedeBuilder : Photon.MonoBehaviour
 	public Single LinkLimit;
 
 	/// <summary>
+	/// The force required to break the connection between two links.
+	/// </summary>
+	public Single LinkBreakForce;
+
+	/// <summary>
+	/// The torque required to break the connection between two links.
+	/// </summary>
+	public Single LinkBreakTorque;
+
+	/// <summary>
 	/// The center of mass of a link, relative to its center.
 	/// </summary>
 	public Vector3 CenterOfMass;
@@ -46,6 +56,16 @@ public class CentipedeBuilder : Photon.MonoBehaviour
 	/// The colliders of the created legs.
 	/// </summary>
 	public List<Collider> LegColliders;
+
+	/// <summary>
+	/// A reference for the BreakJoints script.
+	/// </summary>
+	private BreakJoints BreakJoints;
+
+	public void Awake()
+	{
+		BreakJoints = GetComponent<BreakJoints>();
+	}
 
 	public void CreateCentipede()
 	{
@@ -126,6 +146,12 @@ public class CentipedeBuilder : Photon.MonoBehaviour
 		IgnoreCollisions();
 	}
 
+	private void OnGUI()
+	{
+		if (PhotonNetwork.player == Owner)
+			GUI.TextField(new Rect(10, 10, 20, 20), GetComponentsInChildren<HingeJoint>().Length.ToString());
+	}
+
 	private void InitializeHingeJoint(HingeJoint HingeJoint, Rigidbody ConnectedBody)
 	{
 		HingeJoint.connectedBody = ConnectedBody;
@@ -133,13 +159,17 @@ public class CentipedeBuilder : Photon.MonoBehaviour
 		HingeJoint.anchor = Vector3.zero;
 		HingeJoint.useLimits = true;
 		HingeJoint.limits = new JointLimits { min = -LinkLimit, max = LinkLimit };
+		HingeJoint.breakForce = LinkBreakForce;
+		HingeJoint.breakTorque = LinkBreakTorque;
+
+		BreakJoints.MonitorJoint(HingeJoint);
 	}
 
 	private GameObject CreateLink(Int32 Index)
 	{
 		var Link = PhotonNetwork.Instantiate(
 			CentipedeLink.name, 
-			transform.position + new Vector3(CentipedeLink.renderer.bounds.size.x * Index, 0, 0),
+			transform.position + new Vector3((CentipedeLink.renderer.bounds.size.x + 0.01F) * Index, 0, 0),
 			transform.rotation, 0);
 
 		Common.Assert(Link != null);

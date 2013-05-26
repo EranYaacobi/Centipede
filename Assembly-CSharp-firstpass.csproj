@@ -134,6 +134,7 @@
      <None Include="Assets\Photon Unity Networking\changelog.txt" />
      <None Include="Assets\Image Effects\_Sources\Shaders\_Antialiasing\FXAAPreset2.shader" />
      <None Include="Assets\Image Effects\_Sources\Shaders\_BloomAndFlares\BlurAndFlares.shader" />
+     <None Include="Assets\uCollab\readme.txt" />
      <None Include="Assets\Image Effects\_Sources\Shaders\_BloomAndFlares\BlendForBloom.shader" />
  <Reference Include="Photon3Unity3D">
  <HintPath>Assets\Photon Unity Networking\Plugins\PhotonNetwork\library\Photon3Unity3D.dll</HintPath>

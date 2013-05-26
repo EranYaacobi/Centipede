@@ -154,6 +154,7 @@
      <None Include="Assets\Photon Unity Networking\changelog.txt" />
      <None Include="Assets\Image Effects\_Sources\Shaders\_Antialiasing\FXAAPreset2.shader" />
      <None Include="Assets\Image Effects\_Sources\Shaders\_BloomAndFlares\BlurAndFlares.shader" />
+     <None Include="Assets\uCollab\readme.txt" />
      <None Include="Assets\Image Effects\_Sources\Shaders\_BloomAndFlares\BlendForBloom.shader" />
  <Reference Include="Assembly-UnityScript-firstpass">
  <HintPath>Library\ScriptAssemblies\Assembly-UnityScript-firstpass.dll</HintPath>
@@ -166,6 +167,9 @@
  </Reference>
  <Reference Include="Photon3Unity3D">
  <HintPath>Assets\Photon Unity Networking\Plugins\PhotonNetwork\library\Photon3Unity3D.dll</HintPath>
+ </Reference>
+ <Reference Include="uCollab">
+ <HintPath>Assets\uCollab\Editor\uCollab.dll</HintPath>
  </Reference>
  <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
  <HintPath>Assets\UnityVS\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>

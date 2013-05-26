@@ -132,6 +132,7 @@
      <None Include="Assets\Photon Unity Networking\changelog.txt" />
      <None Include="Assets\Image Effects\_Sources\Shaders\_Antialiasing\FXAAPreset2.shader" />
      <None Include="Assets\Image Effects\_Sources\Shaders\_BloomAndFlares\BlurAndFlares.shader" />
+     <None Include="Assets\uCollab\readme.txt" />
      <None Include="Assets\Image Effects\_Sources\Shaders\_BloomAndFlares\BlendForBloom.shader" />
  <Reference Include="Assembly-UnityScript-firstpass">
  <HintPath>Library\ScriptAssemblies\Assembly-UnityScript-firstpass.dll</HintPath>

@@ -36,4 +36,6 @@ MonoBehaviour:
   - UpdateMovement
   - UpdateHorizontalAxis
   - UpdateButtonState
+  - Break
+  - BreakJoint
   DisableAutoOpenWizard: 0
