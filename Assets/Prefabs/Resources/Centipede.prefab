@@ -19,7 +19,7 @@ GameObject:
   - 114: {fileID: 11400014}
   m_Layer: 0
   m_Name: Centipede
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -119,7 +119,7 @@ MonoBehaviour:
   LinkBreakForce: 400
   LinkBreakTorque: 400
   CenterOfMass: {x: 0, y: -.400000006, z: 0}
-  Legs:
+  LegsPrefabs:
   - {fileID: 100002, guid: 7d6dd3591aa0d1047b6ef0d76c436532, type: 2}
   - {fileID: 100002, guid: a0827557d06727c4b97903ebd61d3106, type: 2}
   - {fileID: 100002, guid: 7d6dd3591aa0d1047b6ef0d76c436532, type: 2}
@@ -128,8 +128,9 @@ MonoBehaviour:
   - {fileID: 100002, guid: 7d6dd3591aa0d1047b6ef0d76c436532, type: 2}
   - {fileID: 100002, guid: a0827557d06727c4b97903ebd61d3106, type: 2}
   - {fileID: 100002, guid: 7d6dd3591aa0d1047b6ef0d76c436532, type: 2}
-  LinkColliders: []
-  LegColliders: []
+  DeathSlowMotionScale: .100000001
+  DeathSlowMotionDuration: 1.5
+  RespawningTime: 2.5
 --- !u!114 &11400008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -207,9 +208,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 28c34c3de72829547b8b7dacef926140, type: 3}
   m_Name: 
-  BreakDistance: .185000002
-  BreakingTimeScale: .100000001
-  BreakingTimeDuration: 1
+  BreakDistance: .0185000002
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

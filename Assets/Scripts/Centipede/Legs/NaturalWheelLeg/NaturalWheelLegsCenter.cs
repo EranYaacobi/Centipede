@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class NaturalWheelLegsCenter : LegsCenter<NaturalWheelLegMotor>
+public class NaturalWheelLegsCenter : LegsCenter<NaturalWheelLeg>
 {
 	/// <summary>
 	/// The maximum angular velocity of the wheel.
@@ -81,13 +82,13 @@ public class NaturalWheelLegsCenter : LegsCenter<NaturalWheelLegMotor>
 	[Range(0, 1)]
 	public Single SuspensionDampingRate;
 
-	protected override void InitializeLeg(NaturalWheelLegMotor Leg, Int32 LegIndex)
+	protected override void InitializeLeg(NaturalWheelLeg Leg, Int32 LegIndex)
 	{
 		Leg.Retracted = true;
 		base.InitializeLeg(Leg, LegIndex);
 	}
 
-	protected override void UpdateLegs(IEnumerable<NaturalWheelLegMotor> Legs)
+	protected override void UpdateLegs(IEnumerable<NaturalWheelLeg> Legs)
 	{
 		foreach (var Leg in Legs)
 		{
@@ -106,5 +107,24 @@ public class NaturalWheelLegsCenter : LegsCenter<NaturalWheelLegMotor>
 			Leg.SuspensionDampingRate = SuspensionDampingRate;
 			Leg.SuspensionRetractedLength = SuspensionRetractedLength;
 		}
+	}
+
+	private void OnGUI()
+	{
+		var TotalAngularVelocity = 0F;
+		var TotalVelocity = 0F;
+
+		var Wheels = GetComponentsInChildren<NaturalWheelLeg>().Select(WheelLeg => WheelLeg.transform.GetChild(0)).ToList();
+		var GUIStart = Camera.mainCamera.WorldToScreenPoint(transform.TransformPoint(1.5F*Vector3.right + Vector3.down));
+		var GUIEnd = Camera.mainCamera.WorldToScreenPoint(transform.TransformPoint(1.5F*Vector3.left + Vector3.down));
+
+		foreach (var Wheel in Wheels)
+		{
+			TotalAngularVelocity += -Wheel.rigidbody.angularVelocity.z / MaximumAngularVelocity;
+			TotalVelocity += Mathf.Sign(Wheel.rigidbody.velocity.x) * Wheel.rigidbody.velocity.magnitude / (MaximumAngularVelocity * NaturalWheelLeg.WheelRadius);
+		}
+
+		GUI.HorizontalSlider(new Rect(GUIStart.x, GUIStart.y - 20, GUIEnd.x - GUIStart.x, 20), TotalAngularVelocity / Wheels.Count, -1, 1);
+		GUI.HorizontalSlider(new Rect(GUIStart.x, GUIStart.y, GUIEnd.x - GUIStart.x, 20), TotalVelocity / Wheels.Count, -1, 1);
 	}
 }

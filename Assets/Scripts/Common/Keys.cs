@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using System.Collections;
 
-public class Keys : MonoBehaviour
+public class Keys
 {
 	public const String Horizontal = "Horizontal";
 	public const String Vertical = "Vertical";

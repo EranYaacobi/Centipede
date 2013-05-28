@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
 
-public class NormalLegsCenter : LegsCenter<NormalLegMotor>
+public class NormalLegsCenter : LegsCenter<NormalLeg>
 {
 	/// <summary>
 	/// The anchor of the back-joint, relative to the body.
@@ -68,14 +68,14 @@ public class NormalLegsCenter : LegsCenter<NormalLegMotor>
 	/// </summary>
 	public Boolean CenterOnStop;
 
-	protected override void InitializeLeg(NormalLegMotor Leg, Int32 LegIndex)
+	protected override void InitializeLeg(NormalLeg Leg, Int32 LegIndex)
 	{
 		Leg.InitialOffset = LegIndex * (1080F / 7);
 
 		base.InitializeLeg(Leg, LegIndex);
 	}
 
-	protected override void UpdateLegs(IEnumerable<NormalLegMotor> Legs)
+	protected override void UpdateLegs(IEnumerable<NormalLeg> Legs)
 	{
 		foreach (var Leg in Legs)
 		{

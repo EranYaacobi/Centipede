@@ -20,6 +20,10 @@ public partial class MultiplayerMenuGUIFrame : GUIFrame
 		if (!PhotonNetwork.connected)
 			PhotonNetwork.ConnectUsingSettings("v1.0");
 
+		RegisterCustomTypes.Register();
+
+		PhotonNetwork.automaticallySyncScene = true;
+
 		HostButton.Action = Host;
 		HostButton.Condition = () => (PhotonNetwork.room == null);
 		ConnectButton.Action = Connect;
@@ -59,15 +63,8 @@ public partial class MultiplayerMenuGUIFrame : GUIFrame
 	private void OnPhotonPlayerConnected(PhotonPlayer Player)
 	{
 		if (PhotonNetwork.isMasterClient)
-			photonView.RPC("StartGame", PhotonTargets.AllBuffered);
+			PhotonNetwork.LoadLevel(1);
 	}
-
-	[RPC]
-	private void StartGame()
-	{
-		PhotonNetwork.LoadLevel(1);
-	}
-
 
 	/// <summary>
 	/// A wrapper for room info.

@@ -9,6 +9,8 @@
 // <author>developer@exitgames.com</author>
 // ----------------------------------------------------------------------------
 
+using System;
+using System.Runtime.Serialization;
 using UnityEngine;
 using System.Collections;
 
@@ -21,7 +23,8 @@ using System.Collections;
 /// They are synced when joining a room.
 /// </remarks>
 /// \ingroup publicApi
-public class PhotonPlayer
+[Serializable]
+public class PhotonPlayer : ISerializable
 {
     /// <summary>This player's actorID</summary>
     public int ID
@@ -137,7 +140,13 @@ public class PhotonPlayer
         return (this.name == null) ? string.Empty : this.name;    // +" " + SupportClass.HashtableToString(this.CustomProperties);
     }
 
-    /// <summary>
+	public void GetObjectData(SerializationInfo info, StreamingContext context)
+	{
+		info.SetType(typeof(SerializablePhotonPlayer));
+		info.AddValue("ID", ID);
+	}
+
+	/// <summary>
     /// Makes PhotonPlayer comparable
     /// </summary>
     public override bool Equals(object p)

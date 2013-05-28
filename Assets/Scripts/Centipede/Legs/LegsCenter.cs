@@ -11,7 +11,7 @@ public abstract class LegsCenter : MonoBehaviour
 {
 }
 
-public abstract class LegsCenter<T> : LegsCenter where T : LegMotor
+public abstract class LegsCenter<T> : LegsCenter where T : Leg
 {
 	/// <summary>
 	/// The initial transform of the leg, relative to the body.
@@ -62,6 +62,8 @@ public abstract class LegsCenter<T> : LegsCenter where T : LegMotor
 	{
 		Leg.transform.localPosition += InitialLegTransform;
 		Leg.Initialize(InitialLegMass);
+		foreach (var Collider in Leg.GetComponentsInChildren<Collider>())
+			Collider.enabled = true;
 	}
 
 	/// <summary>

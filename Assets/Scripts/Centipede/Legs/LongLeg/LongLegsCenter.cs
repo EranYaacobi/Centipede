@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LongLegsCenter : LegsCenter<LongLegMotor>
+public class LongLegsCenter : LegsCenter<LongLeg>
 {
 	/// <summary>
 	/// The anchor of the back-joint, relative to the body.
@@ -72,13 +72,13 @@ public class LongLegsCenter : LegsCenter<LongLegMotor>
 	[Range(0, 1)]
 	public Single DampingRate;
 
-	protected override void InitializeLeg(LongLegMotor Leg, Int32 LegIndex)
+	protected override void InitializeLeg(LongLeg Leg, Int32 LegIndex)
 	{
 		Leg.Retracted = true;
 		base.InitializeLeg(Leg, LegIndex);
 	}
 
-	protected override void UpdateLegs(IEnumerable<LongLegMotor> Legs)
+	protected override void UpdateLegs(IEnumerable<LongLeg> Legs)
 	{
 		foreach (var Leg in Legs)
 		{

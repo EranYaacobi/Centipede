@@ -17,32 +17,9 @@ public class BreakJoints : Photon.MonoBehaviour
 	/// </summary>
 	public Single BreakDistance;
 
-	/// <summary>
-	/// The time scale after a link is broken.
-	/// </summary>
-	public Single BreakingTimeScale;
-
-	/// <summary>
-	/// The duration of the breaking link slow-motion.
-	/// </summary>
-	public Single BreakingTimeDuration;
-
-	/// <summary>
-	/// The normal value of timeScale.
-	/// </summary>
-	private Single NormalTimeScale;
-
-	/// <summary>
-	/// The normal value of fixedDeltaTime.
-	/// </summary>
-	private Single NormalFixedDeltaTime;
-
 	private void Awake()
 	{
 		MonitoredJoints = new List<MonitoredJoint>();
-
-		NormalTimeScale = Time.timeScale;
-		NormalFixedDeltaTime = Time.fixedDeltaTime;
 	}
 
 	/// <summary>
@@ -79,21 +56,8 @@ public class BreakJoints : Photon.MonoBehaviour
 	[RPC]
 	private void BreakJoint(Int32 JointIndex)
 	{
-		Debug.Log("A joint was broken!");
 		var MonitoredJoint = MonitoredJoints[JointIndex];
 		DestroyObject(MonitoredJoint.Joint);
-		StartCoroutine(SlowTime());
-	}
-
-	private IEnumerator SlowTime()
-	{
-		Time.timeScale = NormalTimeScale * BreakingTimeScale;
-		Time.fixedDeltaTime = NormalFixedDeltaTime * BreakingTimeScale;
-
-		yield return new WaitForSeconds(BreakingTimeDuration * BreakingTimeScale);
-
-		Time.timeScale = NormalTimeScale;
-		Time.fixedDeltaTime = NormalFixedDeltaTime;
 	}
 
 	private struct MonitoredJoint
@@ -101,12 +65,12 @@ public class BreakJoints : Photon.MonoBehaviour
 		/// <summary>
 		/// The joint being monitored.
 		/// </summary>
-		public Joint Joint;
+		public readonly Joint Joint;
 
 		/// <summary>
 		/// The initial length of the Joint.
 		/// </summary>
-		public Single InitialLength;
+		public readonly Single InitialLength;
 
 		public MonitoredJoint(Joint Joint)
 			: this()

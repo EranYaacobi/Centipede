@@ -83,18 +83,34 @@ public class PlayerInput : Photon.MonoBehaviour
 		}
 	}
 
+	private void OnDestroy()
+	{
+		if ((PlayersInput.ContainsKey(Owner)) && (PlayersInput[Owner] == this))
+			PlayersInput[Owner] = null;
+	}
+
+
 	private Boolean KeyDown(KeyCode Key)
 	{
+		if (!enabled)
+			return false;
+
 		return (Input.GetKeyDown(Key)) || (Input.GetKey(Key));
 	}
 
 	private Boolean KeyUp(KeyCode Key)
 	{
+		if (!enabled)
+			return false;
+
 		return !KeyDown(Key);
 	}
 
 	private ButtonState CheckButtonState(String ButtonName)
 	{
+		if (!enabled)
+			return ButtonState.Up;
+
 		if (Input.GetButtonDown(ButtonName))
 			return ButtonState.Pressed;
 
@@ -140,6 +156,9 @@ public class PlayerInput : Photon.MonoBehaviour
 	/// <returns></returns>
 	public Single GetHorizontalAxis()
 	{
+		if (!enabled)
+			return 0;
+
 		return HorizontalAxis;
 	}
 
@@ -159,6 +178,9 @@ public class PlayerInput : Photon.MonoBehaviour
 	/// <returns></returns>
 	public ButtonState GetButtonState(String Button)
 	{
+		if (!enabled)
+			return ButtonState.Up;
+
 		return Buttons[Button];
 	}
 
@@ -169,6 +191,9 @@ public class PlayerInput : Photon.MonoBehaviour
 	/// <returns></returns>
 	public Boolean ButtonDown(String Button)
 	{
+		if (!enabled)
+			return false;
+
 		var ButtonState = Buttons[Button];
 		return (ButtonState == ButtonState.Pressed) || (ButtonState == ButtonState.Down);
 	}
@@ -180,6 +205,9 @@ public class PlayerInput : Photon.MonoBehaviour
 	/// <returns></returns>
 	public Boolean ButtonUp(String Button)
 	{
+		if (!enabled)
+			return false;
+
 		var ButtonState = Buttons[Button];
 		return (ButtonState == ButtonState.Up) || (ButtonState == ButtonState.Released);
 	}

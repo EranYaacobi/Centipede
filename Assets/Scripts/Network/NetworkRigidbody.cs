@@ -5,6 +5,11 @@ using System.Collections.Generic;
 
 public class NetworkRigidbody : Photon.MonoBehaviour
 {
+	/// <summary>
+	/// The normal value of timeScale.
+	/// </summary>
+	private static readonly Single NormalTimeScale = Time.timeScale;
+
 	private const Single DefaultInterpolationTime = 0.1F;
 	private const Single SnapDistance = 0.5F;
 	private const Single SimulationLerpRate = 8F;
@@ -35,6 +40,10 @@ public class NetworkRigidbody : Photon.MonoBehaviour
 		// Send data to server
 		if (Stream.isWriting)
 		{
+			// Not sending data when in slow-motion or fast-motion.
+			if (Time.timeScale != NormalTimeScale)
+				return;
+
 			var Position = rigidbody.position;
 			var Rotation = rigidbody.rotation;
 			var Velocity = rigidbody.velocity;
@@ -85,6 +94,10 @@ public class NetworkRigidbody : Photon.MonoBehaviour
 	// And only if no more data arrives we will use extra polation
 	private void Update()
 	{
+		// Not using data when in slow-motion or fast-motion.
+		if (Time.timeScale != NormalTimeScale)
+			return;
+
 		// This is the target playback time of the rigid body
 		var InterpolationTime = PhotonNetwork.time - InterpolationBackTime;
 

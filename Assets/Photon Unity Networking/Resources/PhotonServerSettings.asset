@@ -38,4 +38,7 @@ MonoBehaviour:
   - UpdateButtonState
   - Break
   - BreakJoint
+  - InitializePlayer
+  - StartInitialization
+  - PerformInitialization
   DisableAutoOpenWizard: 0

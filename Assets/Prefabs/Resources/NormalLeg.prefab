@@ -54,9 +54,10 @@ GameObject:
   - 4: {fileID: 400004}
   - 114: {fileID: 11400018}
   - 114: {fileID: 11400012}
+  - 114: {fileID: 11400014}
   m_Layer: 9
   m_Name: NormalLeg
-  m_TagString: Untagged
+  m_TagString: Leg
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -329,6 +330,16 @@ MonoBehaviour:
   DampingRate: 0
   CenterOnStop: 0
   Retracted: 0
+--- !u!114 &11400014
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2116da9f8996020409e3aa1d92faffc8, type: 3}
+  m_Name: 
 --- !u!114 &11400018
 MonoBehaviour:
   m_ObjectHideFlags: 1

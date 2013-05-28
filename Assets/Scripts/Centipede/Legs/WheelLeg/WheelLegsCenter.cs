@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WheelLegsCenter : LegsCenter<WheelLegMotor>
+public class WheelLegsCenter : LegsCenter<WheelLeg>
 {
 	/// <summary>
 	/// The suspension distance of the wheel, meaning the maximum distance that the wheel can be at from
@@ -44,13 +44,13 @@ public class WheelLegsCenter : LegsCenter<WheelLegMotor>
 	/// </summary>
 	public Single BrakeForce;
 
-	protected override void InitializeLeg(WheelLegMotor Leg, Int32 LegIndex)
+	protected override void InitializeLeg(WheelLeg Leg, Int32 LegIndex)
 	{
 		Leg.Retracted = true;
 		base.InitializeLeg(Leg, LegIndex);
 	}
 
-	protected override void UpdateLegs(IEnumerable<WheelLegMotor> Legs)
+	protected override void UpdateLegs(IEnumerable<WheelLeg> Legs)
 	{
 		foreach (var Leg in Legs)
 		{

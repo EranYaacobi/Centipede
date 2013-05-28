@@ -5212,7 +5212,7 @@ GameObject:
   - 4: {fileID: 116400747}
   m_Layer: 0
   m_Name: SpawnPosition_3
-  m_TagString: Untagged
+  m_TagString: Spawns
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10192,7 +10192,7 @@ GameObject:
   - 4: {fileID: 235151604}
   m_Layer: 0
   m_Name: SpawnPosition_2
-  m_TagString: Untagged
+  m_TagString: Spawns
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16098,6 +16098,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 372007576}
+  - 114: {fileID: 372007577}
+  - 114: {fileID: 372007578}
   m_Layer: 0
   m_Name: Cameras
   m_TagString: Untagged
@@ -16117,6 +16119,46 @@ Transform:
   m_Children:
   - {fileID: 1517209634}
   m_Father: {fileID: 0}
+--- !u!114 &372007577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 372007575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06466c03d263624786afa88b52928b6, type: 3}
+  m_Name: 
+  statsWindowOn: 1
+  statsOn: 1
+  healthStatsVisible: 0
+  trafficStatsOn: 0
+  buttonsOn: 0
+  statsRect:
+    serializedVersion: 2
+    x: 0
+    y: 100
+    width: 200
+    height: 50
+  WindowId: 100
+--- !u!114 &372007578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 372007575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5867a53c8db0e6745818285bb6b6e1b9, type: 3}
+  m_Name: 
+  WindowRect:
+    serializedVersion: 2
+    x: 0
+    y: 100
+    width: 120
+    height: 100
+  WindowId: 101
+  Visible: 1
 --- !u!1 &373575764
 GameObject:
   m_ObjectHideFlags: 0
@@ -28040,7 +28082,7 @@ GameObject:
   - 4: {fileID: 676544435}
   m_Layer: 0
   m_Name: SpawnPosition_4
-  m_TagString: Untagged
+  m_TagString: Spawns
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -59244,7 +59286,7 @@ GameObject:
   - 4: {fileID: 1397179103}
   m_Layer: 0
   m_Name: SpawnPosition_6
-  m_TagString: Untagged
+  m_TagString: Spawns
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -68585,7 +68627,7 @@ GameObject:
   - 4: {fileID: 1615370822}
   m_Layer: 0
   m_Name: SpawnPosition_1
-  m_TagString: Untagged
+  m_TagString: Spawns
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -77252,6 +77294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97fa642d5c6605f469850c02d167146f, type: 3}
   m_Name: 
   SpawnedGameObject: {fileID: 100000, guid: a6634ff099a83c74782594b138af53ab, type: 2}
+  SpawnInterval: 2
 --- !u!114 &1838315550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86301,7 +86344,7 @@ GameObject:
   - 4: {fileID: 2080325278}
   m_Layer: 0
   m_Name: SpawnPosition_5
-  m_TagString: Untagged
+  m_TagString: Spawns
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

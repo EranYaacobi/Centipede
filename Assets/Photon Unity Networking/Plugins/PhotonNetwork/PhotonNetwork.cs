@@ -1365,7 +1365,7 @@ public static class PhotonNetwork
 
     // use 0 for scene-view-ids
     // returns viewID (combined owner and sub id)
-    public static int AllocateViewID(int ownerId)
+    private static int AllocateViewID(int ownerId)
     {
         if (ownerId == 0)
         {
