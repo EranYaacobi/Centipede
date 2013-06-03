@@ -47,6 +47,7 @@
      <Compile Include="Assets\Image Effects\ColorCorrectionCurves.js" />
      <Compile Include="Assets\Image Effects\PostEffectsBase.js" />
      <Compile Include="Assets\Image Effects\Vignetting.js" />
+     <Compile Include="Assets\Necromancer GUI\GUITestScript.js" />
      <None Include="Assets\Standard Assets\Projectors\Guidelines.txt" />
      <None Include="Assets\Image Effects\_Sources\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\Image Effects\_Sources\Shaders\NoiseEffectShaderRGB.shader" />
@@ -82,6 +83,7 @@
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-BasicOutline.shader" />
      <None Include="Assets\Image Effects\_Sources\Shaders\_DepthOfField\DepthOfField34.shader" />
      <None Include="Assets\Image Effects\_Sources\Shaders\_DepthOfField\TiltShift.shader" />
+     <None Include="Assets\Necromancer GUI\Kingthings.txt" />
      <None Include="Assets\Image Effects\_Sources\Shaders\ConvertDepth.shader" />
      <None Include="Assets\Image Effects\_Sources\Shaders\ColorCorrectionCurvesSimple.shader" />
      <None Include="Assets\Image Effects\_Sources\Shaders\NoiseEffectShaderYUV.shader" />
@@ -97,6 +99,7 @@
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-Lighted.shader" />
      <None Include="Assets\Image Effects\_Sources\Shaders\ColorCorrectionSelective.shader" />
      <None Include="Assets\Image Effects\_Sources\Shaders\_DepthOfField\Bokeh34.shader" />
+     <None Include="Assets\Necromancer GUI\Readme.txt" />
      <None Include="Assets\Image Effects\_Sources\Shaders\CameraMotionBlurDX11.shader" />
      <None Include="Assets\Image Effects\_Sources\Shaders\_BloomAndFlares\SeparableBlurPlus.shader" />
      <None Include="Assets\Image Effects\_Sources\Shaders\_BloomAndFlares\MultiPassHollywoodFlares.shader" />

@@ -53,7 +53,7 @@ MonoBehaviour:
   synchronization: 0
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
-  instantiationId: 0
+  instantiationId: -1
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -114,21 +114,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06e1ecea8a672db4d9a6df1d625c410a, type: 3}
   m_Name: 
   CentipedeLink: {fileID: 100000, guid: 944a9c5524270b143aa4312699473c84, type: 2}
-  LinkMass: 4
-  LinkLimit: 2
-  LinkBreakForce: 400
-  LinkBreakTorque: 400
-  CenterOfMass: {x: 0, y: -.400000006, z: 0}
   LegsPrefabs:
   - {fileID: 100002, guid: 7d6dd3591aa0d1047b6ef0d76c436532, type: 2}
   - {fileID: 100002, guid: a0827557d06727c4b97903ebd61d3106, type: 2}
-  - {fileID: 100002, guid: 7d6dd3591aa0d1047b6ef0d76c436532, type: 2}
-  - {fileID: 100002, guid: 7d6dd3591aa0d1047b6ef0d76c436532, type: 2}
-  - {fileID: 100002, guid: 7d6dd3591aa0d1047b6ef0d76c436532, type: 2}
-  - {fileID: 100002, guid: 7d6dd3591aa0d1047b6ef0d76c436532, type: 2}
+  - {fileID: 100004, guid: 158ff1f8e49675743a38c04bdc4ca174, type: 2}
+  - {fileID: 100004, guid: 158ff1f8e49675743a38c04bdc4ca174, type: 2}
+  - {fileID: 100004, guid: 158ff1f8e49675743a38c04bdc4ca174, type: 2}
+  - {fileID: 100004, guid: 158ff1f8e49675743a38c04bdc4ca174, type: 2}
   - {fileID: 100002, guid: a0827557d06727c4b97903ebd61d3106, type: 2}
   - {fileID: 100002, guid: 7d6dd3591aa0d1047b6ef0d76c436532, type: 2}
+  LinkMass: 4
+  LinkLimit: 2
+  CenterOfMass: {x: 0, y: -.400000006, z: 0}
   DeathSlowMotionScale: .100000001
+  AfterDeathFastMotionScale: 1.89999998
   DeathSlowMotionDuration: 1.5
   RespawningTime: 2.5
 --- !u!114 &11400008
@@ -208,7 +207,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 28c34c3de72829547b8b7dacef926140, type: 3}
   m_Name: 
-  BreakDistance: .0185000002
+  BreakDistance: .185000002
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

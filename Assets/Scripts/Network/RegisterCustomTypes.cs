@@ -28,7 +28,7 @@ public static class RegisterCustomTypes
 				ByteCode += 1;
 
 			PhotonPeer.RegisterType(SerializableType, ByteCode, SerializeObject, DeserializeObject);
-			Debug.Log(String.Format("Registered type {0} with {1}", SerializableType, ByteCode));
+			//Debug.Log(String.Format("Registered type {0} with {1}", SerializableType, ByteCode));
 
 			ByteCode += 1;
 		}

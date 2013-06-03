@@ -45,6 +45,19 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Editor\UnityLock\UnityLock.cs" />
+     <Compile Include="Assets\GUI Designer\Scripts\Editor\GUIAreaEditor.cs" />
+     <Compile Include="Assets\GUI Designer\Scripts\Editor\GUIButtonEditor.cs" />
+     <Compile Include="Assets\GUI Designer\Scripts\Editor\GUIControlEditor.cs" />
+     <Compile Include="Assets\GUI Designer\Scripts\Editor\GUIFrameEditor.cs" />
+     <Compile Include="Assets\GUI Designer\Scripts\Editor\GUIHorizontalSliderEditor.cs" />
+     <Compile Include="Assets\GUI Designer\Scripts\Editor\GUILabelEditor.cs" />
+     <Compile Include="Assets\GUI Designer\Scripts\Editor\GUIScrollViewEditor.cs" />
+     <Compile Include="Assets\GUI Designer\Scripts\Editor\GUISelectionGridEditor.cs" />
+     <Compile Include="Assets\GUI Designer\Scripts\Editor\GUITextFieldEditor.cs" />
+     <Compile Include="Assets\GUI Designer\Scripts\Editor\GUIToggleEditor.cs" />
+     <Compile Include="Assets\GUI Designer\Scripts\Editor\GUIToolbarEditor.cs" />
+     <Compile Include="Assets\GUI Designer\Scripts\Editor\GUIVerticalSliderEditor.cs" />
+     <Compile Include="Assets\GUI Designer\Scripts\Editor\MultiplayerGUITableEditor.cs" />
      <Compile Include="Assets\Photon Unity Networking\Editor\PhotonNetwork\AccountService.cs" />
      <Compile Include="Assets\Photon Unity Networking\Editor\PhotonNetwork\PhotonConverter.cs" />
      <Compile Include="Assets\Photon Unity Networking\Editor\PhotonNetwork\PhotonEditor.cs" />
@@ -54,9 +67,6 @@
      <Compile Include="Assets\Photon Unity Networking\Editor\PhotonNetwork\ServerSettingsInspector.cs" />
      <Compile Include="Assets\Scripts\Editor\CSharpPropertyAttribute.cs" />
      <Compile Include="Assets\Scripts\Editor\CSharpPropertyDrawer.cs" />
-     <Compile Include="Assets\Scripts\Menu\Editor\GUIFrameEditor.cs" />
-     <Compile Include="Assets\Scripts\Menu\Editor\MainMenuGUIFrameEditor.cs" />
-     <Compile Include="Assets\Scripts\Menu\Editor\MultiplayerMenuGUIFrameEditor.cs" />
      <Compile Include="Assets\Scripts\TileMapEditor\Editor\Common\MouseButton.cs" />
      <Compile Include="Assets\Scripts\TileMapEditor\Editor\Common\TileMapEditorState.cs" />
      <Compile Include="Assets\Scripts\TileMapEditor\Editor\Context Menu Plugins\ClearAllContextMenuPlugin.cs" />
@@ -104,6 +114,7 @@
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-BasicOutline.shader" />
      <None Include="Assets\Image Effects\_Sources\Shaders\_DepthOfField\DepthOfField34.shader" />
      <None Include="Assets\Image Effects\_Sources\Shaders\_DepthOfField\TiltShift.shader" />
+     <None Include="Assets\Necromancer GUI\Kingthings.txt" />
      <None Include="Assets\Image Effects\_Sources\Shaders\ConvertDepth.shader" />
      <None Include="Assets\Image Effects\_Sources\Shaders\ColorCorrectionCurvesSimple.shader" />
      <None Include="Assets\Image Effects\_Sources\Shaders\NoiseEffectShaderYUV.shader" />
@@ -119,6 +130,7 @@
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-Lighted.shader" />
      <None Include="Assets\Image Effects\_Sources\Shaders\ColorCorrectionSelective.shader" />
      <None Include="Assets\Image Effects\_Sources\Shaders\_DepthOfField\Bokeh34.shader" />
+     <None Include="Assets\Necromancer GUI\Readme.txt" />
      <None Include="Assets\Image Effects\_Sources\Shaders\CameraMotionBlurDX11.shader" />
      <None Include="Assets\Image Effects\_Sources\Shaders\_BloomAndFlares\SeparableBlurPlus.shader" />
      <None Include="Assets\Image Effects\_Sources\Shaders\_BloomAndFlares\MultiPassHollywoodFlares.shader" />

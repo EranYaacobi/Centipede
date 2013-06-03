@@ -74,182 +74,440 @@ NavMeshSettings:
     widthInaccuracy: 16.666666
     heightInaccuracy: 10
   m_NavMesh: {fileID: 0}
---- !u!114 &11630594
+--- !u!1 &250779992
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 250779993}
+  m_Layer: 0
+  m_Name: GUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &250779993
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 250779992}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1, y: -6, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1594960795}
+  - {fileID: 1218892957}
+  m_Father: {fileID: 0}
+--- !u!1 &1218892956
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1218892957}
+  - 114: {fileID: 1218892960}
+  - 114: {fileID: 1218892959}
+  - 114: {fileID: 1218892958}
+  - 114: {fileID: 1218892967}
+  - 114: {fileID: 1218892966}
+  - 114: {fileID: 1218892965}
+  - 114: {fileID: 1218892964}
+  - 114: {fileID: 1218892963}
+  - 114: {fileID: 1218892962}
+  - 114: {fileID: 1218892961}
+  m_Layer: 0
+  m_Name: MultiplayerMenu
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1218892957
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1218892956}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 250779993}
+--- !u!114 &1218892958
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1218892956}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 732a859ae25f9024f82cb4ce750d80dd, type: 3}
+  m_Script: {fileID: 11500000, guid: a609013344160e14186d3625ad6eeb71, type: 3}
   m_Name: 
-  Name: QuitButton
-  GUIStyle: button
-  Parent: {fileID: 2013500050}
-  InspectorFoldout: 1
-  Text: Quit
-  Size: {x: 0, y: 0}
-  MaximumSize: {x: 0, y: 130}
-  SizesInspectorFoldout: 0
---- !u!114 &83538467
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53e6fd1cdb8b43e4a8d5411e36a95bda, type: 3}
-  m_Name: 
-  Name: GamesList
-  GUIStyle: label
-  Parent: {fileID: 825734166}
-  InspectorFoldout: 1
-  SelectedItemInex: 0
-  BoxGUIStyle: box
---- !u!114 &133667198
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2d99f915e9893441a10dd3ab3aadb86, type: 3}
-  m_Name: 
-  Name: GUIFrameVertical_1674000384
-  GUIStyle: 
-  Parent: {fileID: 1974095244}
-  InspectorFoldout: 1
-  Controls:
-  - {fileID: 266958362}
-  - {fileID: 1192120004}
---- !u!114 &266958362
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 732a859ae25f9024f82cb4ce750d80dd, type: 3}
-  m_Name: 
-  Name: ConnectButton
-  GUIStyle: button
-  Parent: {fileID: 133667198}
-  InspectorFoldout: 1
-  Text: Connect
-  Size: {x: 0, y: 0}
-  MaximumSize: {x: 0, y: 100}
-  SizesInspectorFoldout: 1
---- !u!114 &405940728
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 732a859ae25f9024f82cb4ce750d80dd, type: 3}
-  m_Name: 
-  Name: ContinueCampaignButton
-  GUIStyle: button
-  Parent: {fileID: 2013500050}
-  InspectorFoldout: 1
-  Text: Continue
-  Size: {x: 0, y: 0}
-  MaximumSize: {x: 0, y: 130}
-  SizesInspectorFoldout: 0
---- !u!114 &825734166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2d99f915e9893441a10dd3ab3aadb86, type: 3}
-  m_Name: 
-  Name: GUIFrameVertical_1495339226
-  GUIStyle: 
-  Parent: {fileID: 1974095244}
-  InspectorFoldout: 1
-  Controls:
-  - {fileID: 83538467}
---- !u!114 &951802993
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 732a859ae25f9024f82cb4ce750d80dd, type: 3}
-  m_Name: 
-  Name: StartCampaignButton
-  GUIStyle: button
-  Parent: {fileID: 2013500050}
-  InspectorFoldout: 1
-  Text: Start Campaign
-  Size: {x: 0, y: 0}
-  MaximumSize: {x: 0, y: 130}
-  SizesInspectorFoldout: 0
---- !u!114 &1054068544
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 732a859ae25f9024f82cb4ce750d80dd, type: 3}
-  m_Name: 
-  Name: EditorButton
-  GUIStyle: button
-  Parent: {fileID: 2013500050}
-  InspectorFoldout: 1
-  Text: Editor
-  Size: {x: 0, y: 0}
-  MaximumSize: {x: 0, y: 130}
-  SizesInspectorFoldout: 0
---- !u!114 &1192120004
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 732a859ae25f9024f82cb4ce750d80dd, type: 3}
-  m_Name: 
-  Name: HostButton
-  GUIStyle: button
-  Parent: {fileID: 133667198}
-  InspectorFoldout: 1
-  Text: Host
-  Size: {x: 0, y: 0}
-  MaximumSize: {x: 0, y: 100}
-  SizesInspectorFoldout: 1
---- !u!114 &1319962158
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5df2c6db17925e94a8cac7e18d469838, type: 3}
-  m_Name: 
-  Name: GUIFrameArea_537596899
+  Name: CenterArea
   GUIStyle: box
-  Parent: {fileID: 0}
-  InspectorFoldout: 1
-  RelativeMargins: {x: .100000001, y: .100000001}
-  MaximumMargins: {x: 100, y: 100}
+  GUIContent:
+    m_Text: 
+    m_Image: {fileID: 0}
+    m_Tooltip: 
+  FontSize: 0
+  RelativeArea:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: .25
+    height: .25
+  SizeInPixel: {x: 628.480042, y: 276}
+  Margins:
+    Left: .100000001
+    Right: .100000001
+    Top: .200000003
+    Bottom: .224999994
+  Dock: 3
+  Parent: {fileID: 1218892959}
+  InspectorEventsData:
+  - EventName: MouseHover
+    HandlerName: 
   Controls:
-  - {fileID: 1974095244}
-  MarginsInspectorFoldout: 1
+  - {fileID: 1218892967}
+  - {fileID: 1218892964}
+--- !u!114 &1218892959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1218892956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a609013344160e14186d3625ad6eeb71, type: 3}
+  m_Name: 
+  Name: MainArea
+  GUIStyle: window
+  GUIContent:
+    m_Text: 
+    m_Image: {fileID: 0}
+    m_Tooltip: 
+  FontSize: 0
+  RelativeArea:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: .25
+    height: .25
+  SizeInPixel: {x: 785.600037, y: 480}
+  Margins:
+    Left: .100000001
+    Right: .100000001
+    Top: 0
+    Bottom: 0
+  Dock: 3
+  Parent: {fileID: 0}
+  InspectorEventsData:
+  - EventName: MouseHover
+    HandlerName: 
+  Controls:
+  - {fileID: 1218892958}
+  - {fileID: 1218892962}
+--- !u!114 &1218892960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1218892956}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65e8a0f19cda4114e941f862e68f36b5, type: 3}
+  m_Name: 
+  Name: MultiplayerMenu
+  Area: {fileID: 1218892959}
+  GUISkin: {fileID: 11400000, guid: 7953503d9e83f8d469b84619849edd4e, type: 2}
+  ToolWindowPosition:
+    serializedVersion: 2
+    x: 5
+    y: 38
+    width: 130
+    height: 200
+  SelectedControl: {fileID: 1218892963}
+  MouseAction: 0
+  CopiedControl: {fileID: 0}
+--- !u!114 &1218892961
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1218892956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f855da5249e24a443840b36c76c863b1, type: 3}
+  m_Name: 
+  Name: BackButton
+  GUIStyle: button
+  GUIContent:
+    m_Text: Back
+    m_Image: {fileID: 0}
+    m_Tooltip: 
+  FontSize: 0
+  RelativeArea:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: .150000006
+    height: .100000001
+  SizeInPixel: {x: 94.2720108, y: 41.0400124}
+  Margins:
+    Left: 0
+    Right: 0
+    Top: .0500000007
+    Bottom: .0500000007
+  Dock: 1
+  Parent: {fileID: 1218892962}
+  InspectorEventsData:
+  - EventName: Click
+    HandlerName: SwitchBack
+  - EventName: MouseHover
+    HandlerName: 
+  RepeatButton: 0
+--- !u!114 &1218892962
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1218892956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a609013344160e14186d3625ad6eeb71, type: 3}
+  m_Name: 
+  Name: BottomArea
+  GUIStyle: box
+  GUIContent:
+    m_Text: 
+    m_Image: {fileID: 0}
+    m_Tooltip: 
+  FontSize: 0
+  RelativeArea:
+    serializedVersion: 2
+    x: .0992871821
+    y: .639349937
+    width: .25
+    height: .25
+  SizeInPixel: {x: 628.480042, y: 45.6000137}
+  Margins:
+    Left: .100000001
+    Right: .100000001
+    Top: .779999971
+    Bottom: .125
+  Dock: 3
+  Parent: {fileID: 1218892959}
+  InspectorEventsData:
+  - EventName: MouseHover
+    HandlerName: 
+  Controls:
+  - {fileID: 1218892961}
+--- !u!114 &1218892963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1218892956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd3b8aa35bb76fc4ebb229849a971cd8, type: 3}
+  m_Name: 
+  Name: GamesTable
+  GUIStyle: box
+  GUIContent:
+    m_Text: 
+    m_Image: {fileID: 0}
+    m_Tooltip: 
+  FontSize: 0
+  RelativeArea:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: .200000003
+    height: .100000001
+  SizeInPixel: {x: 456.590729, y: 264.959991}
+  Margins:
+    Left: 0
+    Right: 0
+    Top: 0
+    Bottom: 0
+  Dock: 3
+  Parent: {fileID: 1218892964}
+  InspectorEventsData:
+  - EventName: SelectedIndexChanged
+    HandlerName: 
+  - EventName: MouseHover
+    HandlerName: 
+  Controls: []
+  ScrollableRelativeAreaSize: {x: .952659607, y: 0}
+  AlwaysShowHorizontlScrollbar: 0
+  AlwaysShowVerticalScrollbar: 1
+  RelativeScrollPosition: {x: 0, y: 0}
+  Items: []
+  ColumnsRelativeWidth:
+  - .264087379
+  - .135127351
+  - .553444862
+  HeaderHeight: 30
+  RowHeight: 20
+  HeaderCellGUIStyle: box
+  CellGUIStyle: PlainText
+  HighlightRowGUIStyle: box
+  CellOffset: {x: 8, y: 0}
+  ColumnsOrder: 000000000200000001000000
+  SelectedIndex: -1
+--- !u!114 &1218892964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1218892956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a609013344160e14186d3625ad6eeb71, type: 3}
+  m_Name: 
+  Name: ListArea
+  GUIStyle: box
+  GUIContent:
+    m_Text: 
+    m_Image: {fileID: 0}
+    m_Tooltip: 
+  FontSize: 0
+  RelativeArea:
+    serializedVersion: 2
+    x: .00999999978
+    y: 0
+    width: .726499975
+    height: .25
+  SizeInPixel: {x: 456.590729, y: 264.959991}
+  Margins:
+    Left: 0
+    Right: 0
+    Top: .0199999996
+    Bottom: .0199999996
+  Dock: 1
+  Parent: {fileID: 1218892958}
+  InspectorEventsData:
+  - EventName: MouseHover
+    HandlerName: 
+  Controls:
+  - {fileID: 1218892963}
+--- !u!114 &1218892965
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1218892956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f855da5249e24a443840b36c76c863b1, type: 3}
+  m_Name: 
+  Name: CreateRoomButton
+  GUIStyle: button
+  GUIContent:
+    m_Text: Create room
+    m_Image: {fileID: 0}
+    m_Tooltip: 
+  FontSize: 0
+  RelativeArea:
+    serializedVersion: 2
+    x: .0840122104
+    y: .217182979
+    width: 0
+    height: .25
+  SizeInPixel: {x: 158.12001, y: 66.2399979}
+  Margins:
+    Left: 0
+    Right: 0
+    Top: 0
+    Bottom: 0
+  Dock: 2
+  Parent: {fileID: 1218892967}
+  InspectorEventsData:
+  - EventName: Click
+    HandlerName: CreateRoom
+  - EventName: MouseHover
+    HandlerName: 
+  RepeatButton: 0
+--- !u!114 &1218892966
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1218892956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f855da5249e24a443840b36c76c863b1, type: 3}
+  m_Name: 
+  Name: JoinRoomButton
+  GUIStyle: button
+  GUIContent:
+    m_Text: Join room
+    m_Image: {fileID: 0}
+    m_Tooltip: 
+  FontSize: 0
+  RelativeArea:
+    serializedVersion: 2
+    x: 0
+    y: .0250000004
+    width: 0
+    height: .25
+  SizeInPixel: {x: 158.12001, y: 66.2399979}
+  Margins:
+    Left: 0
+    Right: 0
+    Top: 0
+    Bottom: 0
+  Dock: 2
+  Parent: {fileID: 1218892967}
+  InspectorEventsData:
+  - EventName: Click
+    HandlerName: JoinRoom
+  - EventName: MouseHover
+    HandlerName: 
+  RepeatButton: 0
+--- !u!114 &1218892967
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1218892956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a609013344160e14186d3625ad6eeb71, type: 3}
+  m_Name: 
+  Name: ButtonsArea
+  GUIStyle: box
+  GUIContent:
+    m_Text: 
+    m_Image: {fileID: 0}
+    m_Tooltip: 
+  FontSize: 0
+  RelativeArea:
+    serializedVersion: 2
+    x: .740453601
+    y: .232365146
+    width: .251591146
+    height: .25
+  SizeInPixel: {x: 158.12001, y: 264.959991}
+  Margins:
+    Left: 0
+    Right: 0
+    Top: .0199999996
+    Bottom: .0199999996
+  Dock: 1
+  Parent: {fileID: 1218892958}
+  InspectorEventsData:
+  - EventName: MouseHover
+    HandlerName: 
+  Controls:
+  - {fileID: 1218892966}
+  - {fileID: 1218892965}
 --- !u!1 &1533683445
 GameObject:
   m_ObjectHideFlags: 0
@@ -263,8 +521,6 @@ GameObject:
   - 124: {fileID: 1533683448}
   - 81: {fileID: 1533683447}
   - 114: {fileID: 1533683453}
-  - 114: {fileID: 1533683446}
-  - 114: {fileID: 1533683452}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -272,28 +528,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1533683446
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1533683445}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 567047afc939fe54f8a1253bb62626a9, type: 3}
-  m_Name: 
-  Name: MainMenu
-  Area: {fileID: 1663432317}
-  PreviousFrame: {fileID: 0}
-  Area_946817090: {fileID: 1663432317}
-  InnerArea: {fileID: 2013500050}
-  StartCampaignButton: {fileID: 951802993}
-  ContinueCampaignButton: {fileID: 405940728}
-  LoadCampaignButton: {fileID: 2144112169}
-  MultiplayerButton: {fileID: 1958119893}
-  EditorButton: {fileID: 1054068544}
-  FlexibleSpace_874724264: {fileID: 1825663241}
-  QuitButton: {fileID: 11630594}
 --- !u!81 &1533683447
 AudioListener:
   m_ObjectHideFlags: 0
@@ -354,26 +588,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1646423774}
---- !u!114 &1533683452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1533683445}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a616a246a349e84bb9c34391cc3c518, type: 3}
-  m_Name: 
-  Name: MultiplayerMenu
-  Area: {fileID: 1319962158}
-  PreviousFrame: {fileID: 1533683446}
-  GUIFrameArea_537596899: {fileID: 1319962158}
-  GUIFrameHorizontal_1962052501: {fileID: 1974095244}
-  GUIFrameVertical_1495339226: {fileID: 825734166}
-  GamesList: {fileID: 83538467}
-  GUIFrameVertical_1674000384: {fileID: 133667198}
-  ConnectButton: {fileID: 266958362}
-  HostButton: {fileID: 1192120004}
 --- !u!114 &1533683453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -393,6 +607,362 @@ MonoBehaviour:
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   instantiationId: 0
+--- !u!1 &1594960794
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1594960795}
+  - 114: {fileID: 1594960804}
+  - 114: {fileID: 1594960803}
+  - 114: {fileID: 1594960802}
+  - 114: {fileID: 1594960801}
+  - 114: {fileID: 1594960800}
+  - 114: {fileID: 1594960799}
+  - 114: {fileID: 1594960798}
+  - 114: {fileID: 1594960797}
+  - 114: {fileID: 1594960796}
+  m_Layer: 0
+  m_Name: MainMenu
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1594960795
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1594960794}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 250779993}
+--- !u!114 &1594960796
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1594960794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f855da5249e24a443840b36c76c863b1, type: 3}
+  m_Name: 
+  Name: GUIButton_520576317
+  GUIStyle: button
+  GUIContent:
+    m_Text: Quit
+    m_Image: {fileID: 0}
+    m_Tooltip: 
+  FontSize: 0
+  RelativeArea:
+    serializedVersion: 2
+    x: .25
+    y: .829999983
+    width: .400000006
+    height: .125
+  SizeInPixel: {x: 188.160004, y: 33.59375}
+  Margins:
+    Left: .300000012
+    Right: .300000012
+    Top: 0
+    Bottom: 0
+  Dock: 2
+  Parent: {fileID: 1594960802}
+  InspectorEventsData:
+  - EventName: Click
+    HandlerName: Quit
+  - EventName: MouseHover
+    HandlerName: 
+  RepeatButton: 0
+--- !u!114 &1594960797
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1594960794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f855da5249e24a443840b36c76c863b1, type: 3}
+  m_Name: 
+  Name: GUIButton_790021684
+  GUIStyle: button
+  GUIContent:
+    m_Text: Editor
+    m_Image: {fileID: 0}
+    m_Tooltip: 
+  FontSize: 0
+  RelativeArea:
+    serializedVersion: 2
+    x: .25
+    y: .569999993
+    width: .400000006
+    height: .125
+  SizeInPixel: {x: 188.160004, y: 33.59375}
+  Margins:
+    Left: .300000012
+    Right: .300000012
+    Top: 0
+    Bottom: 0
+  Dock: 2
+  Parent: {fileID: 1594960802}
+  InspectorEventsData:
+  - EventName: Click
+    HandlerName: 
+  - EventName: MouseHover
+    HandlerName: 
+  RepeatButton: 0
+--- !u!114 &1594960798
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1594960794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f855da5249e24a443840b36c76c863b1, type: 3}
+  m_Name: 
+  Name: GUIButton_444708301
+  GUIStyle: button
+  GUIContent:
+    m_Text: Multiplayer
+    m_Image: {fileID: 0}
+    m_Tooltip: 
+  FontSize: 0
+  RelativeArea:
+    serializedVersion: 2
+    x: .247878477
+    y: .439999998
+    width: .400000006
+    height: .125
+  SizeInPixel: {x: 188.160004, y: 33.59375}
+  Margins:
+    Left: .300000012
+    Right: .300000012
+    Top: 0
+    Bottom: 0
+  Dock: 2
+  Parent: {fileID: 1594960802}
+  InspectorEventsData:
+  - EventName: Click
+    HandlerName: Multiplayer
+  - EventName: MouseHover
+    HandlerName: 
+  RepeatButton: 0
+--- !u!114 &1594960799
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1594960794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f855da5249e24a443840b36c76c863b1, type: 3}
+  m_Name: 
+  Name: GUIButton_1226782659
+  GUIStyle: button
+  GUIContent:
+    m_Text: Load
+    m_Image: {fileID: 0}
+    m_Tooltip: 
+  FontSize: 0
+  RelativeArea:
+    serializedVersion: 2
+    x: .25
+    y: .310000002
+    width: .400000006
+    height: .125
+  SizeInPixel: {x: 188.160004, y: 33.59375}
+  Margins:
+    Left: .300000012
+    Right: .300000012
+    Top: 0
+    Bottom: 0
+  Dock: 2
+  Parent: {fileID: 1594960802}
+  InspectorEventsData:
+  - EventName: Click
+    HandlerName: 
+  - EventName: MouseHover
+    HandlerName: 
+  RepeatButton: 0
+--- !u!114 &1594960800
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1594960794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f855da5249e24a443840b36c76c863b1, type: 3}
+  m_Name: 
+  Name: GUIButton_955361902
+  GUIStyle: button
+  GUIContent:
+    m_Text: Continue
+    m_Image: {fileID: 0}
+    m_Tooltip: 
+  FontSize: 0
+  RelativeArea:
+    serializedVersion: 2
+    x: .25
+    y: .180000007
+    width: .400000006
+    height: .125
+  SizeInPixel: {x: 188.160004, y: 33.59375}
+  Margins:
+    Left: .300000012
+    Right: .300000012
+    Top: 0
+    Bottom: 0
+  Dock: 2
+  Parent: {fileID: 1594960802}
+  InspectorEventsData:
+  - EventName: Click
+    HandlerName: 
+  - EventName: MouseHover
+    HandlerName: 
+  RepeatButton: 0
+--- !u!114 &1594960801
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1594960794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f855da5249e24a443840b36c76c863b1, type: 3}
+  m_Name: 
+  Name: GUIButton_2085473440
+  GUIStyle: button
+  GUIContent:
+    m_Text: Start Campaign
+    m_Image: {fileID: 0}
+    m_Tooltip: 
+  FontSize: 0
+  RelativeArea:
+    serializedVersion: 2
+    x: .25
+    y: .0500000007
+    width: .400000006
+    height: .125
+  SizeInPixel: {x: 188.160004, y: 33.59375}
+  Margins:
+    Left: .300000012
+    Right: .300000012
+    Top: 0
+    Bottom: 0
+  Dock: 2
+  Parent: {fileID: 1594960802}
+  InspectorEventsData:
+  - EventName: Click
+    HandlerName: 
+  - EventName: MouseHover
+    HandlerName: 
+  RepeatButton: 0
+--- !u!114 &1594960802
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1594960794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a609013344160e14186d3625ad6eeb71, type: 3}
+  m_Name: 
+  Name: GUIArea_977234804
+  GUIStyle: box
+  GUIContent:
+    m_Text: 
+    m_Image: {fileID: 0}
+    m_Tooltip: 
+  FontSize: 0
+  RelativeArea:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: .25
+    height: .25
+  SizeInPixel: {x: 470.400024, y: 268.75}
+  Margins:
+    Left: .200000003
+    Right: .200000003
+    Top: .224999994
+    Bottom: .150000006
+  Dock: 3
+  Parent: {fileID: 1594960803}
+  InspectorEventsData:
+  - EventName: MouseHover
+    HandlerName: 
+  Controls:
+  - {fileID: 1594960801}
+  - {fileID: 1594960800}
+  - {fileID: 1594960799}
+  - {fileID: 1594960798}
+  - {fileID: 1594960797}
+  - {fileID: 1594960796}
+--- !u!114 &1594960803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1594960794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a609013344160e14186d3625ad6eeb71, type: 3}
+  m_Name: 
+  Name: GUIArea_1157020965
+  GUIStyle: window
+  GUIContent:
+    m_Text: 
+    m_Image: {fileID: 0}
+    m_Tooltip: 
+  FontSize: 0
+  RelativeArea:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: .25
+    height: .25
+  SizeInPixel: {x: 784, y: 430}
+  Margins:
+    Left: .100000001
+    Right: .100000001
+    Top: 0
+    Bottom: 0
+  Dock: 3
+  Parent: {fileID: 0}
+  InspectorEventsData:
+  - EventName: MouseHover
+    HandlerName: 
+  Controls:
+  - {fileID: 1594960802}
+--- !u!114 &1594960804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1594960794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65e8a0f19cda4114e941f862e68f36b5, type: 3}
+  m_Name: 
+  Name: MainMenu
+  Area: {fileID: 1594960803}
+  GUISkin: {fileID: 11400000, guid: 7953503d9e83f8d469b84619849edd4e, type: 2}
+  ToolWindowPosition:
+    serializedVersion: 2
+    x: 6
+    y: 23
+    width: 130
+    height: 200
+  SelectedControl: {fileID: 1594960803}
+  MouseAction: 0
+  CopiedControl: {fileID: 0}
 --- !u!1 &1646423773
 GameObject:
   m_ObjectHideFlags: 0
@@ -420,116 +990,3 @@ Transform:
   m_Children:
   - {fileID: 1533683451}
   m_Father: {fileID: 0}
---- !u!114 &1663432317
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5df2c6db17925e94a8cac7e18d469838, type: 3}
-  m_Name: 
-  Name: Area_946817090
-  GUIStyle: box
-  Parent: {fileID: 0}
-  InspectorFoldout: 1
-  RelativeMargins: {x: .100000001, y: .100000001}
-  MaximumMargins: {x: 100, y: 100}
-  Controls:
-  - {fileID: 2013500050}
-  MarginsInspectorFoldout: 0
---- !u!114 &1825663241
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee4484bc34d039349b37800a1bd3dd22, type: 3}
-  m_Name: 
-  Name: FlexibleSpace_874724264
-  GUIStyle: 
-  Parent: {fileID: 2013500050}
-  InspectorFoldout: 1
-  MinimumSize: 75
-  MinimumSizeRate: .200000003
---- !u!114 &1958119893
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 732a859ae25f9024f82cb4ce750d80dd, type: 3}
-  m_Name: 
-  Name: MultiplayerButton
-  GUIStyle: button
-  Parent: {fileID: 2013500050}
-  InspectorFoldout: 1
-  Text: Multiplayer
-  Size: {x: 0, y: 0}
-  MaximumSize: {x: 0, y: 130}
-  SizesInspectorFoldout: 0
---- !u!114 &1974095244
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8769641660efefd468386f5713858954, type: 3}
-  m_Name: 
-  Name: GUIFrameHorizontal_1962052501
-  GUIStyle: 
-  Parent: {fileID: 1319962158}
-  InspectorFoldout: 1
-  Controls:
-  - {fileID: 825734166}
-  - {fileID: 133667198}
---- !u!114 &2013500050
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5df2c6db17925e94a8cac7e18d469838, type: 3}
-  m_Name: 
-  Name: InnerArea
-  GUIStyle: box
-  Parent: {fileID: 1663432317}
-  InspectorFoldout: 1
-  RelativeMargins: {x: .25, y: .100000001}
-  MaximumMargins: {x: 400, y: 100}
-  Controls:
-  - {fileID: 951802993}
-  - {fileID: 405940728}
-  - {fileID: 2144112169}
-  - {fileID: 1958119893}
-  - {fileID: 1054068544}
-  - {fileID: 1825663241}
-  - {fileID: 11630594}
-  MarginsInspectorFoldout: 1
---- !u!114 &2144112169
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 732a859ae25f9024f82cb4ce750d80dd, type: 3}
-  m_Name: 
-  Name: LoadCampaignButton
-  GUIStyle: button
-  Parent: {fileID: 2013500050}
-  InspectorFoldout: 1
-  Text: Load
-  Size: {x: 0, y: 0}
-  MaximumSize: {x: 0, y: 130}
-  SizesInspectorFoldout: 0

@@ -44,6 +44,23 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\GUI Designer\GUIDesignerProperties.cs" />
+     <Compile Include="Assets\GUI Designer\Scripts\Controls\Events\GUIControlEvents.cs" />
+     <Compile Include="Assets\GUI Designer\Scripts\Controls\GUIArea.cs" />
+     <Compile Include="Assets\GUI Designer\Scripts\Controls\GUIButton.cs" />
+     <Compile Include="Assets\GUI Designer\Scripts\Controls\GUIContainer.cs" />
+     <Compile Include="Assets\GUI Designer\Scripts\Controls\GUIControl.cs" />
+     <Compile Include="Assets\GUI Designer\Scripts\Controls\GUIHorizontalSlider.cs" />
+     <Compile Include="Assets\GUI Designer\Scripts\Controls\GUILabel.cs" />
+     <Compile Include="Assets\GUI Designer\Scripts\Controls\GUIScrollView.cs" />
+     <Compile Include="Assets\GUI Designer\Scripts\Controls\GUISelectionGrid.cs" />
+     <Compile Include="Assets\GUI Designer\Scripts\Controls\GUITable.cs" />
+     <Compile Include="Assets\GUI Designer\Scripts\Controls\GUITextField.cs" />
+     <Compile Include="Assets\GUI Designer\Scripts\Controls\GUIToggle.cs" />
+     <Compile Include="Assets\GUI Designer\Scripts\Controls\GUIToolbar.cs" />
+     <Compile Include="Assets\GUI Designer\Scripts\Controls\GUIVerticalSlider.cs" />
+     <Compile Include="Assets\GUI Designer\Scripts\GUIFrame.cs" />
+     <Compile Include="Assets\GUI Designer\Scripts\Utilities\DeleteComponent.cs" />
      <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\CustomTypes.cs" />
      <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\Enums.cs" />
      <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\Extensions.cs" />
@@ -93,19 +110,12 @@
      <Compile Include="Assets\Scripts\Common\Keys.cs" />
      <Compile Include="Assets\Scripts\Common\SpawnPosition.cs" />
      <Compile Include="Assets\Scripts\Common\Tags.cs" />
-     <Compile Include="Assets\Scripts\Menu\Controls\GUIFrameArea.cs" />
-     <Compile Include="Assets\Scripts\Menu\Controls\GUIFrameButton.cs" />
-     <Compile Include="Assets\Scripts\Menu\Controls\GUIFrameControl.cs" />
-     <Compile Include="Assets\Scripts\Menu\Controls\GUIFrameFlexibleSpace.cs" />
-     <Compile Include="Assets\Scripts\Menu\Controls\GUIFrameHorizontal.cs" />
-     <Compile Include="Assets\Scripts\Menu\Controls\GUIFrameList.cs" />
-     <Compile Include="Assets\Scripts\Menu\Controls\GUIFrameVertical.cs" />
-     <Compile Include="Assets\Scripts\Menu\Controls\Popup.cs" />
-     <Compile Include="Assets\Scripts\Menu\GUIFrame.cs" />
-     <Compile Include="Assets\Scripts\Menu\MainMenuGUIFrame.Designer.cs" />
-     <Compile Include="Assets\Scripts\Menu\MainMenuGUIFrame.cs" />
-     <Compile Include="Assets\Scripts\Menu\MultiplayerMenuGUIFrame.Designer.cs" />
-     <Compile Include="Assets\Scripts\Menu\MultiplayerMenuGUIFrame.cs" />
+     <Compile Include="Assets\Scripts\GUIMenus\MainMenuGUI.Designer.cs" />
+     <Compile Include="Assets\Scripts\GUIMenus\MainMenuGUI.cs" />
+     <Compile Include="Assets\Scripts\GUIMenus\MultiplayerGUITable.cs" />
+     <Compile Include="Assets\Scripts\GUIMenus\MultiplayerGUITableItem.cs" />
+     <Compile Include="Assets\Scripts\GUIMenus\MultiplayerMenuGUI.Designer.cs" />
+     <Compile Include="Assets\Scripts\GUIMenus\MultiplayerMenuGUI.cs" />
      <Compile Include="Assets\Scripts\Network\CentipedeNetworkObject.cs" />
      <Compile Include="Assets\Scripts\Network\LegNetworkObject.cs" />
      <Compile Include="Assets\Scripts\Network\LinkNetworkObject.cs" />
@@ -156,6 +166,7 @@
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-BasicOutline.shader" />
      <None Include="Assets\Image Effects\_Sources\Shaders\_DepthOfField\DepthOfField34.shader" />
      <None Include="Assets\Image Effects\_Sources\Shaders\_DepthOfField\TiltShift.shader" />
+     <None Include="Assets\Necromancer GUI\Kingthings.txt" />
      <None Include="Assets\Image Effects\_Sources\Shaders\ConvertDepth.shader" />
      <None Include="Assets\Image Effects\_Sources\Shaders\ColorCorrectionCurvesSimple.shader" />
      <None Include="Assets\Image Effects\_Sources\Shaders\NoiseEffectShaderYUV.shader" />
@@ -171,6 +182,7 @@
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-Lighted.shader" />
      <None Include="Assets\Image Effects\_Sources\Shaders\ColorCorrectionSelective.shader" />
      <None Include="Assets\Image Effects\_Sources\Shaders\_DepthOfField\Bokeh34.shader" />
+     <None Include="Assets\Necromancer GUI\Readme.txt" />
      <None Include="Assets\Image Effects\_Sources\Shaders\CameraMotionBlurDX11.shader" />
      <None Include="Assets\Image Effects\_Sources\Shaders\_BloomAndFlares\SeparableBlurPlus.shader" />
      <None Include="Assets\Image Effects\_Sources\Shaders\_BloomAndFlares\MultiPassHollywoodFlares.shader" />
