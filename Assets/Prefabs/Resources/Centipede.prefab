@@ -15,9 +15,10 @@ GameObject:
   - 114: {fileID: 11400016}
   - 114: {fileID: 11400004}
   - 114: {fileID: 11400002}
-  - 114: {fileID: 11400010}
   - 114: {fileID: 11400014}
-  m_Layer: 0
+  - 114: {fileID: 11400018}
+  - 114: {fileID: 11400010}
+  m_Layer: 9
   m_Name: Centipede
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -70,13 +71,13 @@ MonoBehaviour:
   FrontJointAnchor: {x: .5, y: 0, z: 0}
   Flexibility: 1
   ForceConstant: 1.5
-  MotorRetractingForce: 250
   MotorLengtheningForce: 500
-  MotorRetractingSpeed: 2
+  MotorRetractingForce: 250
   MotorLengtheningSpeed: 1.5
+  MotorRetractingSpeed: 2
   RetractedLength: -.449999988
   MaximumLength: 3
-  LengtheningTime: .5
+  LengtheningTime: 1
   ReloadingTime: 2.79999995
   DampingRate: .75
 --- !u!114 &11400004
@@ -114,15 +115,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06e1ecea8a672db4d9a6df1d625c410a, type: 3}
   m_Name: 
   CentipedeLink: {fileID: 100000, guid: 944a9c5524270b143aa4312699473c84, type: 2}
+  BackEndPrefab: {fileID: 100004, guid: 9922f6769f846c547ac6aa62c7b89a2c, type: 2}
   LegsPrefabs:
   - {fileID: 100002, guid: 7d6dd3591aa0d1047b6ef0d76c436532, type: 2}
   - {fileID: 100002, guid: a0827557d06727c4b97903ebd61d3106, type: 2}
-  - {fileID: 100004, guid: 158ff1f8e49675743a38c04bdc4ca174, type: 2}
-  - {fileID: 100004, guid: 158ff1f8e49675743a38c04bdc4ca174, type: 2}
-  - {fileID: 100004, guid: 158ff1f8e49675743a38c04bdc4ca174, type: 2}
-  - {fileID: 100004, guid: 158ff1f8e49675743a38c04bdc4ca174, type: 2}
+  - {fileID: 100002, guid: 7d6dd3591aa0d1047b6ef0d76c436532, type: 2}
+  - {fileID: 100002, guid: 7d6dd3591aa0d1047b6ef0d76c436532, type: 2}
+  - {fileID: 100002, guid: 7d6dd3591aa0d1047b6ef0d76c436532, type: 2}
+  - {fileID: 100002, guid: 7d6dd3591aa0d1047b6ef0d76c436532, type: 2}
   - {fileID: 100002, guid: a0827557d06727c4b97903ebd61d3106, type: 2}
   - {fileID: 100002, guid: 7d6dd3591aa0d1047b6ef0d76c436532, type: 2}
+  FrontEndPrefab: {fileID: 100004, guid: 9922f6769f846c547ac6aa62c7b89a2c, type: 2}
   LinkMass: 4
   LinkLimit: 2
   CenterOfMass: {x: 0, y: -.400000006, z: 0}
@@ -148,17 +151,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a800aeefc36b9924da1c7e3fdefb0704, type: 3}
+  m_Script: {fileID: 11500000, guid: c25228dd8487ae24699faabf10983e2c, type: 3}
   m_Name: 
-  InitialLegTransform: {x: 0, y: -.349999994, z: 0}
-  InitialLegMass: 3
-  SuspensionDistance: .5
-  RetractedSuspensionDistance: 0
-  SuspensionSpring: 1000
-  SuspensionDamper: 200
-  SuspensionTargetPosition: 0
-  MotorForce: 14
-  BrakeForce: 20
+  InitialEndTransform: {x: .579999983, y: 0, z: 0}
+  InitialEndMass: 3
+  ShootingForce: 30
+  DesiredLengthRate: .5
+  RopeLinkLength: 2
+  RopeTotalMass: .5
+  RopeSpringForce: 10
+  RopeDampingRate: 1
 --- !u!114 &11400012
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -184,8 +186,8 @@ MonoBehaviour:
   InitialLegTransform: {x: 0, y: 0, z: 0}
   InitialLegMass: 3
   MaximumAngularVelocity: 80
-  MotorTorque: 12
-  BrakeTorque: 12
+  MotorTorque: 13
+  BrakeTorque: 13
   MinimumSlipRate: .0299999993
   MaximumSlipRate: .133000001
   MinimumSlipAngularVelocity: 0
@@ -208,6 +210,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28c34c3de72829547b8b7dacef926140, type: 3}
   m_Name: 
   BreakDistance: .185000002
+--- !u!114 &11400018
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ab5c3325562e074f8277412262909df, type: 3}
+  m_Name: 
+  InitialEndTransform: {x: .25, y: 0, z: 0}
+  InitialEndMass: 10
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

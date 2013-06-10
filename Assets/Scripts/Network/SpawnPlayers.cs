@@ -97,7 +97,17 @@ public class SpawnPlayers : Photon.MonoBehaviour
 	{
 		if (PhotonNetwork.isMasterClient)
 		{
-			PhotonNetwork.Destroy(PhotonView.Find(PreviousCentipede).gameObject);
+			Debug.Log(String.Format("Respawning Player {0}", Player));
+			var PreviousCentipedeView = PhotonView.Find(PreviousCentipede);
+			var Children = PreviousCentipedeView.gameObject.GetComponentsInChildren<NetworkObject>().ToList();
+			foreach (var NetworkObject in Children)
+				NetworkObject.transform.parent = null;
+
+			foreach (var NetworkObject in Children)
+			{
+				PhotonNetwork.RemoveRPCs(NetworkObject.photonView);
+				PhotonNetwork.Destroy(NetworkObject.gameObject);
+			}
 
 			var AvailableSpawnPositions = SpawnPosition.SpawnPositions.Where(Spawn => Spawn.Ready).ToList();
 			var ChosenSpawn = AvailableSpawnPositions[UnityEngine.Random.Range(0, AvailableSpawnPositions.Count)];

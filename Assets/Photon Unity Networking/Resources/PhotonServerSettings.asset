@@ -41,4 +41,9 @@ MonoBehaviour:
   - InitializePlayer
   - StartInitialization
   - PerformInitialization
+  - SetAsDestroyed
+  - AddMissingPart
+  - ShootRope
+  - SimulateAttachRope
+  - DetachRope
   DisableAutoOpenWizard: 0

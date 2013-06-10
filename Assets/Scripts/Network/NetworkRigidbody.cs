@@ -10,13 +10,30 @@ public class NetworkRigidbody : Photon.MonoBehaviour
 	/// </summary>
 	private static readonly Single NormalTimeScale = Time.timeScale;
 
+	/// <summary>
+	/// Overrides the interpolation times of all NetworkRigidBodies.
+	/// TODO: Remove this eventually!
+	/// </summary>
 	private const Single DefaultInterpolationTime = 0.1F;
-	private const Single SnapDistance = 0.5F;
+	
 	private const Single SimulationLerpRate = 8F;
 	private const Int32 StoredStates = 20;
 
+	/// <summary>
+	/// Indicates by how much to delay the display in order to allow interpolation.
+	/// </summary>
 	public Single InterpolationBackTime = 0.1F;
+
+	/// <summary>
+	/// Indicates the limit of extrapolation (in seconds) when no more data is received.
+	/// </summary>
 	public Single ExtrapolationLimit = 0.5F;
+
+	/// <summary>
+	/// The maximum distance between the current position and the received position, before snapping
+	/// is performed.
+	/// </summary>
+	public Single SnapDistance = 0.5F;
 
 	/// <summary>
 	/// The stored states, with which we determine the position of the rigid-body.
@@ -31,8 +48,17 @@ public class NetworkRigidbody : Photon.MonoBehaviour
 	private void Start()
 	{
 		InterpolationBackTime = DefaultInterpolationTime;
-		if (photonView.owner == PhotonNetwork.player)
+		if (PhotonNetwork.isMasterClient)
 			enabled = false;
+	}
+
+	/// <summary>
+	/// Clear the buffered positions.
+	/// This should be used when "teleporting" the game object.
+	/// </summary>
+	public void ClearBuffers()
+	{
+		UsedBufferedStatesCount = 0;
 	}
 	
 	private void OnPhotonSerializeView(PhotonStream Stream, PhotonMessageInfo Info)
@@ -94,6 +120,11 @@ public class NetworkRigidbody : Photon.MonoBehaviour
 	// And only if no more data arrives we will use extra polation
 	private void Update()
 	{
+		// Not updating the RigidBody if it is not enabled (the check is not necessarily accurate, but rigidbody
+		// doesn't have an enabled property.
+		if ((rigidbody.isKinematic) && (!rigidbody.detectCollisions))
+			return;
+
 		// Not using data when in slow-motion or fast-motion.
 		if (Time.timeScale != NormalTimeScale)
 			return;
@@ -123,32 +154,33 @@ public class NetworkRigidbody : Photon.MonoBehaviour
 					// AfterBestPlayerbackState is only used.
 					var LerpRate = 0.0F;
 					if (Length > 0)
-						LerpRate = (Single)((InterpolationTime - BestPlaybackState.Timestamp) / Length);
+						LerpRate = (Single) ((InterpolationTime - BestPlaybackState.Timestamp)/Length);
 
 					var PlaybackPosition = Vector3.Lerp(BestPlaybackState.Position, AfterBestPlayerbackState.Position, LerpRate);
 					var PlaybackRotation = Quaternion.Slerp(BestPlaybackState.Rotation, AfterBestPlayerbackState.Rotation, LerpRate);
 					var PlaybackVelocity = Vector3.Lerp(BestPlaybackState.Velocity, AfterBestPlayerbackState.Velocity, LerpRate);
-					var PlaybackAngularVelocity = Vector3.Lerp(BestPlaybackState.AngularVelocity, AfterBestPlayerbackState.AngularVelocity, LerpRate);
+					var PlaybackAngularVelocity = Vector3.Lerp(BestPlaybackState.AngularVelocity,
+					                                           AfterBestPlayerbackState.AngularVelocity, LerpRate);
 
 					UpdateRigidBody(PlaybackPosition, PlaybackRotation, PlaybackVelocity, PlaybackAngularVelocity);
 					break;
 				}
 			}
 		}
-		// Use extrapolation (Prediction)
+			// Use extrapolation (Prediction)
 		else
 		{
 			var NewestState = BufferedStates[0];
-			var ExtrapolationLength = (float)(InterpolationTime - NewestState.Timestamp);
+			var ExtrapolationLength = (float) (InterpolationTime - NewestState.Timestamp);
 			// Don't extrapolation for more than 500 ms, you would need to do that carefully
 			if (ExtrapolationLength < ExtrapolationLimit)
 			{
-				var AxisLength = ExtrapolationLength * NewestState.AngularVelocity.magnitude * Mathf.Rad2Deg;
+				var AxisLength = ExtrapolationLength*NewestState.AngularVelocity.magnitude*Mathf.Rad2Deg;
 				var AngularRotation = Quaternion.AngleAxis(AxisLength, NewestState.AngularVelocity);
-				UpdateRigidBody(NewestState.Position + NewestState.Velocity * ExtrapolationLength,
-								AngularRotation * NewestState.Rotation, 
-								NewestState.Velocity,
-								NewestState.AngularVelocity);
+				UpdateRigidBody(NewestState.Position + NewestState.Velocity*ExtrapolationLength,
+				                AngularRotation*NewestState.Rotation,
+				                NewestState.Velocity,
+				                NewestState.AngularVelocity);
 			}
 		}
 	}
@@ -159,8 +191,11 @@ public class NetworkRigidbody : Photon.MonoBehaviour
 		{
 			transform.position = Vector3.Lerp(transform.position, Position, SimulationLerpRate * Time.deltaTime);
 			transform.rotation = Quaternion.Slerp(transform.rotation, Rotation, SimulationLerpRate * Time.deltaTime);
-			rigidbody.velocity = Vector3.Lerp(rigidbody.velocity, Velocity, SimulationLerpRate * Time.deltaTime);
-			rigidbody.angularVelocity = Vector3.Lerp(rigidbody.angularVelocity, AngularVelocity, SimulationLerpRate * Time.deltaTime);
+			if (!rigidbody.isKinematic)
+			{
+				rigidbody.velocity = Vector3.Lerp(rigidbody.velocity, Velocity, SimulationLerpRate * Time.deltaTime);
+				rigidbody.angularVelocity = Vector3.Lerp(rigidbody.angularVelocity, AngularVelocity, SimulationLerpRate * Time.deltaTime);
+			}
 		}
 		else
 		{
@@ -168,8 +203,11 @@ public class NetworkRigidbody : Photon.MonoBehaviour
 			Debug.Log("Snapped!");
 			transform.position = Position;
 			transform.rotation = Rotation;
-			rigidbody.velocity = Velocity;
-			rigidbody.angularVelocity = AngularVelocity;
+			if (!rigidbody.isKinematic)
+			{
+				rigidbody.velocity = Velocity;
+				rigidbody.angularVelocity = AngularVelocity;
+			}
 		}
 	}
 

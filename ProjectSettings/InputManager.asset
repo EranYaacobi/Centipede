@@ -164,3 +164,35 @@ InputManager:
     type: 0
     axis: 0
     joyNum: 0
+  - serializedVersion: 3
+    m_Name: End Back Action
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: a
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: Infinity
+    dead: 0
+    sensitivity: Infinity
+    snap: 1
+    invert: 0
+    type: 0
+    axis: 0
+    joyNum: 0
+  - serializedVersion: 3
+    m_Name: End Front Action
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: ;
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: Infinity
+    dead: 0
+    sensitivity: Infinity
+    snap: 1
+    invert: 0
+    type: 0
+    axis: 0
+    joyNum: 0

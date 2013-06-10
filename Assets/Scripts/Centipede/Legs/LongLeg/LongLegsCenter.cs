@@ -26,11 +26,6 @@ public class LongLegsCenter : LegsCenter<LongLeg>
 	public Single ForceConstant;
 
 	/// <summary>
-	/// The speed of the motor when retracting.
-	/// </summary>
-	public Single MotorRetractingForce;
-
-	/// <summary>
 	/// The force of the motor when lengthening.
 	/// </summary>
 	public Single MotorLengtheningForce;
@@ -38,12 +33,17 @@ public class LongLegsCenter : LegsCenter<LongLeg>
 	/// <summary>
 	/// The speed of the motor when retracting.
 	/// </summary>
-	public Single MotorRetractingSpeed;
+	public Single MotorRetractingForce;
 
 	/// <summary>
 	/// The speed of the motor when lengthening.
 	/// </summary>
 	public Single MotorLengtheningSpeed;
+
+	/// <summary>
+	/// The speed of the motor when retracting.
+	/// </summary>
+	public Single MotorRetractingSpeed;
 
 	/// <summary>
 	/// The retracted length of the leg.

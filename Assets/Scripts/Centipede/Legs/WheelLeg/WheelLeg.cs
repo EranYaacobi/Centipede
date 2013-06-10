@@ -10,76 +10,91 @@ using System.Collections;
 public class WheelLeg : Leg
 {
 	/// <summary>
-	/// The graphics of the wheel.
+	/// The radius of the wheel.
 	/// </summary>
-	public Transform WheelTransform;
+	public const Single WheelRadius = 0.2F;
 
 	/// <summary>
-	/// The physics of the wheel.
-	/// This includes not only to wheel (and as such, not a part of it), but the wheel's pivot.
+	/// The maximum angular velocity of the wheel.
+	/// This affects the amount of torque applied, based on the ratio between the current
+	/// angular velocity, and the maximum angular velocity.
 	/// </summary>
-	public WheelCollider WheelCollider;
+	public Single MaximumAngularVelocity;
 
 	/// <summary>
-	/// The suspension distance of the wheel, meaning the maximum distance that the wheel can be at from
-	/// its pivot. Higher values means that the wheel can be further from the pivot, causing the centipede's
-	/// body more vibrating.
+	/// The torque of the wheel motor.
 	/// </summary>
-	public Single SuspensionDistance;
+	public Single MotorTorque;
 
 	/// <summary>
-	/// The suspension distance of the wheel when it is retracted.
+	/// The torque of the brakes.
+	/// Brakes are applied when the wheel is rotating in the opposite direction of the motor movement.
 	/// </summary>
-	public Single RetractedSuspensionDistance;
+	public Single BrakeTorque;
 
 	/// <summary>
-	/// The force of the spring that tries to maintain the suspension distance.
-	/// </summary>
-	public Single SuspensionSpring;
-
-	/// <summary>
-	/// The damping applied on the spring that tries to maintain the suspension distance.
-	/// </summary>
-	public Single SuspensionDamper;
-
-	/// <summary>
-	/// The target position of the suspension spring.
-	/// A value of 0 maps to fully extended suspension, and 1 maps to fully compressed suspension
+	/// The minimum slip rate after which the motor applies less force.
 	/// </summary>
 	[Range(0, 1)]
-	public Single SuspensionTargetPosition;
+	public Single MinimumSlipRate;
 
 	/// <summary>
-	/// The force of the motor.
+	/// The maximum slip rate after which the motor shuts down.
 	/// </summary>
-	public Single MotorForce;
+	[Range(0, 1)]
+	public Single MaximumSlipRate;
 
 	/// <summary>
-	/// The force of the brakes.
-	/// Brakes are applied when trying to move in the opposite direction of the current movement.
+	/// The minimum required angular velocity for checking if the wheel is slipping.
 	/// </summary>
-	public Single BrakeForce;
+	public Single MinimumSlipAngularVelocity;
 
-	private Boolean retracted;
+	/// <summary>
+	/// The anchor of the back suspension joint, relative to the body.
+	/// </summary>
+	public Vector3 BackSuspensionJointAnchor;
+
+	/// <summary>
+	/// The anchor of the front suspension joint, relative to the body.
+	/// </summary>
+	public Vector3 FrontSuspensionJointAnchor;
+
+	/// <summary>
+	/// The force constant, which is used as a scalar when applying force.
+	/// </summary>
+	public Single SuspensionJointsForceConstant;
+
+	/// <summary>
+	/// The maxmimum force of the suspension joints' motors.
+	/// </summary>
+	public Single SuspensionJointsMaxMotorForce;
+
+	/// <summary>
+	/// The lower limit of the suspension joints, relative to their initial length.
+	/// </summary>
+	public Single SuspensionLowerLimit;
+
+	/// <summary>
+	/// The upper limit of the suspension joints, relative to their initial length.
+	/// </summary>
+	public Single SuspensionUpperLimit;
+
+	/// <summary>
+	/// The retracted length of the suspension joints, relative to their initial length.
+	/// </summary>
+	public Single SuspensionRetractedLength;
+
+	/// <summary>
+	/// The damping of the suspension joints' motors.
+	/// Ranges from 0 (no damping) to 1 (critial damping).
+	/// </summary>
+	[Range(0, 1)]
+	public Single SuspensionDampingRate;
+
 	/// <summary>
 	/// Indicates whether the leg is retracted.
 	/// </summary>
-	public Boolean Retracted
-	{
-		get { return retracted; }
-		set
-		{
-			retracted = value;
-			WheelCollider.enabled = !retracted;
-		}
-	}
-
-	/// <summary>
-	/// The link to which the leg is connected.
-	/// All force is applied on the link, and not the wheel, to make
-	/// the movement move smooth.
-	/// </summary>
-	private GameObject ParentLink;
+	public Boolean Retracted;
 
 	/// <summary>
 	/// The wheel connected to the leg.
@@ -87,87 +102,79 @@ public class WheelLeg : Leg
 	private GameObject Wheel;
 
 	/// <summary>
-	/// The RestraintRotation script that restricts the rotation of the wheel.
+	/// The back joint created by the script.
 	/// </summary>
-	private RestraintRotation RestraintRotation;
+	private BasicPrismaticJoint BackSuspensionJoint;
 
 	/// <summary>
-	/// The velocity of the wheel.
+	/// The front joint created by the script.
 	/// </summary>
-	private Vector3 WheelVelocity;
+	private BasicPrismaticJoint FrontSuspensionJoint;
 
 	/// <summary>
-	/// The amount of ground speed that the wheel covered.
-	/// Used to calculate by how much the wheel's graphic should be rotated.
+	/// Indicates whether the wheel is currently touching anything.
 	/// </summary>
-	private Vector3 GroundSpeed;
-
-	/// <summary>
-	/// Indicates whether the body can actually drive, meaning that the wheel is touching the ground.
-	/// </summary>
-	public Boolean CanDrive;
-
-	/// <summary>
-	/// The throttle applied by the engine.
-	/// </summary>
-	private Single Throttle;
-
-	/// <summary>
-	/// The relative velocity of the wheel.
-	/// </summary>
-	private Vector3 RelativeVelocity;
+	private Boolean CollidingSomething;
 
 	public override void Initialize(Single Mass)
 	{
 		base.Initialize(Mass);
 
-		ParentLink = transform.parent.gameObject;
 		Wheel = transform.GetChild(0).gameObject;
 		Wheel.rigidbody.mass = Mass;
 
-		RestraintRotation = GetComponentInChildren<RestraintRotation>();
-		RestraintRotation.enabled = false;
+		var LegOffsetInLink = new Vector3(transform.localPosition.x, 0, 0);
+		BackSuspensionJoint = Wheel.AddComponent<BasicPrismaticJoint>();
+		BackSuspensionJoint.Initialize(ConnectedBody, LegAnchor, BackSuspensionJointAnchor + LegOffsetInLink, 1, SuspensionJointsForceConstant, SuspensionJointsMaxMotorForce, 0, SuspensionLowerLimit, SuspensionUpperLimit, SuspensionDampingRate, true, true);
 
-		// Connecting the wheel to the parent link, with a hinge joint.
-		var FixedJoint = ParentLink.AddComponent<FixedJoint>();
-		FixedJoint.connectedBody = Wheel.rigidbody;
-		FixedJoint.anchor = Vector3.zero;
-		FixedJoint.axis = Vector3.forward;
+		FrontSuspensionJoint = Wheel.AddComponent<BasicPrismaticJoint>();
+		FrontSuspensionJoint.Initialize(ConnectedBody, LegAnchor, FrontSuspensionJointAnchor + LegOffsetInLink, 1, SuspensionJointsForceConstant, SuspensionJointsMaxMotorForce, 0, SuspensionLowerLimit, SuspensionUpperLimit, SuspensionDampingRate, true, true);
 
 		Retracted = true;
-		CanDrive = false;
 
 		UpdateValues();
 	}
-
 
 	protected override void UpdateValues()
 	{
 		base.UpdateValues();
 
-		WheelCollider.suspensionDistance = Retracted ? RetractedSuspensionDistance : SuspensionDistance;
-		WheelCollider.suspensionSpring = new JointSpring
-		                                 	{
-		                                 		spring = SuspensionSpring,
-												damper = SuspensionDamper,
-		                                 		targetPosition = SuspensionTargetPosition
-		                                 	};
+		var LegOffsetInLink = new Vector3(transform.localPosition.x, 0, 0);
+		BackSuspensionJoint.Anchor = LegAnchor;
+		BackSuspensionJoint.RemoteAnchor = BackSuspensionJointAnchor + LegOffsetInLink;
+		BackSuspensionJoint.ForceConstant = SuspensionJointsForceConstant;
+		BackSuspensionJoint.MaxMotorForce = SuspensionJointsMaxMotorForce;
+		BackSuspensionJoint.DampingRate = SuspensionDampingRate;
 
-		UpdateWheelGraphics();
-	}
+		FrontSuspensionJoint.Anchor = LegAnchor;
+		FrontSuspensionJoint.RemoteAnchor = FrontSuspensionJointAnchor + LegOffsetInLink;
+		FrontSuspensionJoint.ForceConstant = SuspensionJointsForceConstant;
+		FrontSuspensionJoint.MaxMotorForce = SuspensionJointsMaxMotorForce;
+		FrontSuspensionJoint.DampingRate = SuspensionDampingRate;
 
-	protected override void FixedUpdateValues()
-	{
-		base.FixedUpdateValues();
+		Wheel.rigidbody.maxAngularVelocity = MaximumAngularVelocity;
 
-		RelativeVelocity = Wheel.transform.InverseTransformDirection(Wheel.rigidbody.velocity);
-		CalculateState();
-		FixRotationRestraints();
+		// Using isTrigger and not enabled, because of a bug in Unity.
+		//Wheel.collider.enabled = !Retracted;
+		Wheel.collider.isTrigger = Retracted;
 
 		if (Retracted)
-			return;
-		UpdateDrag();
-		UpdateFriction();
+		{
+			BackSuspensionJoint.LowerLimit = Mathf.Lerp(BackSuspensionJoint.LowerLimit, SuspensionRetractedLength, 10 * Time.deltaTime);
+			BackSuspensionJoint.UpperLimit = Mathf.Lerp(BackSuspensionJoint.UpperLimit, SuspensionRetractedLength, 10 * Time.deltaTime);
+			FrontSuspensionJoint.LowerLimit = Mathf.Lerp(FrontSuspensionJoint.LowerLimit, SuspensionRetractedLength, 10 * Time.deltaTime);
+			FrontSuspensionJoint.UpperLimit = Mathf.Lerp(FrontSuspensionJoint.UpperLimit, SuspensionRetractedLength, 10 * Time.deltaTime);
+
+			BackSuspensionJoint.RemoteAnchor += 0.15F * Vector3.up;
+			FrontSuspensionJoint.RemoteAnchor += 0.15F * Vector3.up;
+		}
+		else
+		{
+			BackSuspensionJoint.LowerLimit = Mathf.Lerp(BackSuspensionJoint.LowerLimit, SuspensionLowerLimit, 10 * Time.deltaTime);
+			BackSuspensionJoint.UpperLimit = Mathf.Lerp(BackSuspensionJoint.UpperLimit, SuspensionUpperLimit, 10 * Time.deltaTime);
+			FrontSuspensionJoint.LowerLimit = Mathf.Lerp(FrontSuspensionJoint.LowerLimit, SuspensionLowerLimit, 10 * Time.deltaTime);
+			FrontSuspensionJoint.UpperLimit = Mathf.Lerp(FrontSuspensionJoint.UpperLimit, SuspensionUpperLimit, 10 * Time.deltaTime);
+		}
 	}
 
 	protected override void PerformAction()
@@ -178,139 +185,60 @@ public class WheelLeg : Leg
 	protected override void Move(Single Direction)
 	{
 		if (!Retracted)
-			ApplyThrottle(Direction);
-	}
-
-	protected override void StopMoving()
-	{
-		base.StopMoving();
-
-		Throttle = 0;
-	}
-
-	private void UpdateWheelGraphics()
-	{
-		WheelHit WheelHit;
-
-		// First we get the velocity at the point where the wheel meets the ground, if the wheel is touching the ground
-		if ((CanDrive) && (WheelCollider.GetGroundHit(out WheelHit)))
 		{
-			var AngleBetween = Vector3.Angle(WheelHit.normal, WheelCollider.transform.up) * Mathf.Deg2Rad;
-			var WheelPositionFromGround = WheelHit.normal * WheelCollider.radius;
-			var DistanceBetweenPositions = Mathf.Min(WheelCollider.suspensionDistance, WheelPositionFromGround.magnitude / Mathf.Cos(AngleBetween));
-			WheelTransform.position = WheelHit.point + WheelCollider.transform.up * DistanceBetweenPositions;
-			WheelVelocity = Wheel.rigidbody.GetPointVelocity(WheelHit.point);
-			GroundSpeed = Wheel.transform.InverseTransformDirection(WheelVelocity);
-		}
-		else
-		{
-			// If the wheel is not touching the ground we set the position of the wheel graphics to
-			// the wheel's transform position + the range of the suspension.
-			WheelTransform.position = WheelCollider.transform.position - WheelCollider.transform.up * WheelCollider.suspensionDistance;
+			var CurrentAngularVelocity = Wheel.rigidbody.angularVelocity.z;
+			// Checking whether we are accelerating of braking.
+			var Force = -Mathf.Sign(Direction);
+			if (Mathf.Sign(Wheel.rigidbody.angularVelocity.z) == Force)
+			{
+				Force *= MotorTorque;
 
-			WheelVelocity *= 0.9F * (1 - Throttle);
-		}
+				if (CollidingSomething)
+				{
+					if (MinimumSlipAngularVelocity < Mathf.Abs(CurrentAngularVelocity))
+					{
+						var CurrentVelocity = Mathf.Abs(Wheel.rigidbody.velocity.magnitude);
+						var WheelVelocity = Mathf.Abs(CurrentAngularVelocity*WheelRadius);
+						var MinimumSlipVelocity = WheelVelocity*(1 - MinimumSlipRate);
 
-		// Rotate the wheel based on the distance it passed during the frame.
-		WheelTransform.Rotate(Vector3.back * (GroundSpeed.x / WheelCollider.radius) * Time.deltaTime * Mathf.Rad2Deg);
-	}
+						if (CurrentVelocity < MinimumSlipVelocity)
+						{
+							// The wheel is slipping a little
+							var MaximumSlipVelocity = WheelVelocity*(1 - MaximumSlipRate);
+							if (CurrentVelocity < MaximumSlipVelocity)
+							{
+								// The wheel is slipping to much.
+								// Shuting down engine.
+								Force = 0;
+							}
+							else
+							{
+								Force *= (CurrentVelocity - MaximumSlipVelocity)/(MinimumSlipVelocity - MaximumSlipVelocity);
+							}
+						}
+					}
+				}
+			}
+			else
+				Force *= BrakeTorque;
 
-	private void OnDrawGizmosSelected()
-	{
-		const Single Depth = -1F;
-
-		if (!CanDrive)
-			return;
-
-		WheelHit WheelHit;
-		if (!WheelCollider.GetGroundHit(out WheelHit)) 
-			return;
-
-		var AngleBetween = Vector3.Angle(WheelHit.normal, WheelCollider.transform.up) * Mathf.Deg2Rad;
-
-		var WheelPositionFromGround = WheelHit.normal * WheelCollider.radius;
-		var DistanceBetweenPositions = WheelPositionFromGround.magnitude / Mathf.Cos(AngleBetween);
-		var WheelPositionOnSuspensionSpring = WheelCollider.transform.up * DistanceBetweenPositions;
-
-		var WheelHitPoint = WheelHit.point + new Vector3(0, 0, Depth);
-		var WheelColliderPosition = WheelCollider.transform.position + new Vector3(0, 0, Depth);
-
-		Gizmos.color = Color.yellow;
-		Gizmos.DrawSphere(WheelHitPoint, 0.05F);
-		Gizmos.DrawLine(WheelHitPoint, WheelHitPoint + WheelPositionFromGround);
-		Gizmos.DrawLine(WheelHitPoint, WheelHitPoint + WheelPositionOnSuspensionSpring);
-
-		Gizmos.color = Color.green;
-		Gizmos.DrawSphere(WheelColliderPosition, 0.05F);
-		Gizmos.DrawLine(WheelColliderPosition, WheelColliderPosition + WheelCollider.transform.up);
-	}
-
-	private void CalculateState()
-	{
-		CanDrive = WheelCollider.isGrounded;
-	}
-
-	/// <summary>
-	/// Fixes rotations restraint on the wheel, so it will be perpendicular to the ground
-	/// when touching it, and perpendicular to the link when it doesn't.
-	/// </summary>
-	private void FixRotationRestraints()
-	{
-		WheelHit WheelHit;
-
-		if ((CanDrive) && (WheelCollider.GetGroundHit(out WheelHit)))
-		{
-			var GroundAngle = Vector3.Angle(Vector3.right, WheelHit.normal) - 90;
-			Wheel.transform.rotation = Quaternion.AngleAxis(GroundAngle, Vector3.forward);
-		}
-		else
-		{
-			RestraintRotation.Restraint();
+			Wheel.rigidbody.AddTorque(Vector3.forward * Force, ForceMode.Force);
+			ConnectedBody.AddTorque(-Vector3.forward * Force, ForceMode.Force);
 		}
 	}
 
-	private void UpdateDrag()
+	protected void OnCollisionEnter(Collision Collision)
 	{
-		if (!CanDrive)
-			return;
-
-		var Drag = new Vector3(-RelativeVelocity.x*Mathf.Abs(RelativeVelocity.x), 0, 0);
-
-		// TODO: This is fairly inaccurate calculation of drag, which assumes that the air friction
-		// here is the radius of the wheel.
-		Wheel.rigidbody.AddForce(Drag * WheelCollider.radius * Wheel.rigidbody.mass);
+		CollidingSomething = true;
 	}
 
-	private void ApplyThrottle(Single Direction)
+	protected void OnCollisionStay(Collision Collision)
 	{
-		if (!CanDrive)
-			return;
-
-		Throttle = Mathf.Sign(Direction);
-		var Force = Throttle * MotorForce;
-
-		// Checking whether we are accelerating of braking.
-		if (Mathf.Sign(RelativeVelocity.x) == Throttle)
-			Force *= MotorForce;
-		else
-			Force *= BrakeForce;
-
-		Wheel.rigidbody.AddForce(Wheel.transform.right * Force, ForceMode.Force);
+		CollidingSomething = true;
 	}
 
-	// Not necessarily needed (the usage here is irrelevant, yet we want to change the friction based on the ground's physics material
-	private void UpdateFriction()
+	protected void OnCollisionExit(Collision Collision)
 	{
-		WheelHit WheelHit;
-		if (!WheelCollider.GetGroundHit(out WheelHit))
-			return;
-
-		var TempFriction = WheelCollider.forwardFriction;
-		TempFriction.stiffness = WheelHit.collider.material.staticFriction;
-		WheelCollider.forwardFriction = TempFriction;
-
-		TempFriction = WheelCollider.sidewaysFriction;
-		TempFriction.stiffness = WheelHit.collider.material.staticFriction;
-		WheelCollider.sidewaysFriction = TempFriction;
+		CollidingSomething = true;
 	}
 }

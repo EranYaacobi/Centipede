@@ -5,19 +5,24 @@ using System.Collections;
 public abstract class End : Photon.MonoBehaviour
 {
 	/// <summary>
-	/// The body to which the leg is connected.
+	/// The body to which the end is connected.
 	/// If nothing is assigned, the script assumes that the connected body is
 	/// the parent.
 	/// </summary>
 	public Rigidbody ConnectedBody;
 
 	/// <summary>
-	/// The anchor of the leg.
+	/// The position of the end in the centipede.
 	/// </summary>
-	public Vector3 LegAnchor;
+	public EndPosition EndPosition;
 
 	/// <summary>
-	/// The input button which represents the leg action.
+	/// The anchor of the end.
+	/// </summary>
+	public Vector3 EndAnchor;
+
+	/// <summary>
+	/// The input button which represents the end action.
 	/// </summary>
 	public String InputButton;
 
@@ -25,16 +30,6 @@ public abstract class End : Photon.MonoBehaviour
 	/// The owner of the centipede.
 	/// </summary>
 	public PhotonPlayer Owner;
-
-	/// <summary>
-	/// Stores the current value of the horizontal axis.
-	/// </summary>
-	private Single HorizontalMovement;
-
-	/// <summary>
-	/// Stores the last value of the horizontal axis.
-	/// </summary>
-	private Single LastHorizontalMovement;
 
 	/// <summary>
 	/// Inidicates whether the script was initialized;
@@ -48,14 +43,13 @@ public abstract class End : Photon.MonoBehaviour
 
 	private void Start()
 	{
-		LastHorizontalMovement = 0;
 		if (ConnectedBody == null)
 			ConnectedBody = transform.parent.gameObject.rigidbody;
 	}
 
 	/// <summary>
 	/// Custom initialization for inherited class.
-	/// Derived implementations should set the mass of the leg.
+	/// Derived implementations should set the mass of the end.
 	/// </summary>
 	public virtual void Initialize(Single Mass)
 	{
@@ -78,20 +72,6 @@ public abstract class End : Photon.MonoBehaviour
 		if (Initialized)
 		{
 			FixedUpdateValues();
-
-			HorizontalMovement = PlayerInput.GetPlayerInput(Owner).GetHorizontalAxis();
-
-			if (HorizontalMovement != 0)
-			{
-				Move(HorizontalMovement);
-			}
-			else
-			{
-				if (LastHorizontalMovement != 0)
-					StopMoving();
-			}
-
-			LastHorizontalMovement = HorizontalMovement;
 		}
 	}
 
@@ -119,24 +99,20 @@ public abstract class End : Photon.MonoBehaviour
 	}
 
 	/// <summary>
-	/// Performs custom action when the leg's action button is pressed.
+	/// Performs custom action when the end's action button is pressed.
 	/// </summary>
 	protected abstract void PerformAction();
-
-	/// <summary>
-	/// Performs custom movement, in the given direction.
-	/// </summary>
-	/// <param name="Direction"></param>
-	protected abstract void Move(Single Direction);
-
-	/// <summary>
-	/// Performs custom action upon stopping.
-	/// </summary>
-	protected virtual void StopMoving()
-	{
-	}
 
 	protected virtual void OnPhotonSerializeView(PhotonStream Stream, PhotonMessageInfo Info)
 	{
 	}
+}
+
+/// <summary>
+/// The position of an end in a centipede.
+/// </summary>
+public enum EndPosition
+{
+	Back,
+	Front
 }

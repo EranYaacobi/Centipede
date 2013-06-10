@@ -32,11 +32,6 @@ public class LongLeg : Leg
 	public Single ForceConstant;
 
 	/// <summary>
-	/// The speed of the motor when retracting.
-	/// </summary>
-	public Single MotorRetractingForce;
-
-	/// <summary>
 	/// The force of the motor when lengthening.
 	/// </summary>
 	public Single MotorLengtheningForce;
@@ -44,12 +39,17 @@ public class LongLeg : Leg
 	/// <summary>
 	/// The speed of the motor when retracting.
 	/// </summary>
-	public Single MotorRetractingSpeed;
+	public Single MotorRetractingForce;
 
 	/// <summary>
 	/// The speed of the motor when lengthening.
 	/// </summary>
 	public Single MotorLengtheningSpeed;
+
+	/// <summary>
+	/// The speed of the motor when retracting.
+	/// </summary>
+	public Single MotorRetractingSpeed;
 
 	/// <summary>
 	/// The retracted length of the leg.
@@ -94,6 +94,11 @@ public class LongLeg : Leg
 	private RestraintDistance RestraintDistance;
 
 	/// <summary>
+	/// The RestraintRotation script that restraints the rotation of the sole to its parent.
+	/// </summary>
+	private RestraintRotation RestraintRotation;
+
+	/// <summary>
 	/// The prismatic joint of which the leg consists.
 	/// </summary>
 	private BasicPrismaticJoint[] PrismaticJoints;
@@ -117,6 +122,7 @@ public class LongLeg : Leg
 
 		RestraintDistance = Sole.GetComponent<RestraintDistance>();
 		RestraintDistance.enabled = true;
+		RestraintRotation = Sole.GetComponent<RestraintRotation>();
 
 		var LegOffsetInLink = new Vector3(transform.localPosition.x, 0, 0);
 		Anchors = new[] { BackJointAnchor + LegOffsetInLink, FrontJointAnchor + LegOffsetInLink };
@@ -189,9 +195,13 @@ public class LongLeg : Leg
 
 	private IEnumerator Lengthen()
 	{
+		var PreviousConstraints = Sole.rigidbody.constraints;
+
 		Sole.collider.enabled = true;
 		Sole.rigidbody.useGravity = true;
 		RestraintDistance.enabled = false;
+		RestraintRotation.enabled = false;
+		Sole.rigidbody.freezeRotation = true;
 
 		// Making the leg become longer.
 		foreach (var PrismaticJoint in PrismaticJoints)
@@ -212,6 +222,9 @@ public class LongLeg : Leg
 		yield return new WaitForSeconds(LengtheningTime - 0.1F);
 
 		Sole.collider.enabled = false;
+		Sole.rigidbody.freezeRotation = false;
+		Sole.rigidbody.constraints = PreviousConstraints;
+		RestraintRotation.enabled = true;
 
 		var CurrentTime = Time.time;
 
@@ -221,29 +234,31 @@ public class LongLeg : Leg
 			PrismaticJoint.MaxMotorForce = MotorRetractingForce;
 			PrismaticJoint.State = BasicPrismaticJoint.MotorState.Backward;
 			PrismaticJoint.MotorSpeed = MotorRetractingSpeed;
+			PrismaticJoint.DisableUpwardMovement = true;
 		}
 
 		Sole.rigidbody.useGravity = false;
 
-		// Waiting until the leg is retracted.
-		while (!JointsRetracted())
+		// Waiting until the leg is in its restrained area, and the joints are retracted.
+		while ((!JointsRetracted()) || (!RestraintDistance.InArea()))
 			yield return new WaitForFixedUpdate();
 
 		foreach (var PrismaticJoint in PrismaticJoints)
-			PrismaticJoint.State = BasicPrismaticJoint.MotorState.Stopped;	
+		{
+			PrismaticJoint.State = BasicPrismaticJoint.MotorState.Stopped;
+			PrismaticJoint.MaxMotorForce = MotorRetractingForce;
+			PrismaticJoint.UpperLimit = RetractedLength;
+			PrismaticJoint.CenterOnStop = true;
+			PrismaticJoint.DisableUpwardMovement = true;
+		}
 
 		RestraintDistance.enabled = true;
-		while (!RestraintDistance.InArea())
-			yield return new WaitForFixedUpdate();
 
 		var ActualReloadingTime = Time.time - CurrentTime;
 
 		var SleepTime = Mathf.Max(ReloadingTime - ActualReloadingTime, 0);
 
 		yield return new WaitForSeconds(SleepTime);
-
-		foreach (var PrismaticJoint in PrismaticJoints)
-			PrismaticJoint.DisableUpwardMovement = true;
 
 		Retracted = true;
 	}
